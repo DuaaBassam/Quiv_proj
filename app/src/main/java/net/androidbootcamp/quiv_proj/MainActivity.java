@@ -247,6 +247,7 @@ btn_list.setOnClickListener(new View.OnClickListener() {
                     next.setText("0");
 
                 }
+
                 else if (question.getText()==arrays_questions[2]){
                     if (radioButton_1.isChecked()|radioButton_2.isChecked()|radioButton_3.isChecked()|radioButton_4.isChecked()){
                         answer[2]=((RadioButton)findViewById(group.getCheckedRadioButtonId())).getText().toString();
@@ -619,3 +620,4 @@ viewHolder.answer_4.setOnClickListener(new View.OnClickListener() {
     }
 }
 }
+///// duaa bassam
