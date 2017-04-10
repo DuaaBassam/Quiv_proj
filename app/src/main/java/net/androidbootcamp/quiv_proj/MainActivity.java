@@ -488,7 +488,7 @@ class Rec extends BaseAdapter {
         arrayList.add(new Items("how","8","9","10","11"));
         arrayList.add(new Items("this","12","13","14","15"));
         arrayList.add(new Items("duaa","16","17","18","19"));
-        arrayList.add(new Items("row","20","21","22","23"));
+        arrayList.add(new Items("hanan","20","21","22","23"));
         arrayList.add(new Items("colume","24","25","26","27"));
         arrayList.add(new Items("view","28","29","30","31"));
         arrayList.add(new Items("which","32","33","34","35"));
@@ -620,4 +620,3 @@ viewHolder.answer_4.setOnClickListener(new View.OnClickListener() {
     }
 }
 }
-///// duaa bassam
