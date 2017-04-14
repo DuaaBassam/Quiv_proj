@@ -620,4 +620,3 @@ viewHolder.answer_4.setOnClickListener(new View.OnClickListener() {
     }
 }*/
 }}
-///// duaa bassam
