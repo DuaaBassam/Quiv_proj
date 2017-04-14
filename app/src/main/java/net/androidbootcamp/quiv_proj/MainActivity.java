@@ -30,7 +30,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-    String [] arrays_questions = {"What your name ?","What","vjv","lkj;","lkhl"};
+ /*   String [] arrays_questions = {"What your name ?","What","vjv","lkj;","lkhl"};
     String [] arrays_answer_1  = {"1","5","9","13","17"};
     String [] arrays_answer_2  = {"2","6","10","14","18"};
     String [] arrays_answer_3  = {"3","7","11","15","19"};
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     String [] answer_list ={null,null,null,null,null,null,null,null,null};
     String [] true_answer ={arrays_answer_1[0],arrays_answer_3[1],arrays_answer_2[2],arrays_answer_4[3],arrays_answer_1[4]};
     String [] true_answer_list ={"2","7","9","13","20","22","27","32","33"};
-    int sum =0 ;
+    int sum =0 ;*/
 
 
     @Override
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Context context=this;
+     /*   final Context context=this;
 
         final ListView listview =(ListView)findViewById(R.id.listview);
         Button   btn_list=(Button)findViewById(R.id.submint);
@@ -488,7 +488,7 @@ class Rec extends BaseAdapter {
         arrayList.add(new Items("how","8","9","10","11"));
         arrayList.add(new Items("this","12","13","14","15"));
         arrayList.add(new Items("duaa","16","17","18","19"));
-        arrayList.add(new Items("hanan","20","21","22","23"));
+        arrayList.add(new Items("row","20","21","22","23"));
         arrayList.add(new Items("colume","24","25","26","27"));
         arrayList.add(new Items("view","28","29","30","31"));
         arrayList.add(new Items("which","32","33","34","35"));
@@ -618,5 +618,6 @@ viewHolder.answer_4.setOnClickListener(new View.OnClickListener() {
         RadioButton answer_4;
         RadioGroup group_list;
     }
-}
-}
+}*/
+}}
+///// duaa bassam
