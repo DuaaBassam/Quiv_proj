@@ -117,7 +117,7 @@ btn_list.setOnClickListener(new View.OnClickListener() {
                 layout_4.setVisibility(View.VISIBLE);
                 layout_2.setVisibility(view.GONE);
             }
-        });
+        });//////
         final Dialog dialog= new Dialog(context);
 
         quiz_1.setOnClickListener(new View.OnClickListener() {
