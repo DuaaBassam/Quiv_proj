@@ -1,6 +1,8 @@
 package net.androidbootcamp.quiv_proj;
 
 import android.app.Dialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -36,8 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-/////
-}}
+        NewFragment fragment = new NewFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.activity_main,fragment,"HananFragment");
+        transaction.commit();
+}
+
+}
 
 
 

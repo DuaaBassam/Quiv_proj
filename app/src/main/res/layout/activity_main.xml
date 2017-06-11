@@ -4,48 +4,20 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="net.androidbootcamp.quiv_proj.MainActivity"
     android:background="@android:color/white"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:weightSum="1">
 
-
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="114dp"
-        android:layout_height="46dp"
-        android:id="@+id/textView3"
-        android:layout_gravity="top|left"
-
-        android:layout_marginTop="80dp"
-        android:layout_marginLeft="10dp" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="114dp"
-        android:layout_height="46dp"
-        android:id="@+id/textView2"
-
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="10dp" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="114dp"
-        android:layout_height="57dp"
-        android:id="@+id/textView4"
-
-        android:layout_marginTop="220dp"
-        android:layout_marginLeft="10dp" />
 
     <Button
         android:text="Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="61dp"
         android:id="@+id/button"
-        android:layout_marginTop="300dp"
-        android:layout_marginLeft="10dp" />
+        android:textSize="18sp"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="150dp" />
     <!--<LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
