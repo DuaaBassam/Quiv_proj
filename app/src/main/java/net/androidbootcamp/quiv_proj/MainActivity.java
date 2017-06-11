@@ -30,6 +30,28 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  /*   String [] arrays_questions = {"What your name ?","What","vjv","lkj;","lkhl"};
     String [] arrays_answer_1  = {"1","5","9","13","17"};
     String [] arrays_answer_2  = {"2","6","10","14","18"};
@@ -41,12 +63,6 @@ public class MainActivity extends AppCompatActivity {
     String [] true_answer_list ={"2","7","9","13","20","22","27","32","33"};
     int sum =0 ;*/
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
      /*   final Context context=this;
 
         final ListView listview =(ListView)findViewById(R.id.listview);
@@ -619,4 +635,3 @@ viewHolder.answer_4.setOnClickListener(new View.OnClickListener() {
         RadioGroup group_list;
     }
 }*/
-}}
