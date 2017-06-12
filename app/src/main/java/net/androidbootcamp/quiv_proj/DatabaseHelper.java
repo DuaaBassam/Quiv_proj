@@ -73,20 +73,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public boolean updateData(int id_teacher_in,String name_teacher_in,int password_teacher_in ) {
+    public boolean updateData(String id_teacher_in,String name_teacher_in,String password_teacher_in ) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(id_teacher,id_teacher_in);
         contentValues.put(name_teacher,name_teacher_in);
         contentValues.put(password_teacher,password_teacher_in);
 
-        db.update(TABLE_teacher, contentValues, "id_teacher = ?",new String[] { id_teacher });
+        db.update(TABLE_teacher, contentValues, "id_teacher = ?",new String[] { id_teacher_in });
         return true;
     }
-
-
-
+    public Integer deleteData (String id_teacher_in) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_teacher, "id_teacher= ?",new String[] {id_teacher_in});
+    }
 }
+
+
+
+
 
 
 
