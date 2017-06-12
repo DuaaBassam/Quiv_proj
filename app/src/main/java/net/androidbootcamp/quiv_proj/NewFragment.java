@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 
 import static net.androidbootcamp.quiv_proj.R.layout.new_frag;
 
-/**
- * Created by Hanan Dawod on 11/06/17.
- */
 
 public class NewFragment extends Fragment {
     @Nullable

@@ -1,54 +1,69 @@
 package net.androidbootcamp.quiv_proj;
-
-import android.app.Dialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.content.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.Layout;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.security.acl.Group;
+import android.widget.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-
+    DatabaseHelper db = new DatabaseHelper(this);
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        NewFragment fragment = new NewFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.activity_main,fragment,"HananFragment");
-        transaction.commit();
+        listView = (ListView) findViewById(R.id.list);
+
+
+        File database = getApplicationContext().getDatabasePath(db.DBNAME);
+        if (database.exists()==false) {
+            db.getReadableDatabase();
+            if (copyDatabase(this)) {
+                Toast.makeText(MainActivity.this, "تم نسخ قاعدة البيانات بنجاح", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "خطأ لم يتم نسخ قاعدة البيانات", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        ArrayList listTitles = db.get_All_IDS();
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listTitles);
+        listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String title = String.valueOf(parent.getItemAtPosition(position));
+                Intent intent = new Intent(MainActivity.this, show_data.class);
+                intent.putExtra("title", title);
+                startActivity(intent);
+            }
+        });
+    }
+    private boolean copyDatabase(Context context) {
+        try {
+            InputStream inputStream = context.getAssets().open(db.DBNAME);
+            String outFileName = db.DBLOCATION + db.DBNAME;
+            OutputStream outputStream = new FileOutputStream(outFileName);
+            byte[] buff = new byte[1024];
+            int length = 0;
+            while ((length = inputStream.read(buff)) > 0) {
+                outputStream.write(buff, 0, length);
+            }
+            outputStream.flush();
+            outputStream.close();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
-
-}
-
-
-
 
 
 
