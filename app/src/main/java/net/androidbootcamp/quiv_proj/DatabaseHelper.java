@@ -24,13 +24,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Column of course
     private static final String id_course= "id_course";
-    private static final String name_course = "name_teacher";
-    private static final String id_teacher_course = "id_teacher";
+    private static final String name_course = "name_course";
+    private static final String id_teacher_course = "id_teacher_in";
 
 
 
 
-    //  Table create course
+
   /*  private static final String Create_Table_Course= "CREATE TABLE "
             + TABLE_course + "(" + id_course + " INTEGER PRIMARY KEY," + name_course
             + " TEXT,"+" FOREIGN KEY ("+id_teacher_course+") REFERENCES "+TABLE_teacher+" ("+id_teacher+"))";*/
@@ -45,15 +45,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // Table Create  teacher
         db.execSQL("create table " + TABLE_teacher +" (id_teacher INTEGER PRIMARY KEY AUTOINCREMENT,name_teacher TEXT,password_teacher TEXT)");
+
+        //  Table create course
+
+        db.execSQL("create table " + TABLE_course +" (id_course INTEGER PRIMARY KEY AUTOINCREMENT,name_course TEXT,id_teacher_in INTEGER, FOREIGN KEY (id_teacher_in) REFERENCES teacher (id_teacher))");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_teacher);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_course);
         onCreate(db);
     }
 
-    public boolean insertData(String id_teacher_in,String name_teacher_in,String password_teacher_in) {
+    public boolean insertData_teacher(String id_teacher_in,String name_teacher_in,String password_teacher_in) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(id_teacher,id_teacher_in);
@@ -67,13 +72,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-  /*  public Cursor getAllData() {
+
+    public boolean insertData_course(String id_course_in,String name_course_in,String id_teacher_in) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(id_course,id_course_in);
+        contentValues.put(name_course,name_course_in);
+        contentValues.put(id_teacher_course,id_teacher_in);
+
+        long result = db.insert(TABLE_course,null ,contentValues);
+        if(result == -1)
+            return false;
+        else
+            return true;
+    }
+
+  public Cursor getAllData_teacher() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE_teacher,null);
         return res;
     }
 
-    public boolean updateData(String id,String name,String surname,String marks) {
+     /* public boolean updateData(String id,String name,String surname,String marks) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1,id);

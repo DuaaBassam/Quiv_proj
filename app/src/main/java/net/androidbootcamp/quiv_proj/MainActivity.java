@@ -15,12 +15,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         database = new DatabaseHelper(this);
-        boolean a=   database.insertData("1","duaa","123");
-        if (a==true){
+        boolean a1=   database.insertData_teacher("1","duaa","123");
+        boolean a2=   database.insertData_teacher("2","Hanan","123");
+        boolean a3=   database.insertData_course("1","php","1");
+        if (a1==true && a3==true && a2 ==true){
             Toast.makeText(MainActivity.this,"data ins.",Toast.LENGTH_SHORT).show();
+
         }
         else
             Toast.makeText(MainActivity.this,"data not ins.",Toast.LENGTH_SHORT).show();
-//
 
-    }}
+
+    }
+}
