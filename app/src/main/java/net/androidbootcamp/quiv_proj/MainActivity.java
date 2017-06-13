@@ -21,6 +21,6 @@ public class MainActivity extends AppCompatActivity {
         }
         else
             Toast.makeText(MainActivity.this,"data not ins.",Toast.LENGTH_SHORT).show();
-
+//
 
     }}
