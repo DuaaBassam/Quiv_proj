@@ -27,33 +27,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String name_course = "name_teacher";
     private static final String id_teacher_course = "id_teacher";
 
-    // Table Create  teacher
-    private static final String Create_Table_teacher= "CREATE TABLE "
-            + TABLE_teacher + "(" + id_teacher + " INTEGER PRIMARY KEY," + name_teacher
-            + " TEXT," + password_teacher + " TEXT)";
+
+
 
     //  Table create course
-    private static final String Create_Table_Course= "CREATE TABLE "
+  /*  private static final String Create_Table_Course= "CREATE TABLE "
             + TABLE_course + "(" + id_course + " INTEGER PRIMARY KEY," + name_course
-            + " TEXT,"+" FOREIGN KEY ("+id_teacher_course+") REFERENCES "+TABLE_teacher+" ("+id_teacher+"))";
+            + " TEXT,"+" FOREIGN KEY ("+id_teacher_course+") REFERENCES "+TABLE_teacher+" ("+id_teacher+"))";*/
+
 
     public DatabaseHelper(Context context) {
+
         super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(Create_Table_teacher);
-        sqLiteDatabase.execSQL(Create_Table_Course);
+    public void onCreate(SQLiteDatabase db) {
+        // Table Create  teacher
+        db.execSQL("create table " + TABLE_teacher +" (id_teacher INTEGER PRIMARY KEY AUTOINCREMENT,name_teacher TEXT,password_teacher TEXT)");
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_teacher);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_course);
-        onCreate(sqLiteDatabase);
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_teacher);
+        onCreate(db);
     }
-    public boolean insertData(int id_teacher_in,String name_teacher_in,int password_teacher_in ) {
+
+    public boolean insertData(String id_teacher_in,String name_teacher_in,String password_teacher_in) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(id_teacher,id_teacher_in);
@@ -67,49 +67,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public Cursor getAllData() {
+  /*  public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+TABLE_teacher,null);
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
         return res;
     }
 
-    public boolean updateData(String id_teacher_in,String name_teacher_in,String password_teacher_in ) {
+    public boolean updateData(String id,String name,String surname,String marks) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(id_teacher,id_teacher_in);
-        contentValues.put(name_teacher,name_teacher_in);
-        contentValues.put(password_teacher,password_teacher_in);
-
-        db.update(TABLE_teacher, contentValues, "id_teacher = ?",new String[] { id_teacher_in });
+        contentValues.put(COL_1,id);
+        contentValues.put(COL_2,name);
+        contentValues.put(COL_3,surname);
+        contentValues.put(COL_4,marks);
+        db.update(TABLE_NAME, contentValues, "ID = ?",new String[] { id });
         return true;
     }
-    public Integer deleteData (String id_teacher_in) {
+
+    public Integer deleteData (String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_teacher, "id_teacher= ?",new String[] {id_teacher_in});
-    }
+        return db.delete(TABLE_NAME, "ID = ?",new String[] {id});
+    }*/
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
