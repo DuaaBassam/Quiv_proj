@@ -21,20 +21,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String name_teacher = "name_teacher";
     private static final String password_teacher = "password_teacher";
 
-
     // Column of course
     private static final String id_course= "id_course";
     private static final String name_course = "name_course";
     private static final String id_teacher_course = "id_teacher_in";
-
-
-
-
-
-  /*  private static final String Create_Table_Course= "CREATE TABLE "
-            + TABLE_course + "(" + id_course + " INTEGER PRIMARY KEY," + name_course
-            + " TEXT,"+" FOREIGN KEY ("+id_teacher_course+") REFERENCES "+TABLE_teacher+" ("+id_teacher+"))";*/
-
 
     public DatabaseHelper(Context context) {
 
@@ -59,6 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean insertData_teacher(String id_teacher_in,String name_teacher_in,String password_teacher_in) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(id_teacher,id_teacher_in);

@@ -1,31 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="net.androidbootcamp.quiv_proj.MainActivity"
     android:background="@android:color/white"
+    android:orientation="vertical"
     android:weightSum="1">
 
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="200dp"
-        android:id="@+id/textView2"
-        android:layout_height="62dp"
-        android:layout_marginBottom="57dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <ListView
-        android:layout_marginRight="23dp"
-        android:layout_marginEnd="23dp"
-        android:layout_width="300dp"
-        android:layout_above="@+id/textView2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="85dp"
-        android:layout_height="300dp"
-        android:id="@+id/list" />
-</RelativeLayout>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="net.androidbootcamp.quiv_proj.Login_frag"
+        android:id="@+id/fragmentt" />
+</LinearLayout>
