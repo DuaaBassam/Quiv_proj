@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         boolean c6 = database.insertDataCourse("13", "Software", "2");
         boolean c7 = database.insertDataCourse("14", "ASP.NET", "2");
         boolean c8 = database.insertDataCourse("15", "CSS", "2");
-
+//
 
         boolean s1 = database.insertDataStudent("1", "Asmaa");
         boolean s2 = database.insertDataStudent("2", "Amal");
