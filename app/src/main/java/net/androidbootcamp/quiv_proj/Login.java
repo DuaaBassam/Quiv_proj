@@ -15,6 +15,7 @@ import android.widget.EditText;
 public class Login extends Fragment{
      DatabaseHelper databaseHelper;
     @Override
+    //
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         
         final View view = inflater.inflate(R.layout.login, container, false);
@@ -44,5 +45,4 @@ public class Login extends Fragment{
         return view;
 
     }
-
 }

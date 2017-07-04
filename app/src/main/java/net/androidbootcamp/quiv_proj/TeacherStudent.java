@@ -1,12 +1,6 @@
 package net.androidbootcamp.quiv_proj;
 
 import android.app.Activity;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +8,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
-/**
- * Created by مركز الخبراء on 07/03/2017.
- */
 
-class ListViewCourse extends BaseAdapter {
+
+public class TeacherStudent extends BaseAdapter {
     ArrayList<Course_Items> arrayList;
     Activity con;
 
-    ListViewCourse(Activity con, int teacherId) {
+    TeacherStudent(Activity con, int studentId) {
         this.con = con;
         arrayList = new ArrayList<>();
-        ArrayList cursor = new DatabaseHelper(con).getAllDataCourse(teacherId);
+        ArrayList cursor = new DatabaseHelper(con).getAllDataCourse(studentId);
 
         arrayList = cursor;
     }
@@ -55,12 +45,11 @@ class ListViewCourse extends BaseAdapter {
         final ViewHolder viewHolder;
         if (view == null) {
             LayoutInflater inflater = con.getLayoutInflater();
-            row = inflater.inflate(R.layout.fra, viewGroup, false);
+            row = inflater.inflate(R.layout.student_show_item, viewGroup, false);
             viewHolder = new ViewHolder();
             viewHolder.name = (TextView) row.findViewById(R.id.name);
             viewHolder.img = (LinearLayout) row.findViewById(R.id.hori);
-            viewHolder.comment = (ImageButton) row.findViewById(R.id.Studuent);
-            viewHolder.fav = (ImageButton) row.findViewById(R.id.quiz);
+
             row.setTag(viewHolder);
 
         } else {
@@ -70,26 +59,6 @@ class ListViewCourse extends BaseAdapter {
 
         final Course_Items item = arrayList.get(i);
 
-        viewHolder.name.setText(item.name);
-
-
-        viewHolder.fav.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Fragment fragment= new StudentInTeacher();
-
-                ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().replace(R.id.frag,fragment).addToBackStack(null).commit();
-
-
-            }});
-        viewHolder.comment.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-
-            }
-
-        });
-
 
         return row;
     }
@@ -97,8 +66,6 @@ class ListViewCourse extends BaseAdapter {
     public class ViewHolder {
         TextView name;
         LinearLayout img;
-        ImageButton fav;
-        ImageButton comment;
 
-    }
-}
+
+    }}

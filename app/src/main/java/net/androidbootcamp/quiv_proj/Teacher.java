@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,9 @@ public class Teacher extends  Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         teacherId = getArguments().getInt("id");
+
+
+
         View view = inflater.inflate(R.layout.teacher, container, false);
         textView = (TextView) view.findViewById(R.id.name_teacher);
         ListView listView = (ListView)view.findViewById(R.id.list_course1);
@@ -42,7 +47,6 @@ public class Teacher extends  Fragment {
         listView.setAdapter(adapter);
         return view;
     }
-
 
 
 }

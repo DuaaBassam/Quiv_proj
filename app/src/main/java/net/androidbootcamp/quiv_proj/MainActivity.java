@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         boolean a1 = database.insertDataTeacher("1", "Duaa");
         boolean a2 = database.insertDataTeacher("2", "Hanan");
-//
+
         boolean b1 = database.insertDataCourse("1", "php", "1");
         boolean b2 = database.insertDataCourse("2", "android", "1");
         boolean b3 = database.insertDataCourse("3", "Java", "1");
