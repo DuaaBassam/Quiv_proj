@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_weight="0.06"
+        android:layout_margin="10dp">
+
+        <Button
+            android:text="Add/Delete"
+            android:layout_width="wrap_content"
+            android:id="@+id/button2"
+            android:layout_weight="1"
+            android:layout_height="63dp" />
+
+        <Button
+            android:text="Show"
+            android:layout_width="wrap_content"
+            android:layout_height="63dp"
+            android:id="@+id/button5"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="303dp"
+        android:layout_weight="0.44">
+
+    </FrameLayout>
+
+    <Button
+        android:text="Back"
+        android:layout_width="149dp"
+        android:layout_height="59dp"
+        android:id="@+id/button6"
+        android:layout_margin="20dp" />
+
+</LinearLayout>
