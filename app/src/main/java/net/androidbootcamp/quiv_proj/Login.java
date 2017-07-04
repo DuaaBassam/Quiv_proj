@@ -26,7 +26,7 @@ public class Login extends Fragment{
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+//
                         if (databaseHelper.loginTeacher(idTeacher.getText().toString(),password.getText().toString())){
                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                             Fragment fragment = new Teacher();
