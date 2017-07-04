@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="net.androidbootcamp.quiv_proj.MainActivity"
-    android:background="@android:color/white"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:background="@color/colorAccent"
+    android:weightSum="1"
+    android:backgroundTint="@color/colorPrimary">
 
 
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="net.androidbootcamp.quiv_proj.Login_frag"
-        android:id="@+id/fragmentt" />
-</LinearLayout>
+</FrameLayout>
