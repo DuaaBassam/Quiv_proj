@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:weightSum="1"
+        android:layout_height="100dp"
+        android:id="@+id/hori">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.91">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/name"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:layout_marginStart="10dp"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:layout_marginTop="10dp"
+            android:weightSum="1"
+            android:layout_width="250dp"
+            android:layout_height="80dp">
+
+            <ImageButton
+                android:text=""
+                android:id="@+id/Studuent"
+                android:background="@drawable/ic_person_black_24dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_weight="0.37"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                 />
+
+            <ImageButton
+                android:text="fav"
+                android:id="@+id/quiz"
+                android:background="@drawable/ic_description_black_24dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_weight="0.38"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
