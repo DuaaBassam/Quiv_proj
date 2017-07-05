@@ -54,6 +54,7 @@ public class Teacher extends  Fragment {
         teach.setArguments(args);
         listView.setAdapter(adapter);
         return view;
+        ///
     }
 
 

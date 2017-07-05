@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class TeacherStudent extends BaseAdapter {
     ArrayList<StudentItems> arrayList;
     Activity con;
+    ///
     String nameCourse="";
     TeacherStudent(Activity con, int teacherId) {
         this.con = con;
