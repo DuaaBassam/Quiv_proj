@@ -32,9 +32,9 @@ public class ShowStudent extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_show_student, container, false);
-        ListView listView = (ListView)view.findViewById(R.id.list_course1);
-        final TeacherStudent adapter = new TeacherStudent(getActivity(),2);
-//        listView.setAdapter(adapter);
+        ListView listView = (ListView)view.findViewById(R.id.listStudentShow);
+        final TeacherStudent adapter = new TeacherStudent(getActivity(), getArguments().getInt("id"));
+        listView.setAdapter(adapter);
         return view;
 
 

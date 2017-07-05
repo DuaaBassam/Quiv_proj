@@ -1,6 +1,8 @@
 package net.androidbootcamp.quiv_proj;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +15,24 @@ import java.util.ArrayList;
 
 
 public class TeacherStudent extends BaseAdapter {
-    ArrayList<Course_Items> arrayList;
+    ArrayList<StudentItems> arrayList;
     Activity con;
-
-    TeacherStudent(Activity con, int studentId) {
+    String nameCourse="";
+    TeacherStudent(Activity con, int teacherId) {
         this.con = con;
         arrayList = new ArrayList<>();
-        ArrayList cursor = new DatabaseHelper(con).getAllDataCourse(studentId);
+        Fragment fragment= new StudentInTeacher();
+    //ArrayList cursor = new DatabaseHelper(con).getAllStudent(teacherId, nameCourse);
+       // nameCourse  = fragment. getArguments().getString("nameCourse");
 
-        arrayList = cursor;
+
+
+       // arrayList = cursor;
     }
 
     @Override
     public int getCount() {
+
         return arrayList.size();
     }
 
@@ -47,8 +54,8 @@ public class TeacherStudent extends BaseAdapter {
             LayoutInflater inflater = con.getLayoutInflater();
             row = inflater.inflate(R.layout.student_show_item, viewGroup, false);
             viewHolder = new ViewHolder();
-            viewHolder.name = (TextView) row.findViewById(R.id.name);
-            viewHolder.img = (LinearLayout) row.findViewById(R.id.hori);
+            viewHolder.name = (TextView) row.findViewById(R.id.name_student);
+            viewHolder.id = (TextView) row.findViewById(R.id.id_student);
 
             row.setTag(viewHolder);
 
@@ -57,7 +64,7 @@ public class TeacherStudent extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        final Course_Items item = arrayList.get(i);
+        final StudentItems item = arrayList.get(i);
 
 
         return row;
@@ -65,7 +72,5 @@ public class TeacherStudent extends BaseAdapter {
 
     public class ViewHolder {
         TextView name;
-        LinearLayout img;
-
-
+        TextView id;
     }}

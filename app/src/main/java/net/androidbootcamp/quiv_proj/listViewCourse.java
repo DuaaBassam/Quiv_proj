@@ -78,7 +78,17 @@ class ListViewCourse extends BaseAdapter {
             public void onClick(View v) {
                 Fragment fragment= new StudentInTeacher();
 
+                Fragment std = new AddStudent();
+                Bundle args = new Bundle();
+                Bundle s = new Bundle();
+
+                args.putString("nameCourse",viewHolder.name.getText().toString());
+                fragment.setArguments(args);
+
+                ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().remove(fragment).addToBackStack(null).commit();
                 ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().replace(R.id.frag,fragment).addToBackStack(null).commit();
+
+
 
 
             }});

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
+
 public class Teacher extends  Fragment {
     private int teacherId;
 
@@ -34,16 +35,23 @@ public class Teacher extends  Fragment {
     TextView textView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        teacherId = getArguments().getInt("id");
 
+
+        teacherId = getArguments().getInt("id");
+        System.out.println(teacherId);
 
 
         View view = inflater.inflate(R.layout.teacher, container, false);
+        //view.findViewById(R.id.list_course1).setVisibility(View.VISIBLE);
         textView = (TextView) view.findViewById(R.id.name_teacher);
         ListView listView = (ListView)view.findViewById(R.id.list_course1);
         DatabaseHelper databaseHelper =new DatabaseHelper(getActivity());
         textView.setText(databaseHelper.getNameTeacher(teacherId));
         final ListViewCourse adapter = new ListViewCourse(getActivity(),teacherId);
+        Fragment teach=new AddStudent();
+        Bundle args =new Bundle();
+        args.putInt("idTeacher",teacherId);
+        teach.setArguments(args);
         listView.setAdapter(adapter);
         return view;
     }

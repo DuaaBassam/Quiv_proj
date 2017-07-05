@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,12 @@ public class StudentInTeacher extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       View view =inflater.inflate(R.layout.student_in_teacher, container, false);
+
+
+        Log.d("name","      " + getArguments().getString("nameCourse"));
+
+
+        View view =inflater.inflate(R.layout.student_in_teacher, container, false);
         ViewPager vpPager = (ViewPager) view.findViewById(R.id.vpPager);
         adapterViewPager = new MyPagerAdapter(getActivity().getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
@@ -63,8 +69,8 @@ public class StudentInTeacher extends Fragment {
         return view;
     }
 
-    public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 2;
+    public  class MyPagerAdapter extends FragmentPagerAdapter {
+        private  int NUM_ITEMS = 2;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -81,7 +87,12 @@ public class StudentInTeacher extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
+                    Fragment fragment =new AddStudent();
+                    Bundle bundle=new Bundle();
+                    bundle.putString("nameCourse",getArguments().getString("nameCourse"));
+                    fragment.setArguments(bundle);
                     return  AddStudent.newInstance(0, "Page # 1");
+
                 case 1: // Fragment # 0 - This will show FirstFragment different title
                     return ShowStudent.newInstance(1, "Page # 2");
 

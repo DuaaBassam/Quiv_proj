@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         boolean s4 = database.insertDataStudent("4", "Noor");
         boolean s5 = database.insertDataStudent("5", "Reem");
         boolean s6 = database.insertDataStudent("6", "Israa");
-        boolean s7 = database.insertDataStudent("7", "Abeer");
+        boolean s7 = database.insertStudentInCourse("1", "1");
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frag, new Login()).commit();
