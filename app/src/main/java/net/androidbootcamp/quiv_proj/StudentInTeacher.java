@@ -89,8 +89,9 @@ public class StudentInTeacher extends Fragment {
                 case 0: // Fragment # 0 - This will show FirstFragment
                     Fragment fragment =new AddStudent();
                     Bundle bundle=new Bundle();
-                    bundle.putString("nameCourse",getArguments().getString("nameCourse"));
+                    bundle.putString("name",getArguments().getString("nameCourse"));
                     fragment.setArguments(bundle);
+
                     return  AddStudent.newInstance(0, "Page # 1");
 
                 case 1: // Fragment # 0 - This will show FirstFragment different title
