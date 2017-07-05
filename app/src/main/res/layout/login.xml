@@ -14,15 +14,16 @@
     <ImageView
         android:layout_width="182dp"
         android:layout_height="162dp"
-        app:srcCompat="@drawable/logincopy"
         android:id="@+id/imageView"
-        android:paddingEnd="0dp"
         android:layout_marginEnd="100dp"
         android:layout_marginStart="100dp"
         android:layout_marginBottom="0dp"
         android:paddingBottom="0dp"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"/>
+    <!-- app:srcCompat="@drawable/logincopy"  -->
+    <!-- android:paddingEnd="0dp" -->
+
 
     <TextView
         android:text="Login"
@@ -60,7 +61,7 @@
         android:textSize="22sp"
         android:layout_marginStart="10dp"
         android:textColor="?android:attr/textColorPrimaryInverseNoDisable"
-        android:drawableLeft="@drawable/ic_https_black_24dp"
+        android:drawableLeft="@drawable/ic_android_black_24dp"
         android:layout_marginEnd="10dp"
         android:layout_height="70dp" />
 

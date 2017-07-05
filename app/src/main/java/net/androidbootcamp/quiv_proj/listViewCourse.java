@@ -61,7 +61,7 @@ class ListViewCourse extends BaseAdapter {
             viewHolder.img = (LinearLayout) row.findViewById(R.id.hori);
             viewHolder.comment = (ImageButton) row.findViewById(R.id.Studuent);
             viewHolder.fav = (ImageButton) row.findViewById(R.id.quiz);
-            row.setTag(viewHolder);
+           // row.setTag(viewHolder);
 
         } else {
             row = view;
@@ -110,5 +110,16 @@ class ListViewCourse extends BaseAdapter {
         ImageButton fav;
         ImageButton comment;
 
+    }
+    Bundle bundle;
+    public ListViewCourse(){
+        int i =  0;
+        bundle = new Bundle();
+        bundle.putString("coursename","jjhh");
+//put required values
+    }
+
+    public Bundle getArgument(){
+        return bundle;
     }
 }

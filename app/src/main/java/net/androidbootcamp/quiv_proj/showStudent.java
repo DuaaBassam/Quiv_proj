@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-public class ShowStudent extends Fragment {
+class ShowStudent extends Fragment {
 
     private String title;
     public static ShowStudent newInstance(int page, String title) {
