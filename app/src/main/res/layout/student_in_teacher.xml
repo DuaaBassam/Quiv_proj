@@ -7,34 +7,35 @@
     android:orientation="vertical"
     android:id="@+id/bb"
     android:weightSum="1">
-    <TextView
-        android:id="@+id/tvLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vpPager"
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_weight="0.61">
+        android:layout_height="82dp"
+        android:layout_margin="10dp">
 
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/pager_header"
-            android:layout_width="match_parent"
+        <Button
+            android:text="ADD/DELETE"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            />
-</android.support.v4.view.ViewPager>
+            android:id="@+id/addd"
+            android:layout_weight="1"
+            android:textSize="20sp" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
-        android:background="@drawable/ic_undo_black_24dp"
-        android:foregroundGravity="center"
-        android:layout_gravity="center" />
+        <Button
+            android:text="SHOW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/showw"
+            android:layout_weight="1"
+            android:textSize="20sp" />
+    </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+    </FrameLayout>
 </LinearLayout>
