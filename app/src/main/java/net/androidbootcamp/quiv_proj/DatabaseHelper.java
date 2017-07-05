@@ -54,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_Student + " (id_Student INTEGER PRIMARY KEY ,name_Student TEXT,password_Student TEXT DEFAULT '123')");
 
 
-        db.execSQL("create table " + TABLE_Add_Student + " (id_student INTEGER PRIMARY KEY ,id_Course INTEGER PRIMARY KEY,FOREIGN KEY (id_student) REFERENCES Student (id_Student)," +
+        db.execSQL("create table " + TABLE_Add_Student + " (id_student INTEGER  ,id_Course INTEGER ,FOREIGN KEY (id_student) REFERENCES Student (id_Student)," +
                 "FOREIGN KEY (id_Course) REFERENCES Course (id_course))");
 
 
@@ -96,11 +96,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public boolean insertStudentInCourse(String id_course_in, String name_Student_in) {
+    public boolean insertStudentInCourse(String id_course_in, String id_Student_in) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("id_Course", id_course_in);
-        contentValues.put("id_student", name_Student_in);
+        contentValues.put("id_student", id_Student_in);
 
         long result = db.insert(TABLE_Add_Student, null, contentValues);
         if (result == -1)
@@ -139,54 +139,67 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return course;
     }
 
-   public String getIdCourse(int teacherId,String courseName) {
+   public int getIdCourse(int teacherId,String courseName) {
         SQLiteDatabase db = this.getWritableDatabase();
+       int idCoursee=0;
         Cursor cursor = db.rawQuery("select * from " + TABLE_course + " where id_teacher_in=" + teacherId, null);
         if (cursor.moveToFirst()) {
             do {
                 String  nameCourse = cursor.getString (cursor.getColumnIndex("name_course"));
-                String  idCourse = cursor.getString (cursor.getColumnIndex("id_course"));
+                int  idCourse = cursor.getInt (cursor.getColumnIndex("id_course"));
                if (courseName==nameCourse){
-                   return idCourse;
+                   idCoursee=idCourse;
                }
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return "";
+        return idCoursee;
     }
 
-    public Cursor getAllDataAddStudent() {
+
+
+    public Cursor getAllDataAddStudent(int teacherId,String courseName) {
+
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+TABLE_Add_Student,null);
+        int idCourse =getIdCourse(teacherId,courseName);
+        Cursor res = db.rawQuery("select * from "+TABLE_Add_Student +" where id_Course= "+idCourse , null);
         return res;
+
     }
-// public ArrayList<StudentItems> getAllStudent(int teacherId) {
+
+// public ArrayList<StudentItems> getAllStudent(int teacherId,String courseName) {
 //
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        Cursor cursorAddStudent=getAllDataAddStudent();
-//        ArrayList<StudentItems> course = new ArrayList<>();
-//     String  nameCourse = cursorAddStudent.getString (cursor.getColumnIndex("id_course"));
-//     String  idCourse = cursor.getString (cursor.getColumnIndex("id_course"));
-//        Cursor cursor = db.rawQuery("select * from " + TABLE_Student , null);
-//        if (cursor.moveToFirst()) {
+//     SQLiteDatabase db = this.getWritableDatabase();
+//     Cursor cursorAddStudent=getAllDataAddStudent(teacherId,courseName);
+//     ArrayList<StudentItems> course = new ArrayList<>();
+//     int  idStudentAdd = cursorAddStudent.getInt(cursorAddStudent.getColumnIndex("id_student"));
+//     Cursor cursor = db.rawQuery("select * from " + TABLE_Student , null);
+//     int  idStudent = cursor.getInt (cursor.getColumnIndex("id_Student"));
+//     String  nameStudent = cursor.getString (cursor.getColumnIndex("name_Student"));
+//
+//
+//     if (cursorAddStudent.moveToFirst()) {
 //            do {
+//
 //                if (cursor.moveToFirst()) {
 //                    do {
-//
-//
+//                   if (idStudent==idStudentAdd){
+//                       course.add(new StudentItems(nameStudent,idStudent));
+//                   }
 //                    } while (cursor.moveToNext());
 //                }
 //                cursor.close();
 //
-//            } while (cursor.moveToNext());
+//            } while (cursorAddStudent.moveToNext());
 //        }
-//        cursor.close();
-      //  return course;
-    //}
+//     cursorAddStudent.close();
+//
+//       return course;
+//    }
 
     public boolean checkIdStudent(String idStudentIn) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_teacher, null);
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Student, null);
         String passwordTeacher;
         if (cursor.moveToFirst()) {
             do {

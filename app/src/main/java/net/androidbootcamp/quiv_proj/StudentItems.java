@@ -5,8 +5,9 @@ package net.androidbootcamp.quiv_proj;
  */
 
 public class StudentItems {
+    int id ;
     String name ;
-     int id ;
+
 
 
 
