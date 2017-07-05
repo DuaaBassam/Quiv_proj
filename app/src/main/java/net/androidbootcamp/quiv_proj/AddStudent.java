@@ -53,10 +53,12 @@ DatabaseHelper db;
     @Override
     public void onClick(View view) {
         if(db.checkIdStudent(id.getText().toString())){
-            Log.d("namebbbb","      " + getArguments().getString("nameCourse"));
-            Log.d("id","      " + getArguments().getInt("idTeacher"));
 
-              db.insertStudentInCourse(getArguments().getString("nameCourse"),""+getArguments().getInt("idTeacher"));
+
+                       Log.d("namebbbb","      " + getArguments().getString("name"));
+            //Log.d("id","      " + getArguments().getInt("idTeacher"));
+
+              //db.insertStudentInCourse(getArguments().getString("nameCourse"),""+getArguments().getInt("idTeacher"));
 ;
         }
     }});
