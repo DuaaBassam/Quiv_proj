@@ -81,8 +81,11 @@ class ListViewCourse extends BaseAdapter {
                 args.putString("nameCourse",viewHolder.name.getText().toString());
                 fragment.setArguments(args);
 
+//                FragmantClass rSum = new FragmantClass();
+//                getSupportFragmentManager().beginTransaction().remove(rSum).commit();
+//               ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().remove(new  ).addToBackStack(null).commit();
 
-                ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().replace(R.id.frag,fragment).addToBackStack(null).commit();
+                ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().replace(R.id.course,fragment).addToBackStack(null).commit();
 
 
 
