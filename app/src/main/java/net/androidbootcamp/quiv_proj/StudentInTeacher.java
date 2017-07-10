@@ -1,5 +1,6 @@
 package net.androidbootcamp.quiv_proj;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,31 +24,40 @@ public class StudentInTeacher extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         Log.d("name", "      " + getArguments().getString("nameCourse"));
-
-
         View view = inflater.inflate(R.layout.student_in_teacher, container, false);
-        Button addd = (Button)view.findViewById(R.id.addd);
-        Button showw = (Button)view.findViewById(R.id.showw);
+        final Button addd = (Button)view.findViewById(R.id.addd);
+        final Button showw = (Button)view.findViewById(R.id.showw);
+        addd.setBackgroundColor((Color.WHITE));
+        showw.setBackgroundColor(Color.GRAY);
+        Fragment f = new AddStudent();
+        Bundle b = new Bundle();
+        b.putString("name1",getArguments().getString("nameCourse"));
+        f.setArguments(b);
 
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.add_delete_show, new AddStudent());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
         addd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                addd.setBackgroundColor(Color.WHITE);
+                showw.setBackgroundColor(Color.GRAY);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.add_delete_show, new AddStudent());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-
                 }
-
         });
 
         showw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                addd.setBackgroundColor((Color.GRAY));
+                addd.setBackgroundColor(Color.WHITE);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.add_delete_show, new ShowStudent());
