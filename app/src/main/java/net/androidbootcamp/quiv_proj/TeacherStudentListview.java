@@ -14,21 +14,15 @@ import java.util.ArrayList;
 
 
 
-public class TeacherStudent extends BaseAdapter {
+public class TeacherStudentListview extends BaseAdapter {
     ArrayList<StudentItems> arrayList;
     Activity con;
     ///
-    String nameCourse="";
-    TeacherStudent(Activity con, int teacherId) {
+    TeacherStudentListview(Activity con,String course) {
         this.con = con;
         arrayList = new ArrayList<>();
-        Fragment fragment= new StudentInTeacher();
-    //ArrayList cursor = new DatabaseHelper(con).getAllStudent(teacherId, nameCourse);
-       // nameCourse  = fragment. getArguments().getString("nameCourse");
-
-
-
-       // arrayList = cursor;
+        ArrayList cursor = new DatabaseHelper(con).getAllData(1, course);
+        arrayList = cursor;
     }
 
     @Override
@@ -67,7 +61,8 @@ public class TeacherStudent extends BaseAdapter {
 
         final StudentItems item = arrayList.get(i);
 
-
+        viewHolder.name.setText(item.name);
+        viewHolder.id.setText(item.id+"");
         return row;
     }
 

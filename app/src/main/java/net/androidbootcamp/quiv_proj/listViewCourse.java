@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,19 +19,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by مركز الخبراء on 07/03/2017.
- */
 
-class ListViewCourse extends BaseAdapter {
+public class ListViewCourse extends BaseAdapter {
     ArrayList<Course_Items> arrayList;
     Activity con;
-
+    int teacherId;
     ListViewCourse(Activity con, int teacherId) {
         this.con = con;
         arrayList = new ArrayList<>();
         ArrayList cursor = new DatabaseHelper(con).getAllDataCourse(teacherId);
-
+        teacherId=teacherId;
         arrayList = cursor;
     }
 
@@ -61,7 +59,7 @@ class ListViewCourse extends BaseAdapter {
             viewHolder.img = (LinearLayout) row.findViewById(R.id.hori);
             viewHolder.comment = (ImageButton) row.findViewById(R.id.Studuent);
             viewHolder.fav = (ImageButton) row.findViewById(R.id.quiz);
-           // row.setTag(viewHolder);
+           row.setTag(viewHolder);
 
         } else {
             row = view;
@@ -73,25 +71,24 @@ class ListViewCourse extends BaseAdapter {
         viewHolder.name.setText(item.name);
 
 
-        viewHolder.fav.setOnClickListener(new View.OnClickListener() {
+        viewHolder.comment.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
                 Fragment fragment= new StudentInTeacher();
                 Bundle args = new Bundle();
                 args.putString("nameCourse",viewHolder.name.getText().toString());
                 fragment.setArguments(args);
+                FrameLayout frameLayout=(FrameLayout)con.findViewById(R.id.frag);
+                frameLayout.removeAllViewsInLayout();
+          //      ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().add(R.id.teacherFrag,fragment).addToBackStack(null).commit();
 
-//                FragmantClass rSum = new FragmantClass();
-//                getSupportFragmentManager().beginTransaction().remove(rSum).commit();
-//               ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().remove(new  ).addToBackStack(null).commit();
-
-                ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().replace(R.id.course,fragment).addToBackStack(null).commit();
+                ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().replace(R.id.frag,fragment).addToBackStack(null).commit();
 
 
 
 
             }});
-        viewHolder.comment.setOnClickListener(new View.OnClickListener() {
+        viewHolder.fav.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
 
@@ -110,15 +107,5 @@ class ListViewCourse extends BaseAdapter {
         ImageButton comment;
 
     }
-    Bundle bundle;
-    public ListViewCourse(){
-        int i =  0;
-        bundle = new Bundle();
-        bundle.putString("coursename","jjhh");
-//put required values
-    }
+     }
 
-    public Bundle getArgument(){
-        return bundle;
-    }
-}

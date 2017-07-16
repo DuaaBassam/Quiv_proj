@@ -20,22 +20,6 @@
         android:textColor="@android:color/background_light"
         android:typeface="sans" />
 
-    <EditText
-        android:layout_width="143dp"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:textSize="20sp"
-        android:textStyle="normal|bold"
-        android:typeface="sans"
-        android:id="@+id/id"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_alignBaseline="@+id/textView"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:textColor="?android:attr/colorForegroundInverse" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,9 +37,26 @@
         android:background="@drawable/ic_delete_black_24dp"
         android:id="@+id/delete"
         android:layout_marginTop="79dp"
-        android:layout_below="@+id/id"
-        android:layout_alignLeft="@+id/id"
-        android:layout_alignStart="@+id/id"
+        android:layout_below="@+id/idPerson"
+        android:layout_alignLeft="@+id/idPerson"
+        android:layout_alignStart="@+id/idPerson"
         android:layout_marginLeft="38dp"
         android:layout_marginStart="38dp" />
+
+    <EditText
+        android:layout_width="143dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:textSize="20sp"
+        android:textStyle="normal|bold"
+        android:typeface="sans"
+        android:id="@+id/idPerson"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp"
+        android:textColor="?android:attr/textColorPrimaryNoDisable"
+        android:layout_alignBaseline="@+id/textView"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 </RelativeLayout>

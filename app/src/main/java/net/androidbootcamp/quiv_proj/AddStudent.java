@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by مركز الخبراء on 07/04/2017.
@@ -28,17 +29,13 @@ DatabaseHelper db;
             Button add = (Button) view.findViewById(R.id.add);
             Button delete = (Button) view.findViewById(R.id.delete);
 
-            final TextView id = (TextView)view.findViewById(R.id.id);
-    add.setOnClickListener(new View.OnClickListener() {
+            final TextView id = (TextView)view.findViewById(R.id.idPerson);
+            add.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         if(db.checkIdStudent(id.getText().toString())){
 
-
-                       Log.d("namebbbb","      " + getArguments().getString("name"));
-            //Log.d("id","      " + getArguments().getInt("idTeacher"));
-
-              //db.insertStudentInCourse(getArguments().getString("nameCourse"),""+getArguments().getInt("idTeacher"));
+               Log.d("namebbbb","      " + getArguments().getString("name"));
 ;
         }
     }});
@@ -46,8 +43,11 @@ DatabaseHelper db;
     delete.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
             if(db.checkIdStudent(id.getText().toString())){
                 db.deleteData(id.getText().toString());
+                Toast.makeText(getActivity(), "delete Student ", Toast.LENGTH_SHORT).show();
+
             }}
 
             });
