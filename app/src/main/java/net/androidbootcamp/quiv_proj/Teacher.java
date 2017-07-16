@@ -41,20 +41,20 @@ public class Teacher extends  Fragment {
 
         View view = inflater.inflate(R.layout.teacher, container, false);
 
-//        teacherId = getArguments().getInt("id");
-//
-//        DatabaseHelper databaseHelper=new DatabaseHelper(getActivity());
-//
-//        String s = databaseHelper.getNameTeacher(teacherId);
-//        TextView nameTec=(TextView )view.findViewById(R.id.namePerson);
-//       nameTec.setText("Name : "+s);
-//        TextView idTec =(TextView)view.findViewById(R.id.idPerson);
-//        idTec.setText("ID : "+teacherId);
-//        ListView listView = (ListView)view.findViewById(R.id.ListCourseTec);
-//        final ListViewCourse adapter = new ListViewCourse(getActivity(),teacherId);
-//        listView.setAdapter(adapter);
+        teacherId = getArguments().getInt("id");
 
-        /*view .findViewById(R.id.Home).setOnClickListener(new View.OnClickListener() {
+        DatabaseHelper databaseHelper=new DatabaseHelper(getActivity());
+
+        String s = databaseHelper.getNameTeacher(teacherId);
+        TextView nameTec=(TextView )view.findViewById(R.id.namePerson);
+       nameTec.setText("Name : "+s);
+        TextView idTec =(TextView)view.findViewById(R.id.idPerson);
+        idTec.setText("ID : "+teacherId);
+        ListView listView = (ListView)view.findViewById(R.id.ListCourseTec);
+        final ListViewCourse adapter = new ListViewCourse(getActivity(),teacherId);
+        listView.setAdapter(adapter);
+
+       view .findViewById(R.id.Home).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 Fragment fragment=new Login();
@@ -65,7 +65,7 @@ Fragment fragment=new Login();
                 fragmentTransaction.commit();
 
             }
-        });*/
+        });
         return view;
 
     }
