@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         database = new DatabaseHelper(this);
 
+
         boolean a1 = database.insertDataTeacher("1", "Duaa");
         boolean a2 = database.insertDataTeacher("2", "Hanan");
 
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         boolean s7 = database.insertStudentInCourse("1", "1");
 
 
+
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frag, new Login()).commit();
         }
@@ -58,5 +61,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(MainActivity.this, "data not ins.", Toast.LENGTH_SHORT).show();
         }
+    }
+    @Override
+    public void onBackPressed() {
     }
 }
