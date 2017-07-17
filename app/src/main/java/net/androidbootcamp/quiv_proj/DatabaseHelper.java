@@ -186,6 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
        return course;
     }
+    //
 
     public boolean checkIdStudent(String idStudentIn) {
         SQLiteDatabase db = this.getWritableDatabase();
