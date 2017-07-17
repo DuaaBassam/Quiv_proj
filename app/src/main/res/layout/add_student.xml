@@ -23,23 +23,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_note_add_black_24dp"
-        android:id="@+id/add"
-        android:layout_alignTop="@+id/delete"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginLeft="71dp"
-        android:layout_marginStart="71dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:background="@drawable/ic_delete_black_24dp"
-        android:id="@+id/delete"
+        android:id="@+id/deleteStudent"
         android:layout_marginTop="79dp"
-        android:layout_below="@+id/idPerson"
-        android:layout_alignLeft="@+id/idPerson"
-        android:layout_alignStart="@+id/idPerson"
+        android:layout_below="@+id/idStud"
+        android:layout_alignLeft="@+id/idStud"
+        android:layout_alignStart="@+id/idStud"
         android:layout_marginLeft="38dp"
         android:layout_marginStart="38dp" />
 
@@ -51,7 +40,7 @@
         android:textSize="20sp"
         android:textStyle="normal|bold"
         android:typeface="sans"
-        android:id="@+id/idPerson"
+        android:id="@+id/idStud"
         android:layout_marginLeft="22dp"
         android:layout_marginStart="22dp"
         android:textColor="?android:attr/textColorPrimaryNoDisable"
@@ -59,4 +48,15 @@
         android:layout_alignBottom="@+id/textView"
         android:layout_toRightOf="@+id/textView"
         android:layout_toEndOf="@+id/textView" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_note_add_black_24dp"
+        android:id="@+id/addStud"
+        android:layout_marginLeft="52dp"
+        android:layout_marginStart="52dp"
+        android:layout_alignTop="@+id/deleteStudent"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
 </RelativeLayout>

@@ -209,7 +209,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from " + TABLE_Add_Student, null);
         if (cursor.moveToFirst()) {
             do {
-                int idStudent = cursor.getInt(cursor.getColumnIndex("id_Studentt"));
+                int idStudent = cursor.getInt(cursor.getColumnIndex("id_studentt"));
                 int idCourse = cursor.getInt(cursor.getColumnIndex("id_Course"));
 
                 if (!((idStudent + "").equals(idStudentIn)&&(idCourse+"").equals(courseIdIn))) {
@@ -221,58 +221,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public int getIdCourse(int teacherId,String courseName) {
-        SQLiteDatabase db = this.getWritableDatabase();
 
-        String  nameCourse="";
-        int  idCourse=0;
+
+   public int getIdCourse(int teacherId,String courseName) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_course + " where id_teacher_in=" + teacherId, null);
         if (cursor.moveToFirst()) {
-
             do {
-                nameCourse = cursor.getString (cursor.getColumnIndex(name_course));
-                idCourse = cursor.getInt (cursor.getColumnIndex(id_course));
+                String  nameCourse = cursor.getString (cursor.getColumnIndex(name_course));
+                int idCourse = cursor.getInt (cursor.getColumnIndex(id_course));
 
-                if (courseName==nameCourse){
+                if (courseName.equals(nameCourse)){
+
                     return idCourse;
                 }
             } while (cursor.moveToNext());
-        }cursor.close();
-        Log.d("name",courseName+","+nameCourse);
-        return idCourse;
-    }
-
-
-  /*  public int getNameTeacher(int teacherId,String courseName) {
-        String name = "";
-        String  nameCourse="";
-        int  idCourse=0;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_course + " where id_teacher_in=" + teacherId, null);
-        if (cursor.moveToFirst()) {
-            do {
-                nameCourse = cursor.getString (cursor.getColumnIndex(name_course));
-                idCourse = cursor.getInt (cursor.getColumnIndex(id_course));
-                if (courseName==nameCourse)
-                    return idCourse;
-            } while (cursor.moveToNext());
         }
         cursor.close();
-        return idCourse;
+
+       return 0;
     }
-*/
-/*public String getNameTeacher(int idTeacherIn){
 
-    String query = "select * from TABLE_teacher where id_teacher =\""+idTeacherIn+"\"";
-    SQLiteDatabase db = this.getWritableDatabase();
-    Cursor c = db.rawQuery(query,null);
-    int iName = c.getColumnIndex(id_teacher);
-    String s = "";
-    s = s+c.getString(iName);
-    return s;
 
-}
-*/
 
     public String getNameTeacher(int idTeacherIn) {
         String name = "";

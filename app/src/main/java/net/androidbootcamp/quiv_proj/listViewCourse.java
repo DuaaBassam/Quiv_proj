@@ -22,15 +22,18 @@ import java.util.HashMap;
 
 public class ListViewCourse extends BaseAdapter {
     ArrayList<Course_Items> arrayList;
-    Activity con;
-    int teacherId;
-    ListViewCourse(Activity con, int teacherId) {
+    Fragment con;
+    int tea=0;
+
+
+    ListViewCourse(Fragment con, int teacherId) {
         this.con = con;
         arrayList = new ArrayList<>();
-        ArrayList cursor = new DatabaseHelper(con).getAllDataCourse(teacherId);
-        teacherId=teacherId;
+        ArrayList cursor = new DatabaseHelper(con.getActivity()).getAllDataCourse(teacherId);
         arrayList = cursor;
+        tea=teacherId;
     }
+
 
     @Override
     public int getCount() {
@@ -50,16 +53,19 @@ public class ListViewCourse extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View row;
-        final ViewHolder viewHolder;
-        if (view == null) {
-            LayoutInflater inflater = con.getLayoutInflater();
+
+    final ViewHolder viewHolder;
+
+          if (view == null) {
+
+            LayoutInflater inflater = con.getActivity().getLayoutInflater();
             row = inflater.inflate(R.layout.fra, viewGroup, false);
             viewHolder = new ViewHolder();
             viewHolder.name = (TextView) row.findViewById(R.id.name);
-            viewHolder.img = (LinearLayout) row.findViewById(R.id.hori);
-            viewHolder.comment = (ImageButton) row.findViewById(R.id.Studuent);
-            viewHolder.fav = (ImageButton) row.findViewById(R.id.quiz);
-           row.setTag(viewHolder);
+            viewHolder.linearLayout = (LinearLayout) row.findViewById(R.id.hori);
+            viewHolder.Studuent = (ImageButton) row.findViewById(R.id.Studuent);
+            viewHolder.quiz = (ImageButton) row.findViewById(R.id.quiz);
+            row.setTag(viewHolder);
 
         } else {
             row = view;
@@ -71,41 +77,40 @@ public class ListViewCourse extends BaseAdapter {
         viewHolder.name.setText(item.name);
 
 
-        viewHolder.comment.setOnClickListener(new View.OnClickListener() {
+        viewHolder.Studuent.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Fragment fragment= new StudentInTeacher();
+
+                Fragment fragment = new StudentInTeacher();
                 Bundle args = new Bundle();
-                args.putString("nameCourse",viewHolder.name.getText().toString());
+                args.putString("nameCourse", viewHolder.name.getText().toString());
+                args.putInt("idTeach",tea);
                 fragment.setArguments(args);
-                FrameLayout frameLayout=(FrameLayout)con.findViewById(R.id.frag);
-                frameLayout.removeAllViewsInLayout();
-          //      ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().add(R.id.teacherFrag,fragment).addToBackStack(null).commit();
-
-                ((FragmentActivity)con).getSupportFragmentManager().beginTransaction().replace(R.id.frag,fragment).addToBackStack(null).commit();
-
-
+                FragmentTransaction fragmentTransaction =  con.getFragmentManager().beginTransaction();
+                fragmentTransaction.remove(con);
+                fragmentTransaction.replace(R.id.teacherFrag, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
 
 
-            }});
-        viewHolder.fav.setOnClickListener(new View.OnClickListener() {
+            }
+        });
+        viewHolder.quiz.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
 
             }
-
         });
-
 
         return row;
     }
 
     public class ViewHolder {
         TextView name;
-        LinearLayout img;
-        ImageButton fav;
-        ImageButton comment;
-
+        LinearLayout linearLayout;
+        ImageButton quiz;
+        ImageButton Studuent;
     }
-     }
+
+}
 

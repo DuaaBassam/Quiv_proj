@@ -15,17 +15,18 @@ import android.widget.TextView;
 public class ShowStudent extends Fragment {
 
 
-   private String teacherId;
+   private String courseNamee;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        teacherId = getArguments().getString("nameecourse");
+     //   courseNamee = getArguments().getString("nameecourse");
+//        Log.d("",courseNamee);
 
         View view = inflater.inflate(R.layout.fragment_show_student, container, false);
         ListView listView = (ListView)view.findViewById(R.id.listStudentShow);
 
-        Log.d("namejbkj", "      " + teacherId);
-        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(),teacherId);
+       Log.d("namecoursee", "      " + getArguments().getString("nameCourse"));
+        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(),getArguments().getString("nameCourse"),getArguments().getInt("idTeach"));
         listView.setAdapter(adapter);
         return view;
 

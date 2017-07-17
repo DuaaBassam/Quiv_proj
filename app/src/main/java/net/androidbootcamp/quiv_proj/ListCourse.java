@@ -19,10 +19,9 @@ public class ListCourse extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.listcourse, container, false);
-        ListView listView = (ListView)view.findViewById(R.id.list_course1);
 
-        final ListViewCourse adapter = new ListViewCourse(getActivity(),getArguments().getInt("idTeacher"));
+        ListView listView = (ListView) view.findViewById(R.id.ListCourseTec);
+        final ListViewCourse adapter = new ListViewCourse(this, getArguments().getInt("id"));
         listView.setAdapter(adapter);
-        return view;
-
+return view;
 }}

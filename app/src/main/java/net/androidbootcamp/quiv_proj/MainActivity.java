@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -46,17 +47,30 @@ public class MainActivity extends AppCompatActivity {
         boolean s4 = database.insertDataStudent("4", "Noor");
         boolean s5 = database.insertDataStudent("5", "Reem");
         boolean s6 = database.insertDataStudent("6", "Israa");
-        boolean s7 = database.insertStudentInCourse("1", "1");
 
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frag, new Login()).commit();
         }
 
-        if (a1 == true ) {
+        if (a1 == true) {
             Toast.makeText(MainActivity.this, "data ins.", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(MainActivity.this, "data not ins.", Toast.LENGTH_SHORT).show();
+
+
         }
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        getSupportFragmentManager().popBackStack();
+//
+//    }
+//        Log.d("class",((ViewGroup)findViewById(R.id.frag)).getChildAt(0).getClass().toString());
+//        if (((ViewGroup)findViewById(R.id.frag)).getChildAt(0).getClass().equals(Login.class))
+//            finish();
+//        else
+//            super.onBackPressed();
+//    }
 }

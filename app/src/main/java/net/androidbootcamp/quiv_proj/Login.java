@@ -14,6 +14,8 @@ import android.widget.EditText;
 
 public class Login extends Fragment{
      DatabaseHelper databaseHelper;
+//
+
     @Override
     //
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -24,6 +26,8 @@ public class Login extends Fragment{
         Button btn_ok = (Button)view.findViewById(R.id.button);
         databaseHelper = new DatabaseHelper(getActivity());
 
+
+
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -31,18 +35,29 @@ public class Login extends Fragment{
                         if (databaseHelper.loginTeacher(idTeacher.getText().toString(),password.getText().toString())){
                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                             Fragment fragment = new Teacher();
+                            Fragment listCourse = new ListCourse();
                             Bundle args = new Bundle();
                             args.putInt("id",Integer.parseInt(idTeacher.getText()+""));
                             fragment.setArguments(args);
+                            Bundle arg = new Bundle();
+                            arg.putInt("id",Integer.parseInt(idTeacher.getText()+""));
+                            listCourse.setArguments(arg);
+
+
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.replace(R.id.frag, fragment);
+                            fragmentTransaction.replace(R.id.teacherFrag, listCourse);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
-                        }
 
+                        }
             }
         });
+getFragmentManager().popBackStack();
+
         return view;
 
     }
+
+
 }

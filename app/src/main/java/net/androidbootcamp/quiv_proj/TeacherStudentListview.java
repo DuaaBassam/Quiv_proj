@@ -18,10 +18,10 @@ public class TeacherStudentListview extends BaseAdapter {
     ArrayList<StudentItems> arrayList;
     Activity con;
     ///
-    TeacherStudentListview(Activity con,String course) {
+    TeacherStudentListview(Activity con,String course,int teacherId) {
         this.con = con;
         arrayList = new ArrayList<>();
-        ArrayList cursor = new DatabaseHelper(con).getAllData(1, course);
+        ArrayList cursor = new DatabaseHelper(con).getAllData(teacherId, course);
         arrayList = cursor;
     }
 

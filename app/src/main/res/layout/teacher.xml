@@ -33,16 +33,16 @@
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"
             android:layout_marginBottom="13dp"
-            android:id="@+id/idPerson"
+            android:id="@+id/idStud"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/idPerson"
-            android:layout_toRightOf="@+id/idPerson"
-            android:layout_toEndOf="@+id/idPerson"
+            android:layout_alignTop="@+id/idStud"
+            android:layout_toRightOf="@+id/idStud"
+            android:layout_toEndOf="@+id/idStud"
             android:layout_marginLeft="41dp"
             android:layout_marginStart="41dp"
             android:id="@+id/namePerson"
@@ -68,11 +68,7 @@
         android:id="@+id/teacherFrag"
         >
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="496dp"
-            android:id="@+id/ListCourseTec"
-            android:background="@android:color/background_dark" />
+
     </FrameLayout>
 
 

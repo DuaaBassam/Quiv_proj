@@ -40,64 +40,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/add_delete_show">
-        <RelativeLayout
-            android:orientation="horizontal" android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/m"
-            >
-
-            <TextView
-                android:text="ID Studend "
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="100dp"
-                android:textSize="20sp"
-                android:textStyle="normal|bold"
-                android:textColor="@android:color/background_light"
-                android:typeface="sans" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_note_add_black_24dp"
-                android:id="@+id/add"
-                android:layout_alignTop="@+id/delete"
-                android:layout_alignLeft="@+id/textView"
-                android:layout_alignStart="@+id/textView"
-                android:layout_marginLeft="71dp"
-                android:layout_marginStart="71dp" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_delete_black_24dp"
-                android:id="@+id/delete"
-                android:layout_marginTop="79dp"
-                android:layout_below="@+id/idPerson"
-                android:layout_alignLeft="@+id/idPerson"
-                android:layout_alignStart="@+id/idPerson"
-                android:layout_marginLeft="38dp"
-                android:layout_marginStart="38dp" />
-
-            <EditText
-                android:layout_width="143dp"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:textSize="20sp"
-                android:textStyle="normal|bold"
-                android:typeface="sans"
-                android:id="@+id/idPerson"
-                android:layout_marginLeft="22dp"
-                android:layout_marginStart="22dp"
-                android:textColor="?android:attr/textColorPrimaryNoDisable"
-                android:layout_alignBaseline="@+id/textView"
-                android:layout_alignBottom="@+id/textView"
-                android:layout_toRightOf="@+id/textView"
-                android:layout_toEndOf="@+id/textView" />
-        </RelativeLayout>
 
 
     </FrameLayout>

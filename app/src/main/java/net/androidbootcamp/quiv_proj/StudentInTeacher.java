@@ -18,9 +18,8 @@ import android.widget.Button;
  */
 
 public class StudentInTeacher extends Fragment {
-    Fragment teach;
-    Bundle ar;
-    DatabaseHelper databaseHelper =new DatabaseHelper(getActivity());
+
+    DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
 
 
     @Override
@@ -28,25 +27,28 @@ public class StudentInTeacher extends Fragment {
                              Bundle savedInstanceState) {
 
 
-      //  Log.d("name", "      " + getArguments().getString("nameecourse"));
+        //  Log.d("name", "      " + getArguments().getString("nameecourse"));
 
 
         View view = inflater.inflate(R.layout.student_in_teacher, container, false);
-        final Button addd = (Button)view.findViewById(R.id.addd);
-        final Button showw = (Button)view.findViewById(R.id.showw);
-
-
+        final Button addd = (Button) view.findViewById(R.id.addd);
+        final Button showw = (Button) view.findViewById(R.id.showw);
+        if (savedInstanceState == null) {
+           getActivity(). getSupportFragmentManager().beginTransaction().replace(R.id.add_delete_show, new AddStudent()).commit();
+        }
 
         addd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-Bundle arg;
-                Fragment fragment1 =new AddStudent();
+                Bundle arg;
+                Fragment fragment1 = new AddStudent();
 
-              //  int s =  databaseHelper.getIdCourse(getArguments().getString("nameCourse"));
+                int dd =  getArguments().getInt("idTeach");
                 arg = new Bundle();
-            //    arg.putInt("idCourse",s);
-            //    fragment.setArguments(arg);
+                   arg.putInt("idTeach",dd);
+                   arg.putString("nameCourse",getArguments().getString("nameCourse"));
+                   fragment1.setArguments(arg);
+
                 showw.setBackgroundColor(Color.WHITE);
                 addd.setBackgroundColor(Color.RED);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -55,25 +57,28 @@ Bundle arg;
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
-                }
+            }
 
         });
 
         showw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               teach=new ShowStudent();
-                String s = getArguments().getString("nameCourse");
-                ar = new Bundle();
-                ar.putString("nameecourse",s);
-                teach.setArguments(ar);
-                Log.d("na,m;ld",teach.getArguments().getString("nameecourse"));
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-               showw.setBackgroundColor(Color.RED);
-                addd.setBackgroundColor(Color.WHITE);
 
-                fragmentTransaction.replace(R.id.add_delete_show,teach);
+                Fragment teach = new ShowStudent();
+                Bundle arg;
+                arg = new Bundle();
+                int dd =  getArguments().getInt("idTeach");
+                arg = new Bundle();
+                arg.putInt("idTeach",dd);
+                arg.putString("nameCourse",getArguments().getString("nameCourse"));
+                teach.setArguments(arg);
+
+                showw.setBackgroundColor(Color.RED);
+                addd.setBackgroundColor(Color.WHITE);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.add_delete_show, teach);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
@@ -81,5 +86,9 @@ Bundle arg;
 
         });
 
-        return view ;
-    }}
+
+
+        return view;
+    }
+
+}
