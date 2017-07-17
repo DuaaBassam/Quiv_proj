@@ -48,7 +48,7 @@ public class AddStudent extends Fragment {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+//
                 if (db.checkIdStudent(id.getText().toString())) {
                     db.deleteData(id.getText().toString());
                     id.setText("");
