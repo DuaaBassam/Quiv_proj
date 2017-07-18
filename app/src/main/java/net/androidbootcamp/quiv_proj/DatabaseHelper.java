@@ -44,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Table Create  teacher
-        db.execSQL("create table " + TABLE_teacher + " (id_teacher INTEGER PRIMARY KEY ,name_teacher TEXT,password_teacher TEXT DEFAULT '123456')");
+        db.execSQL("create table " + TABLE_teacher + " (id_teacher INTEGER PRIMARY KEY ,name_teacher TEXT,password_teacher TEXT DEFAULT '123')");
 
         //  Table create course
 
@@ -213,7 +213,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int idStudent = cursor.getInt(cursor.getColumnIndex("id_studentt"));
                 int idCourse = cursor.getInt(cursor.getColumnIndex("id_Course"));
 
-                if (!((idStudent + "").equals(idStudentIn)&&(idCourse+"").equals(courseIdIn))) {
+                if ((idStudent==idStudentIn)&&(idCourse==courseIdIn)) {
                     return true;
                 }
             } while (cursor.moveToNext());

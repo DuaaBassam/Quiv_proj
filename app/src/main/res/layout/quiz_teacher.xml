@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/bb"
+    android:weightSum="1">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:layout_margin="10dp">
+
+        <Button
+            android:text="ADD QUIZ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_quizbutton"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@android:color/background_dark"
+            android:background="@android:color/holo_red_dark" />
+
+        <Button
+            android:text="EDIT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editQuiz"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@android:color/background_dark"
+            android:background="@android:color/background_light" />
+
+        <Button
+            android:text="SHOW/DELETE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/showQuiz"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@android:color/background_dark"
+            android:background="@android:color/background_light" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/add_delete_show">
+
+    </FrameLayout>
+</LinearLayout>

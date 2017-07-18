@@ -48,18 +48,11 @@ public class MainActivity extends AppCompatActivity {
         boolean s5 = database.insertDataStudent("5", "Reem");
         boolean s6 = database.insertDataStudent("6", "Israa");
 
-
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frag, new Login()).commit();
         }
 
-        if (a1 == true) {
-            Toast.makeText(MainActivity.this, "data ins.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(MainActivity.this, "data not ins.", Toast.LENGTH_SHORT).show();
 
-
-        }
     }
 
 //    @Override

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class ListViewCourse extends BaseAdapter {
+ public  class ListViewCourse extends BaseAdapter {
     ArrayList<Course_Items> arrayList;
     Fragment con;
     int tea=0;
