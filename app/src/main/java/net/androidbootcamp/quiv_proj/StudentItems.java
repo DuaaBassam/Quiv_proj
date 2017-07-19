@@ -1,8 +1,5 @@
 package net.androidbootcamp.quiv_proj;
 
-/**
- * Created by مركز الخبراء on 07/04/2017.
- */
 
 public class StudentItems {
     int id ;

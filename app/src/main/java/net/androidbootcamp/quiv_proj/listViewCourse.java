@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import java.util.HashMap;
     ArrayList<Course_Items> arrayList;
     Fragment con;
     int tea=0;
+    Fragment fragment = new StudentInTeacher();
 
 
     ListViewCourse(Fragment con, int teacherId) {
@@ -81,11 +83,11 @@ import java.util.HashMap;
 
             public void onClick(View v) {
 
-                Fragment fragment = new StudentInTeacher();
                 Bundle args = new Bundle();
                 args.putString("nameCourse", viewHolder.name.getText().toString());
                 args.putInt("idTeach",tea);
                 fragment.setArguments(args);
+                Log.d("name0",fragment.getArguments().getString("nameCourse")+"");
                 FragmentTransaction fragmentTransaction =  con.getFragmentManager().beginTransaction();
                 fragmentTransaction.remove(con);
                 fragmentTransaction.replace(R.id.teacherFrag, fragment);

@@ -1,5 +1,6 @@
 package net.androidbootcamp.quiv_proj;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -42,9 +43,10 @@ public class StudentInTeacher extends Fragment {
         ff=getArguments().getString("nameCourse");
         arg.putString("nameCourse",ff);
         addStud.setArguments(arg);
-
         showStud.setArguments(arg);
+        Log.d("name",ff);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,7 +56,7 @@ public class StudentInTeacher extends Fragment {
         View view = inflater.inflate(R.layout.student_in_teacher, container, false);
         ViewPager vpPager = (ViewPager) view.findViewById(R.id.vpPager);
 
-        adapterViewPager = new MyPagerAdapter(getFragmentManager());
+        adapterViewPager = new MyPagerAdapter(getChildFragmentManager(),getActivity());
         vpPager.setAdapter(adapterViewPager);
         vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -141,9 +143,11 @@ public class StudentInTeacher extends Fragment {
     }
     public  class MyPagerAdapter extends FragmentPagerAdapter {
         private  int NUM_ITEMS = 2;
-
-        public MyPagerAdapter(FragmentManager fragmentManager) {
+        Context ctxt=null;
+        public MyPagerAdapter(FragmentManager fragmentManager,Context ctxt) {
             super(fragmentManager);
+            this.ctxt=ctxt;
+
         }
 
         // Returns total number of pages
@@ -155,11 +159,19 @@ public class StudentInTeacher extends Fragment {
         // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
+            Bundle args = new Bundle();
+            args.putString("namee", ff);
+           // args.putInt(id+"",id);
+
+
+            // args.putString("someTitle", title);
+            addStud.setArguments(args);
             switch (position) {
-                case 0: // Fragment # 0 - This will show FirstFragment
-                    return AddStudent.newInstance(ff,dd);
-                case 1: // Fragment # 0 - This will show FirstFragment different title
-                      return ShowStudent.newInstance(ff,dd);
+                case 0: //  show FirstFragment
+
+                    return addStud.newInstance(ff,dd,addStud);
+                case 1: // show FirstFragment different title
+                      return showStud.newInstance(ff,dd,showStud);
 
                 default:
                     return null;
