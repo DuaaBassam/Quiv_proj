@@ -15,20 +15,22 @@ import android.widget.Toast;
 
 public class AddStudent extends Fragment {
 
+
     DatabaseHelper db;
     private String nameCourse;
     private int idTeach;
-private String teacher;
+    private int teacher;
 
     public  AddStudent newInstance(String  page,int id,AddStudent fragmentFirst) {
 
-
         Bundle args = new Bundle();
         args.putString(page, page);
+        Log.d("namecoursee",page);
         args.putInt(id+"",id);
         fragmentFirst.setArguments(args);
-        teacher=fragmentFirst.getArguments().getString(page);
-      //  Log.d("name",fragmentFirst.getArguments().getString(page));
+        teacher=fragmentFirst.getArguments().getInt(id+"");
+        nameCourse = fragmentFirst.getArguments().getString(page);
+        Log.d("name",fragmentFirst.getArguments().getInt(id+"")+"");
         return fragmentFirst;
 
     }
@@ -36,8 +38,9 @@ private String teacher;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        nameCourse = getArguments().getString("namee");
-        idTeach = getArguments().getInt("idTeach");
+       // nameCourse = getArguments().getString("namee");
+        idTeach = teacher;
+        Log.d("idddd",idTeach+"");
 
     }
     @Override
@@ -46,9 +49,10 @@ private String teacher;
 
         View view = inflater.inflate(R.layout.add_student, container, false);
 
-       // nameCourse = getArguments().getString("namee");
+      //  nameCourse = getArguments().getString("namee");
 
         Log.d("nameCC", "      " + nameCourse);
+        Log.d("nameId",idTeach+"");
 
 
         db = new DatabaseHelper(getActivity());
@@ -64,7 +68,7 @@ private String teacher;
                 if (db.checkIdStudent(id.getText().toString())) {
 
                     if((db.getcheckadd(Integer.parseInt(id.getText()+""),db.getIdCourse(idTeach,nameCourse)))){
-                         Toast.makeText(getActivity(), "Student was added ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Student was added ", Toast.LENGTH_SHORT).show();
 
                     }
                     else{

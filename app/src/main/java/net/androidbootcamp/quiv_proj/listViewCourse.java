@@ -84,10 +84,10 @@ import java.util.HashMap;
             public void onClick(View v) {
 
                 Bundle args = new Bundle();
-                args.putString("nameCourse", viewHolder.name.getText().toString());
+                args.putString("namee", viewHolder.name.getText().toString());
                 args.putInt("idTeach",tea);
                 fragment.setArguments(args);
-                Log.d("name0",fragment.getArguments().getString("nameCourse")+"");
+                Log.d("name0",fragment.getArguments().getString("namee")+"");
                 FragmentTransaction fragmentTransaction =  con.getFragmentManager().beginTransaction();
                 fragmentTransaction.remove(con);
                 fragmentTransaction.replace(R.id.teacherFrag, fragment);

@@ -1,5 +1,6 @@
 package net.androidbootcamp.quiv_proj;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,32 +13,60 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 
 public class ShowStudent extends Fragment {
 
-    private String courseNamee;
+DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
     private int idCourse;
+    private String courseNamee;
+private String nameee;
+    private int idTeach;
     // newInstance constructor for creating fragment with arguments
-    public static ShowStudent newInstance(String page,int id,ShowStudent fragmentFirst) {
+    public  ShowStudent newInstance(String page,int id,ShowStudent fragmentFirst) {
+
         Bundle args = new Bundle();
         args.putString(page, page);
         args.putInt(id+"",id);
-        // args.putString("someTitle", title);
         fragmentFirst.setArguments(args);
+        idCourse=fragmentFirst.getArguments().getInt(id+"");
+        courseNamee=fragmentFirst.getArguments().getString(page);
+        Log.d("nameSHOW",fragmentFirst.getArguments().getInt(id+"")+"");
         return fragmentFirst;
+
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       idTeach= getArguments().getInt("idTeach");
+      nameee=  getArguments().getString("namee");
+        Log.d("nmaee",nameee+"  "+idTeach);
 
-       courseNamee= getArguments().getString("namee");
-       idCourse  =  getArguments().getInt("idTeach");
 
     }
 
 
+    @Override
+    public void onResume () {
+
+
+        super.onResume();
+        ArrayList<StudentItems> arrayList;
+        ArrayList cursor = new DatabaseHelper(getActivity()).getAllData(getArguments().getInt("idTeach"), getArguments().getString("namee"));
+        arrayList = cursor;
+
+        //Log.d("namecoursee", "      " + getArguments().getString("namee")+"  "+getArguments().getInt("idTeach"));
+        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(),arrayList);
+        listView.setAdapter(adapter);
+     //  databaseHelper.getAllData(idTeach,nameee);
+        Log.d("nmaJGLJBeerrrr",nameee+"  "+idTeach);
+
+    }
+
+    ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,15 +75,15 @@ public class ShowStudent extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_show_student, container, false);
 
-		/*
-		 * When this container fragment is created, we fill it with our first
-		 * "real" fragment
-		 */
+        ArrayList<StudentItems> arrayList;
+        ArrayList cursor = new DatabaseHelper(getActivity()).getAllData(getArguments().getInt("idTeach"), getArguments().getString("namee"));
+        arrayList = cursor;
 
-        ListView listView = (ListView)view.findViewById(R.id.listStudentShow);
 
-        Log.d("namecoursee", "      " + courseNamee);
-        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(),courseNamee,idCourse);
+        listView = (ListView)view.findViewById(R.id.listStudentShow);
+
+        Log.d("namecoursee", "      " + getArguments().getString("namee")+"  "+getArguments().getInt("idTeach"));
+        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(),arrayList);
         listView.setAdapter(adapter);
         return view;
 
@@ -147,5 +176,5 @@ public class ShowStudent extends Fragment {
     }
 
 
-}
+
 */

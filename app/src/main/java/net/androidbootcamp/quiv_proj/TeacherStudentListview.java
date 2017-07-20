@@ -15,16 +15,16 @@ import java.util.ArrayList;
 
 
 public class TeacherStudentListview extends BaseAdapter {
-    ArrayList<StudentItems> arrayList;
+   ArrayList<StudentItems> arrayList;
     Activity con;
-    ///
-    TeacherStudentListview(Activity con,String course,int teacherId) {
-        this.con = con;
-        arrayList = new ArrayList<>();
-        ArrayList cursor = new DatabaseHelper(con).getAllData(teacherId, course);
-        arrayList = cursor;
-    }
 
+
+    ///
+    TeacherStudentListview(Activity con,ArrayList<StudentItems>arrayList1) {
+        this.con = con;
+        arrayList=arrayList1;
+
+    }
     @Override
     public int getCount() {
 
