@@ -21,6 +21,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_course = "Course";
     private static final String TABLE_Student = "Student";
     private static final String TABLE_Add_Student = "Student_Add";
+    private static final String TABLE_Quiz = "Quiz_table";
+    private static final String TABLE_Question="question";
 
     // Column of teacher
     private static final String id_teacher = "id_teacher";
@@ -58,6 +60,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_Add_Student + " (id_studentt INTEGER  ,id_Course INTEGER ,FOREIGN KEY (id_studentt) REFERENCES Student (id_Student)," +
                 "FOREIGN KEY (id_Course) REFERENCES Course (id_course),primary key (id_studentt,id_Course))");
 
+        db.execSQL("create table " + TABLE_Quiz + " (id_quiz INTEGER  ,name_quiz TEXT , password_quiz  INTEGER , id_teacher INTEGER  ,time_quiz INTEGER" +
+                " , FOREIGN KEY (id_teacher) REFERENCES Teacher (id_teacher) , primary key (id_quiz))");
+
+        db.execSQL("create table " + TABLE_Question + " (id_question INTEGER  ,statement TEXT , answer  TEXT , correct_answer TEXT ,id_quiz INTEGER" +
+                " , FOREIGN KEY (id_quiz) REFERENCES "+ TABLE_Quiz+" (id_quiz) , primary key (id_question , id_quiz))");
 
     }
 
@@ -67,8 +74,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_course);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Student);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Add_Student);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_Quiz);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_Question);
+
+
         onCreate(db);
     }
+
 
     public boolean insertDataTeacher(String id_teacher_in, String name_teacher_in) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -128,12 +140,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<Course_Items> getAllDataCourse(int teacherId) {
         SQLiteDatabase db = this.getWritableDatabase();
-       ArrayList<Course_Items> course = new ArrayList<>();
+        ArrayList<Course_Items> course = new ArrayList<>();
         Cursor cursor = db.rawQuery("select * from " + TABLE_course + " where id_teacher_in=" + teacherId, null);
         if (cursor.moveToFirst()) {
             do {
                 String  nameCourse = cursor.getString (cursor.getColumnIndex("name_course"));
-                 course.add(new Course_Items(nameCourse));
+                course.add(new Course_Items(nameCourse));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -141,6 +153,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public boolean insertDataQuiz(String id_quiz_in, String name_quiz_in,String password_quiz_in ,String id_teacher_in ,String time_quiz_in) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("id_quiz", id_quiz_in);
+        contentValues.put("name_quiz", name_quiz_in);
+        contentValues.put("password_quiz", password_quiz_in);
+        contentValues.put("id_teacher", id_teacher_in);
+        contentValues.put("time_quiz", time_quiz_in);
+
+        long result = db.insert(TABLE_Quiz, null, contentValues);
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean insertDataQuestion(String id_quiz_in, String name_quiz_in,String password_quiz_in ,String id_teacher_in ,String time_quiz_in) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("id_question", id_quiz_in);
+        contentValues.put("statement", name_quiz_in);
+        contentValues.put("answer", password_quiz_in);
+        contentValues.put("correct_answer", id_teacher_in);
+        contentValues.put("id_quiz", time_quiz_in);
+
+        long result = db.insert(TABLE_Quiz, null, contentValues);
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
 
 
     public Cursor getAllDataAddStudent(int teacherId,String courseName) {
@@ -172,19 +217,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
- public ArrayList<StudentItems> getAllStudent(int teacherId,String courseName) {
+    public ArrayList<StudentItems> getAllStudent(int teacherId,String courseName) {
 
-     SQLiteDatabase db = this.getWritableDatabase();
-     Cursor cursorAddStudent=getAllDataAddStudent(teacherId,courseName);
-     ArrayList<StudentItems> course = new ArrayList<>();
-     int  idStudentAdd = cursorAddStudent.getInt(cursorAddStudent.getColumnIndex("id_student"));
-     Cursor cursor = db.rawQuery("select * from " + TABLE_Student , null);
-     int  idStudent = cursor.getInt (cursor.getColumnIndex("id_Student"));
-     String  nameStudent = cursor.getString (cursor.getColumnIndex("name_Student"));
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursorAddStudent=getAllDataAddStudent(teacherId,courseName);
+        ArrayList<StudentItems> course = new ArrayList<>();
+        int  idStudentAdd = cursorAddStudent.getInt(cursorAddStudent.getColumnIndex("id_student"));
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Student , null);
+        int  idStudent = cursor.getInt (cursor.getColumnIndex("id_Student"));
+        String  nameStudent = cursor.getString (cursor.getColumnIndex("name_Student"));
 
 
 
-       return course;
+        return course;
     }
     //
 
@@ -224,7 +269,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-   public int getIdCourse(int teacherId,String courseName) {
+    public int getIdCourse(int teacherId,String courseName) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_course + " where id_teacher_in=" + teacherId, null);
@@ -241,7 +286,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
 
-       return 0;
+        return 0;
     }
 
 
@@ -302,7 +347,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 }
-
-
-
 
