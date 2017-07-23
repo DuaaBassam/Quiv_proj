@@ -23,5 +23,5 @@ public class ListCourse extends Fragment {
         ListView listView = (ListView) view.findViewById(R.id.ListCourseTec);
         final ListViewCourse adapter = new ListViewCourse(this, getArguments().getInt("id"));
         listView.setAdapter(adapter);
-return view;
+        return view;
 }}
