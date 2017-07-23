@@ -3,289 +3,240 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/addquiz"
+    android:id="@+id/add_quiz"
     >
 
-    <EditText
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/noQuiz"
-        android:textColor="@android:color/background_light"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:id="@+id/quizNo"
+        android:textSize="20sp"
+        android:textStyle="normal|bold"
+        android:typeface="sans"
+        android:textColor="@android:color/darker_gray"
         android:layout_alignBaseline="@+id/textView"
         android:layout_alignBottom="@+id/textView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textStyle="normal|bold" />
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 
     <TextView
         android:text="No. Quiz "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginLeft="21dp"
         android:textSize="20sp"
         android:textStyle="normal|bold"
         android:textColor="@android:color/background_light"
         android:typeface="sans"
-        android:layout_marginStart="14dp"
+        android:layout_marginStart="21dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="27dp" />
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp">
+        android:orientation="vertical"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp">
 
         <RadioButton
             android:text="Time for Question"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/radioButton1"
             android:layout_weight="1"
-            android:layout_alignTop="@+id/radioGroup"
-            android:layout_toLeftOf="@+id/radioGroup"
-            android:layout_toStartOf="@+id/radioGroup"
-            android:layout_marginRight="43dp"
-            android:layout_marginEnd="43dp"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <RadioButton
             android:text="Time for Quiz"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/radioButton2"
-            android:layout_above="@+id/radioGroup"
-            android:layout_alignLeft="@+id/textView"
-            android:layout_alignStart="@+id/textView"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="29dp"
             android:layout_weight="1"
-            android:textSize="18sp" />
-
+            android:textSize="18sp"
+            android:layout_below="@+id/radioButton1"
+            android:layout_alignLeft="@+id/radioGroup2"
+            android:layout_alignStart="@+id/radioGroup2" />
     </RadioGroup>
-    <AutoCompleteTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/question"
-        android:layout_alignBaseline="@+id/textView3"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_alignLeft="@+id/noQuiz"
-        android:layout_alignStart="@+id/noQuiz"
-        android:layout_alignRight="@+id/noQuiz"
-        android:layout_alignEnd="@+id/noQuiz"
-        android:textColor="?android:attr/colorControlHighlight"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/answer1"
-        android:layout_alignBaseline="@+id/textView4"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_alignLeft="@+id/question"
-        android:layout_alignStart="@+id/question"
-        android:textColor="?android:attr/colorControlHighlight"
-        android:textSize="18sp"
-        android:textStyle="normal|bold"
-        android:typeface="sans" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
 
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="111dp"
+        android:layout_height="70dp">
+
+        <TextView
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:id="@+id/quesNo"
+            android:textSize="20sp"
+            android:textStyle="normal|bold"
+            android:typeface="sans"
+            android:textColor="@android:color/darker_gray"
+            android:layout_height="40dp"
+            android:layout_width="20dp" />
+
+        <TextView
+            android:text="Question : "
+            android:layout_height="40dp"
+            android:id="@+id/textView1"
+            android:layout_marginLeft="21dp"
+            android:textSize="20sp"
+            android:textStyle="normal|bold"
+            android:textColor="@android:color/background_light"
+            android:typeface="sans"
+            android:layout_alignLeft="@+id/quesNo"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="0dp"
+            android:layout_width="100dp" />
+        <EditText
+            android:layout_height="40dp"
+            android:id="@+id/question"
+            android:textSize="20sp"
+            android:textStyle="normal|bold"
+            android:textColor="@android:color/background_light"
+            android:typeface="sans"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+
+        android:layout_height="70dp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="200dp"
+        android:weightSum="1">
+
+        <TextView
+            android:text="Answer : "
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:id="@+id/textView2"
+            android:textSize="20sp"
+            android:textStyle="normal|bold"
+            android:typeface="sans"
+            android:textColor="@android:color/background_light"
+            android:layout_height="40dp"
+            android:layout_width="wrap_content" />
+
+
+        <EditText
+            android:layout_height="40dp"
+            android:id="@+id/answer"
+            android:textSize="20sp"
+            android:textStyle="normal|bold"
+            android:textColor="@android:color/background_light"
+            android:typeface="sans"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_marginStart="12dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:layout_width="147dp" />
+
+        <CheckBox
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/correct"
+            android:textSize="14sp"
+            android:textStyle="normal|bold"
+            android:textColor="@android:color/background_light"
+            android:typeface="sans"
+            android:layout_weight="0.45"
+            android:layout_marginTop="0dp"
+            android:layout_marginStart="5dp" />
+
+        <Button
+            android:text="Add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addAnswer"
+            android:layout_weight="1"
+            android:background="@android:drawable/ic_input_add"
+            android:textStyle="normal|bold"
+            android:typeface="sans"
+            android:textColor="@color/colorPrimary" />
+
+
+    </LinearLayout>
 
     <TextView
-        android:text="Answer1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:id="@+id/textView4"
-        android:textSize="20sp"
-        android:textColor="@android:color/background_light"
-        android:textStyle="normal|bold"
-        android:typeface="sans"
-        android:layout_below="@+id/question"
-        android:layout_alignLeft="@+id/textView5"
-        android:layout_alignStart="@+id/textView5" />
-
-    <TextView
-        android:text="Question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:text="Time : "
         android:id="@+id/textView3"
         android:textSize="20sp"
+        android:textStyle="normal|bold"
+        android:typeface="sans"
         android:textColor="@android:color/background_light"
-        android:textStyle="normal|bold"
-        android:typeface="sans"
-        android:layout_below="@+id/noQuiz"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView" />
-
-    <TextView
-        android:text="Answer2"
+        android:layout_height="40dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:id="@+id/textView5"
-        android:textSize="20sp"
-        android:textColor="@android:color/background_light"
-        android:textStyle="normal|bold"
-        android:typeface="sans"
-        android:layout_below="@+id/answer1"
-        android:layout_alignLeft="@+id/textView6"
-        android:layout_alignStart="@+id/textView6" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/answer2"
-        android:textColor="?android:attr/colorControlHighlight"
-        android:textSize="18sp"
-        android:textStyle="normal|bold"
-        android:typeface="sans"
-        android:layout_alignBaseline="@+id/textView5"
-        android:layout_alignBottom="@+id/textView5"
-        android:layout_alignLeft="@+id/answer1"
-        android:layout_alignStart="@+id/answer1" />
-
-    <TextView
-        android:text="Answer3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView6"
-        android:textSize="20sp"
-        android:textColor="@android:color/background_light"
-        android:textStyle="normal|bold"
-        android:typeface="sans"
-        android:layout_marginTop="33dp"
-        android:layout_below="@+id/answer2"
-        android:layout_alignRight="@+id/textView3"
-        android:layout_alignEnd="@+id/textView3" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/answer3"
-        android:textColor="?android:attr/colorControlHighlight"
-        android:textSize="18sp"
-        android:textStyle="normal|bold"
-        android:typeface="sans"
-        android:layout_alignBaseline="@+id/textView6"
-        android:layout_alignBottom="@+id/textView6"
-        android:layout_alignLeft="@+id/answer2"
-        android:layout_alignStart="@+id/answer2" />
-
-    <TextView
-        android:text="Answer4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView7"
-        android:textSize="20sp"
-        android:textColor="@android:color/background_light"
-        android:textStyle="normal|bold"
-        android:typeface="sans"
-        android:layout_marginTop="33dp"
-        android:layout_below="@+id/answer3"
-        android:layout_alignRight="@+id/textView3"
-        android:layout_alignEnd="@+id/textView3" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/answer4"
-        android:textColor="?android:attr/colorControlHighlight"
-        android:textSize="18sp"
-        android:textStyle="normal|bold"
-        android:typeface="sans"
-        android:layout_alignBaseline="@+id/textView7"
-        android:layout_alignBottom="@+id/textView7"
-        android:layout_alignLeft="@+id/answer2"
-        android:layout_alignStart="@+id/answer2" />
-
-    <TextView
-        android:text="Time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:id="@+id/textView8"
-        android:typeface="sans"
-        android:textSize="20sp"
-        android:textStyle="normal|bold"
-        android:textColor="@android:color/background_light"
-        android:layout_below="@+id/answer4"
-        android:layout_alignRight="@+id/textView7"
-        android:layout_alignEnd="@+id/textView7"
-        android:layout_alignLeft="@+id/textView7"
-        android:layout_alignStart="@+id/textView7" />
+        android:layout_marginTop="300dp"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="12dp" />
 
     <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
         android:id="@+id/spinner"
-        android:layout_alignTop="@+id/textView8"
-        android:layout_alignLeft="@+id/answer4"
-        android:layout_alignStart="@+id/answer4" />
-    <resources>
-        <string-array name="time_array">
-            <item>1</item>
-            <item>2</item>
-            <item>3</item>
-            <item>4</item>
-            <item>5</item>
-            <item>6</item>
-            <item>7</item>
-            <item>8</item>
-            <item>9</item>
-            <item>10</item>
-            <item>11</item>
-            <item>12</item>
-            <item>13</item>
-            <item>14</item>
-            <item>15</item>
-            <item>16</item>
-            <item>17</item>
-            <item>18</item>
-            <item>19</item>
-            <item>20</item>
-            <item>21</item>
-            <item>22</item>
-            <item>23</item>
-            <item>24</item>
-            <item>25</item>
-            <item>26</item>
-            <item>27</item>
-            <item>28</item>
-            <item>29</item>
-            <item>30</item>
-        </string-array>
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/textView3"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
+    <resources android:layout_width="wrap_content">
+
     </resources>
 
     <Button
-        android:text="Button"
+        android:text="Add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="78dp"
+        android:id="@+id/addquiz"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/button2"
-        android:layout_below="@+id/textView8" />
+        android:layout_alignLeft="@+id/spinner"
+        android:layout_alignStart="@+id/spinner" />
 
+    <Button
+        android:text="Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/submit"
+        android:layout_alignBaseline="@+id/addquiz"
+        android:layout_alignBottom="@+id/addquiz"
+        android:layout_toRightOf="@+id/addquiz"
+        android:layout_toEndOf="@+id/addquiz" />
 
-</RelativeLayout>
+</RelativeLayout
