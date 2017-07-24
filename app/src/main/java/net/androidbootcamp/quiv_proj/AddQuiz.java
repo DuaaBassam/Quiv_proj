@@ -133,10 +133,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle {
                   btn_ok.setOnClickListener(new View.OnClickListener() {
                       @Override
                       public void onClick(View view) {
-
-                         Log.d("000000000000hhhhhhhhhh",nameQuiz.getText().toString()+"    "+password.getText().toString()
-                                  +"     "+idTeach+"   "+txt.getText().toString());
-                          if(!(txt.getText().toString()).isEmpty()){
+                           if(!(txt.getText().toString()).isEmpty()){
                               db.insertDataQuiz(nameQuiz.getText().toString(),Integer.parseInt(password.getText().toString()),idTeach
                                       ,Integer.parseInt(txt.getText().toString()));
                           Toast.makeText(getActivity(), "Add Quiz ", Toast.LENGTH_SHORT).show();
