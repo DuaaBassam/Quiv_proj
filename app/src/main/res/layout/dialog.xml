@@ -6,7 +6,7 @@
     android:layout_margin="30dp">
 
     <TextView
-        android:text="Write password ....."
+        android:text="Insert Total Time of Quiz"
         android:layout_width="match_parent"
         android:id="@+id/textView"
         android:layout_height="60dp"
@@ -16,9 +16,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:ems="10"
-        android:id="@+id/txt" />
+        android:id="@+id/timeTotalQuiz" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -32,6 +32,7 @@
             android:id="@+id/ok"
             android:layout_weight="1"
             android:layout_margin="10dp" />
+
 
         <Button
             android:text="Cancel"
