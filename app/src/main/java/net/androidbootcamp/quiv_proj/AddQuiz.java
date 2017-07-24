@@ -29,7 +29,8 @@ public class AddQuiz extends Fragment implements FragmentLifecycle {
     private String answer;
     int indexAns = 0;
     int indexCorrect = 0;
-
+    private String answerStr;
+    private String answerCorr;
     HashMap answerQuestion =new HashMap();
     HashMap correctAnswer =new HashMap();
 
@@ -51,7 +52,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle {
         final Button addAnswer = (Button) view.findViewById(R.id.addAnswer);
         final EditText nameQuiz = (EditText) view.findViewById(R.id.nameQuiz);
         final EditText password = (EditText) view.findViewById(R.id.password);
-        TextView noQuiz = (TextView) view.findViewById(R.id.quesNo);
+        final TextView noQuiz = (TextView) view.findViewById(R.id.quesNo);
         final EditText question = (EditText) view.findViewById(R.id.question);
         final EditText answer = (EditText) view.findViewById(R.id.answer);
         final RadioButton radioButton1 = (RadioButton) view.findViewById(R.id.radioButton1);
@@ -86,6 +87,35 @@ public class AddQuiz extends Fragment implements FragmentLifecycle {
             }});
         final Dialog dialog= new Dialog(getActivity());
 
+
+
+        Add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                for (int i =1;i<indexAns;i++){
+                    answerStr+=answerQuestion.get(i);
+                }
+                System.out.println(answerStr);
+                for (int i =1;i<indexCorrect;i++){
+                    answerCorr+=correctAnswer.get(i);
+                }
+
+
+                if (!(nameQuiz.getText().toString()).isEmpty()&&!(password.getText().toString()).isEmpty()
+                        &&!correctAnswer.isEmpty()&&!answerQuestion.isEmpty()){
+                    int aa= (Integer.parseInt(noQuiz.getText().toString()));
+                    System.out.println((Integer.parseInt(noQuiz.getText().toString())+1)+"");
+                    noQuiz.setText((aa+1)+"");
+                    System.out.println(aa+""+nameQuiz.getText().toString()+question.getText().toString()+
+                            answerStr  +answerCorr+"1");
+                    db.insertDataQuestion(aa,nameQuiz.getText().toString(),question.getText().toString(),
+                            answerStr  ,answerCorr,1);
+                }
+
+
+            }
+        });
 
 
     Submit.setOnClickListener(new View.OnClickListener() {

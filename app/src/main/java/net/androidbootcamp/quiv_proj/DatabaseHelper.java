@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 
@@ -60,11 +61,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_Add_Student + " (id_studentt INTEGER  ,id_Course INTEGER ,FOREIGN KEY (id_studentt) REFERENCES Student (id_Student)," +
                 "FOREIGN KEY (id_Course) REFERENCES Course (id_course),primary key (id_studentt,id_Course))");
 
-        db.execSQL("create table " + TABLE_Quiz + " (id_quiz INTEGER  ,name_quiz TEXT , password_quiz  INTEGER , id_teacher INTEGER  ,time_quiz INTEGER" +
-                " , FOREIGN KEY (id_teacher) REFERENCES Teacher (id_teacher) , primary key (id_quiz))");
+        db.execSQL("create table " + TABLE_Quiz + " (name_quiz TEXT , password_quiz  INTEGER , id_Course INTEGER  ,time_quiz INTEGER" +
+                " , FOREIGN KEY (id_Course) REFERENCES Course (id_Course) , primary key (name_quiz,id_Course))");
 
-        db.execSQL("create table " + TABLE_Question + " (id_question INTEGER  ,statement TEXT , answer  TEXT , correct_answer TEXT ,id_quiz INTEGER" +
-                " , FOREIGN KEY (id_quiz) REFERENCES "+ TABLE_Quiz+" (id_quiz) , primary key (id_question , id_quiz))");
+        db.execSQL("create table " + TABLE_Question + " (id_question INTEGER  ,statement TEXT , answer  TEXT , correct_answer TEXT ,name_quiz TEXT,time_ques INTEGER" +
+                " , FOREIGN KEY (name_quiz) REFERENCES "+ TABLE_Quiz+" (name_quiz) , primary key (id_question , name_quiz))");
 
     }
 
@@ -76,7 +77,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Add_Student);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Quiz);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Question);
-
 
         onCreate(db);
     }
@@ -138,6 +138,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public boolean insertDataQuiz( String name_quiz_in,int password_quiz_in ,int id_teacher_in ,int time_quiz_in) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name_quiz", name_quiz_in);
+        contentValues.put("password_quiz", password_quiz_in);
+        contentValues.put("id_teacher", id_teacher_in);
+        contentValues.put("time_quiz", time_quiz_in);
+
+        long result = db.insert(TABLE_Quiz, null, contentValues);
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean insertDataQuestion(int id_ques_in, String name_quiz_in, String  statement, String answer , String correct , int time_ques_in) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("id_question", id_ques_in);
+        contentValues.put("name_quiz", name_quiz_in);
+        contentValues.put("statement", statement);
+        contentValues.put("answer", answer);
+        contentValues.put("correct_answer", correct);
+        contentValues.put("time_ques", time_ques_in);
+
+        long result = db.insert(TABLE_Quiz, null, contentValues);
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
+
     public ArrayList<Course_Items> getAllDataCourse(int teacherId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Course_Items> course = new ArrayList<>();
@@ -153,39 +187,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertDataQuiz(String id_quiz_in, String name_quiz_in,String password_quiz_in ,String id_teacher_in ,String time_quiz_in) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("id_quiz", id_quiz_in);
-        contentValues.put("name_quiz", name_quiz_in);
-        contentValues.put("password_quiz", password_quiz_in);
-        contentValues.put("id_teacher", id_teacher_in);
-        contentValues.put("time_quiz", time_quiz_in);
 
-        long result = db.insert(TABLE_Quiz, null, contentValues);
-        if (result == -1)
-            return false;
-        else
-            return true;
-    }
-
-    public boolean insertDataQuestion(String id_quiz_in, String name_quiz_in,String password_quiz_in ,String id_teacher_in ,String time_quiz_in) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put("id_question", id_quiz_in);
-        contentValues.put("statement", name_quiz_in);
-        contentValues.put("answer", password_quiz_in);
-        contentValues.put("correct_answer", id_teacher_in);
-        contentValues.put("id_quiz", time_quiz_in);
-
-        long result = db.insert(TABLE_Quiz, null, contentValues);
-        if (result == -1)
-            return false;
-        else
-            return true;
-    }
 
 
     public Cursor getAllDataAddStudent(int teacherId,String courseName) {
