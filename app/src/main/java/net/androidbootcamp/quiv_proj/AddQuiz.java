@@ -52,7 +52,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle {
         final Button addAnswer = (Button) view.findViewById(R.id.addAnswer);
         final EditText nameQuiz = (EditText) view.findViewById(R.id.nameQuiz);
         final EditText password = (EditText) view.findViewById(R.id.password);
-        final TextView noQuiz = (TextView) view.findViewById(R.id.quesNo);
+        final TextView noQues = (TextView) view.findViewById(R.id.quesNo);
         final EditText question = (EditText) view.findViewById(R.id.question);
         final EditText answer = (EditText) view.findViewById(R.id.answer);
         final RadioButton radioButton1 = (RadioButton) view.findViewById(R.id.radioButton1);
@@ -72,7 +72,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle {
                         if (correct.isChecked()) {
                             correctAnswer.put(indexCorrect,answerQues);
                             indexCorrect++;
-                            correct.toggle();
+                            correct.setChecked(false);
 
                         }
                     } else {
@@ -93,24 +93,28 @@ public class AddQuiz extends Fragment implements FragmentLifecycle {
             @Override
             public void onClick(View view) {
 
+                answerStr=answerQuestion.get(0)+"@#%@#$%";
                 for (int i =1;i<indexAns;i++){
-                    answerStr+=answerQuestion.get(i);
+                    answerStr=answerStr+(answerQuestion.get(i))+"@#%@#$%";
                 }
                 System.out.println(answerStr);
+                answerCorr=correctAnswer.get(0)+"@#%@#$%";
                 for (int i =1;i<indexCorrect;i++){
-                    answerCorr+=correctAnswer.get(i);
+                    answerCorr+=(correctAnswer.get(i)+"@#%@#$%");
                 }
 
 
                 if (!(nameQuiz.getText().toString()).isEmpty()&&!(password.getText().toString()).isEmpty()
                         &&!correctAnswer.isEmpty()&&!answerQuestion.isEmpty()){
-                    int aa= (Integer.parseInt(noQuiz.getText().toString()));
-                    System.out.println((Integer.parseInt(noQuiz.getText().toString())+1)+"");
-                    noQuiz.setText((aa+1)+"");
-                    System.out.println(aa+""+nameQuiz.getText().toString()+question.getText().toString()+
-                            answerStr  +answerCorr+"1");
-                    db.insertDataQuestion(aa,nameQuiz.getText().toString(),question.getText().toString(),
-                            answerStr  ,answerCorr,1);
+
+                    int aa= (Integer.parseInt(noQues.getText().toString()));
+                    String name= nameQuiz.getText().toString();
+                    String ques=question.getText().toString();
+                    question.setText("");
+                    answer.setText("");
+
+                    noQues.setText((aa+1)+"");
+                    db.insertDataQuestion(aa,name,ques,answerStr  ,answerCorr,1);
                 }
 
 
@@ -180,7 +184,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle {
               }
             }
             else
-                Toast.makeText(getActivity(), "Add nameQuiz and Password :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Add nameQuiz or password :(", Toast.LENGTH_SHORT).show();
 
 
         }});

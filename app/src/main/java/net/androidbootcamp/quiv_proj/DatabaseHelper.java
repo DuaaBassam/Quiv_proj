@@ -64,8 +64,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_Quiz + " (name_quiz TEXT , password_quiz  INTEGER , id_Course INTEGER  ,time_quiz INTEGER" +
                 " , FOREIGN KEY (id_Course) REFERENCES Course (id_Course) , primary key (name_quiz,id_Course))");
 
-        db.execSQL("create table " + TABLE_Question + " (id_question INTEGER  ,statement TEXT , answer  TEXT , correct_answer TEXT ,name_quiz TEXT,time_ques INTEGER" +
-                " , FOREIGN KEY (name_quiz) REFERENCES "+ TABLE_Quiz+" (name_quiz) , primary key (id_question , name_quiz))");
+        db.execSQL("create table " + TABLE_Question + " (id_question INTEGER  ,statement TEXT , answer  TEXT , correct_answer TEXT ,name_quizz TEXT,time_ques INTEGER" +
+                " , FOREIGN KEY (name_quizz) REFERENCES Quiz_table (name_quiz) , primary key (id_question,name_quizz ))");
 
     }
 
@@ -153,19 +153,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public boolean insertDataQuestion(int id_ques_in, String name_quiz_in, String  statement, String answer , String correct , int time_ques_in) {
+    public boolean insertDataQuestion(int id_ques_in,String name_quiz_in, String  statement, String answer , String correct , int time_ques_in) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("id_question", id_ques_in);
-        contentValues.put("name_quiz", name_quiz_in);
+        contentValues.put("name_quizz", name_quiz_in);
         contentValues.put("statement", statement);
         contentValues.put("answer", answer);
         contentValues.put("correct_answer", correct);
         contentValues.put("time_ques", time_ques_in);
 
-        long result = db.insert(TABLE_Quiz, null, contentValues);
+        long result = db.insert(TABLE_Question, null, contentValues);
         if (result == -1)
             return false;
         else

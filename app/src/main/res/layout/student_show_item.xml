@@ -20,13 +20,19 @@
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
-            android:layout_weight="0.15"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="     "
+            android:layout_margin="20dp" />
 
         <TextView
+            android:id="@+id/name_student"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/name_student" />
+            android:text="         "
+            android:layout_margin="20dp" />
 
         <Button
             android:layout_width="wrap_content"
