@@ -36,15 +36,15 @@ public  class Quiz extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-//        dd = getArguments().getInt("idTeach");
-//        Log.d("dd",dd+"");
-//        arg = new Bundle();
-//        arg.putInt("idTeach", dd);
-//        ff = getArguments().getString("namee");
-//        arg.putString("namee", ff);
-//        addQuiz.setArguments(arg);
+        dd = getArguments().getInt("idTeach");
+        Log.d("dd",dd+"");
+        arg = new Bundle();
+        arg.putInt("idTeach", dd);
+        ff = getArguments().getString("namee");
+        arg.putString("namee", ff);
+        addQuiz.setArguments(arg);
         //showStud.setArguments(arg);
-//       Log.d("name",ff);
+       Log.d("name",ff);
     }
 
 

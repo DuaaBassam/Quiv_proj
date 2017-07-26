@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Stack;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -61,8 +59,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_Add_Student + " (id_studentt INTEGER  ,id_Course INTEGER ,FOREIGN KEY (id_studentt) REFERENCES Student (id_Student)," +
                 "FOREIGN KEY (id_Course) REFERENCES Course (id_course),primary key (id_studentt,id_Course))");
 
-        db.execSQL("create table " + TABLE_Quiz + " (name_quiz TEXT , password_quiz  INTEGER , id_Course INTEGER  ,time_quiz INTEGER" +
-                " , FOREIGN KEY (id_Course) REFERENCES Course (id_Course) , primary key (name_quiz,id_Course))");
+        db.execSQL("create table " + TABLE_Quiz + " (name_quiz TEXT , password_quiz  INTEGER , id_teacher INTEGER  ,time_quiz INTEGER" +
+                " , FOREIGN KEY (id_teacher) REFERENCES Teacher (id_teacher) , primary key (name_quiz,id_teacher))");
 
         db.execSQL("create table " + TABLE_Question + " (id_question INTEGER  ,statement TEXT , answer  TEXT , correct_answer TEXT ,name_quizz TEXT,time_ques INTEGER" +
                 " , FOREIGN KEY (name_quizz) REFERENCES Quiz_table (name_quiz) , primary key (id_question,name_quizz ))");
@@ -171,6 +169,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else
             return true;
     }
+    public boolean insertDataQuestion(int id_ques_in,String name_quiz_in, String  statement, String answer , String correct ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("id_question", id_ques_in);
+        contentValues.put("name_quizz", name_quiz_in);
+        contentValues.put("statement", statement);
+        contentValues.put("answer", answer);
+        contentValues.put("correct_answer", correct);
+
+        long result = db.insert(TABLE_Question, null, contentValues);
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
 
     public ArrayList<Course_Items> getAllDataCourse(int teacherId) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -186,6 +201,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return course;
     }
 
+
+    public ArrayList showData(String tableName, String[] columns)  {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList list = new ArrayList();
+        String sqlQuery = "SELECT * FROM " + tableName  ;
+        Cursor cursor = db.rawQuery(sqlQuery, null);
+        cursor.moveToFirst();
+        String data = "";
+        int i = 0;
+        while (!cursor.isAfterLast()) {
+            for (i = 0; i < columns.length; i++) {
+                data += columns[i] + ":" + cursor.getString(cursor.getColumnIndex(columns[i])) + "  ";
+            }
+            i = 0;
+            list.add(data);
+            data = "";
+
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return list;
+    }
 
 
 

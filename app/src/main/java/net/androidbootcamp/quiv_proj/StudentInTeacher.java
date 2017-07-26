@@ -1,22 +1,17 @@
 package net.androidbootcamp.quiv_proj;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.transition.Transition;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +29,6 @@ public  class StudentInTeacher extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         dd = getArguments().getInt("idTeach");
         Log.d("dd",dd+"");
         arg = new Bundle();
@@ -57,11 +50,16 @@ public  class StudentInTeacher extends Fragment {
 
         adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
         ViewPager pager = (ViewPager) view.findViewById(R.id.vpPager);
+        PagerTabStrip pageHeader = (PagerTabStrip) view.findViewById(R.id.pager_header);
+        pageHeader.setBackgroundColor(Color.parseColor("#707070"));
+        pageHeader.setTabIndicatorColor(Color.parseColor("#ffff0000"));
         pager.setAdapter(adapterViewPager);
-
         pager.setOnPageChangeListener(pageChangeListener);
+
+
         return view;
     }
+
 
     private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
 
@@ -69,13 +67,13 @@ public  class StudentInTeacher extends Fragment {
 
         @Override
         public void onPageSelected(int newPosition) {
-
             FragmentLifecycle fragmentToHide = (FragmentLifecycle) adapterViewPager.getItem(currentPosition);
             Log.d("current",currentPosition+"");
             fragmentToHide.onPauseFragment();
 
             FragmentLifecycle fragmentToShow = (FragmentLifecycle) adapterViewPager.getItem(newPosition);
             fragmentToShow.onResumeFragment();
+            fragmentToShow.onPauseFragment();
             Log.d("new",""+newPosition);
 
                        currentPosition = newPosition;
@@ -101,6 +99,7 @@ public  class StudentInTeacher extends Fragment {
 
         }
 
+
         @Override
         public Fragment getItem(int position) {
             return fragments.get(position);
@@ -116,7 +115,10 @@ public  class StudentInTeacher extends Fragment {
                 return "ADD/DELETE";
             }return "SHOW";
         }
+
+
     }
+
 
 }
 

@@ -2,19 +2,14 @@ package net.androidbootcamp.quiv_proj;
 
 
 import android.app.Dialog;
-import android.content.SharedPreferences;
-import android.preference.CheckBoxPreference;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -23,13 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static android.R.layout.simple_spinner_item;
-import static android.content.Context.MODE_PRIVATE;
 
 
 public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.OnItemSelectedListener {
@@ -103,8 +94,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                 } else {
                     Toast.makeText(getActivity(), "Write question.", Toast.LENGTH_SHORT).show();
                 }
-                if(radioButton1.isChecked()){spinner.setEnabled(true);}
-                else {spinner.setEnabled(false);}
+
             }
         });
         final Dialog dialog = new Dialog(getActivity());
@@ -124,29 +114,38 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                     answerCorr += (correctAnswer.get(i) + "@#%@#$%");
                 }
 
+if(radioButton1.isChecked()||radioButton2.isChecked()){
+                if (!(nameQuiz.getText().toString()).isEmpty() && !(password.getText().toString()).isEmpty()
+                        && !correctAnswer.isEmpty() && !answerQuestion.isEmpty() && !(question.getText().toString()).isEmpty()) {
 
-                    if (!(nameQuiz.getText().toString()).isEmpty() && !(password.getText().toString()).isEmpty()
-                            && !correctAnswer.isEmpty() && !answerQuestion.isEmpty() && !(question.getText().toString()).isEmpty()) {
+                    int aa = (Integer.parseInt(noQues.getText().toString()));
+                    Log.d("aa ", aa + "");
+                    String name = nameQuiz.getText().toString();
+                    String ques = question.getText().toString();
+                    int time = Integer.parseInt(spinner.getSelectedItem().toString());
+                    question.setText("");
+                    answer.setText("");
+                    no_ques.put(indexQues, aa + "");
+                    ques_quiz.put(indexQues, ques);
+                    time_ques.put(indexQues, time + "");
+                    correct_ques.put(indexQues, answerCorr);
+                    answer_ques.put(indexQues, answerStr);
 
-                        int aa = (Integer.parseInt(noQues.getText().toString()));
-                        Log.d("aa ", aa + "");
-                        String name = nameQuiz.getText().toString();
-                        String ques = question.getText().toString();
-                        int time = Integer.parseInt(spinner.getSelectedItem().toString());
-                        question.setText("");
-                        answer.setText("");
-                        no_ques.put(indexQues, aa + "");
-                        ques_quiz.put(indexQues, ques);
-                        time_ques.put(indexQues, time + "");
-                        correct_ques.put(indexQues, answerCorr);
-                        answer_ques.put(indexQues, answerStr);
-
-                        indexAns++;
-                        answer.setText("");
-                        noQues.setText((aa + 1) + "");
-                        Log.d("hhnnbvvcv", aa + "  " + name + "   " + ques + "   " + answerStr + "    " + answerCorr + "   " + time);
-                    }
+                    indexAns++;
+                    answer.setText("");
+                    noQues.setText((aa + 1) + "");
+                    Log.d("hhnnbvvcv", aa + "  " + name + "   " + ques + "   " + answerStr + "    " + answerCorr + "   " + time);
                 }
+else
+                    Toast.makeText(getActivity(), "Fill all fields", Toast.LENGTH_SHORT).show();
+
+
+}
+                else
+    Toast.makeText(getActivity(), "Choose Time for Quiz OR Time for Question", Toast.LENGTH_SHORT).show();
+
+
+            }
 
         });
 
@@ -156,7 +155,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
             public void onClick(View view) {
                 if ((!(nameQuiz.getText().toString()).isEmpty()) && (!(password.getText().toString()).isEmpty())
                         && !correctAnswer.isEmpty() && !answerQuestion.isEmpty() && !no_ques.isEmpty()
-                       && !ques_quiz.isEmpty()) {
+                        && !ques_quiz.isEmpty()) {
                     if (radioButton1.isChecked()) {
                         dialog.setContentView(R.layout.submit);
                         dialog.setTitle("Question");
@@ -175,14 +174,15 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                             public void onClick(View view) {
                                 db.insertDataQuiz(nameQuiz.getText().toString(), Integer.parseInt(password.getText().toString()),
                                         idTeach, 0);
-                                for (int i = 1; i < indexQues; i++) {
+                                for (int i = 0; i <= indexQues; i++) {
 
+                                    Log.d("data :", Integer.parseInt(no_ques.get(i).toString()) + "    " + nameQuiz.getText().toString() + "     " +
+                                            ques_quiz.get(i) + "    " + answer_ques.get(i) + "    " + correct_ques.get(i) + "     " + Integer.parseInt(time_ques.get(i).toString()));
                                     // //db.insertDataQuestion(aa,name,ques,answerStr  ,answerCorr,time);
-                                    db.insertDataQuestion(Integer.parseInt(no_ques.get(i).toString()), nameQuiz.getText().toString(),ques_quiz.get(i),
+                                    db.insertDataQuestion(Integer.parseInt(no_ques.get(i).toString()), nameQuiz.getText().toString(), ques_quiz.get(i),
                                             answer_ques.get(i), correct_ques.get(i), Integer.parseInt(time_ques.get(i).toString()));
                                 }
 
-                                Toast.makeText(getActivity(), "Add Quiz ", Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
                                 nameQuiz.setText("");
                                 password.setText("");
@@ -204,14 +204,19 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                         btn_ok.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+
                                 if (!(txt.getText().toString()).isEmpty()) {
+                                    Log.d("quiz", "" + nameQuiz.getText().toString() + "    " + Integer.parseInt(password.getText().toString())
+                                            + "     " + idTeach + "   " + Integer.parseInt(txt.getText().toString()));
                                     db.insertDataQuiz(nameQuiz.getText().toString(), Integer.parseInt(password.getText().toString()), idTeach
                                             , Integer.parseInt(txt.getText().toString()));
                                     Toast.makeText(getActivity(), "Add Quiz ", Toast.LENGTH_SHORT).show();
-                                    for (int i = 1; i < indexQues; i++) {
+                                    for (int i = 0; i <= indexQues; i++) {
+                                        Log.d("data0000 :", Integer.parseInt(no_ques.get(i).toString()) + "    " + nameQuiz.getText().toString() + "     " +
+                                                ques_quiz.get(i) + "    " + answer_ques.get(i) + "    " + correct_ques.get(i));
 
                                         // //db.insertDataQuestion(aa,name,ques,answerStr  ,answerCorr,time);
-                                        db.insertDataQuestion(Integer.parseInt(no_ques.get(i).toString()), nameQuiz.getText().toString(),ques_quiz.get(i),
+                                        db.insertDataQuestion(Integer.parseInt(no_ques.get(i).toString()), nameQuiz.getText().toString(), ques_quiz.get(i),
                                                 answer_ques.get(i), correct_ques.get(i));
                                     }
                                     dialog.cancel();
@@ -226,7 +231,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
 
                     }
                 } else
-                    Toast.makeText(getActivity(), "Add nameQuiz or password :(", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Add nameQuiz or password or question :(", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -241,10 +246,14 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
 
     }
 
+
+
     @Override
     public void onResumeFragment() {
 
     }
+
+
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
