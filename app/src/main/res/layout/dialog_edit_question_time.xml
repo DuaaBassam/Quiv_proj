@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="30dp">
+
+    <EditText
+        android:hint="Change question"
+        android:layout_width="match_parent"
+        android:id="@+id/statement"
+        android:layout_height="60dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="18sp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:hint="Add answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:textSize="18sp"
+            android:layout_weight="0.95"
+            android:id="@+id/answer" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/correct"
+            android:layout_weight="0.0"
+            />
+        <Button
+            android:text="Add"
+            android:layout_width="68dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/addanswer" />
+
+
+
+    </LinearLayout>
+    <EditText
+        android:hint="Change Time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:textSize="18sp"
+         android:id="@+id/time"
+        android:layout_marginTop="15dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/okQuiz"
+            android:layout_weight="1"
+            android:layout_margin="10dp" />
+
+
+        <Button
+            android:text="Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cancelQuiz"
+            android:layout_weight="1"
+            android:layout_margin="10dp" />
+    </LinearLayout>
+
+</LinearLayout>
