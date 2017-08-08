@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         database = new DatabaseHelper(this);
 
         boolean a1 = database.insertDataTeacher("1", "Duaa");
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         boolean b5 = database.insertDataCourse("5", "HTML", "1");
 
 
-        boolean c1 = database.insertDataCourse("6", "ios", "2");
+        boolean c1 = database.insertDataCourse("6", "php", "2");
         boolean c2 = database.insertDataCourse("7", "CSS", "2");
         boolean c3 = database.insertDataCourse("8", "JavaScript", "2");
         boolean c4 = database.insertDataCourse("9", "Software", "2");
@@ -47,35 +48,17 @@ public class MainActivity extends AppCompatActivity {
         boolean s4 = database.insertDataStudent("4", "Noor");
         boolean s5 = database.insertDataStudent("5", "Reem");
         boolean s6 = database.insertDataStudent("6", "Israa");
+       // boolean s7=database.insertDataQuiz("duaa",123,1);
+      //  boolean s8=database.insertDataQuestion(3,"duaa","1*8","13~5","28",1);
+      //  boolean s9=database.insertDataQuestion(4,"duaa","1*6","1~6","2//8",1);
 
+
+       // Log.d("qustion","");
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frag, new Login()).commit();
         }
 
-        if (a1 == true) {
-            Toast.makeText(MainActivity.this, "data ins.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(MainActivity.this, "data not ins.", Toast.LENGTH_SHORT).show();
 
 
-        }
-//
-//        FragmentManager fragmentManager=getSupportFragmentManager();
-//        Fragment current =fragmentManager.findFragmentById(R.id.frag);
-//        if(current.getTag().equals("Login")){
-//
-
-            }
-//    @Override
-//    public void onBackPressed() {
-//        getSupportFragmentManager().popBackStack();
-//
-//    }//getSupportFragmentManager
-//        Log.d("class",((ViewGroup)findViewById(R.id.frag)).getChildAt(0).getClass().toString());
-//        if (((ViewGroup)findViewById(R.id.frag)).getChildAt(0).getClass().equals(Login.class))
-//            finish();
-//        else
-//            super.onBackPressed();
-//    }
-}
+    }}

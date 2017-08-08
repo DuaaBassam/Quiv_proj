@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class ShowStudent extends Fragment implements FragmentLifecycle {
 
-
+   DatabaseHelper databaseHelper;
     private String nameCourse;
     private int idTeach;
 
@@ -26,8 +26,10 @@ public class ShowStudent extends Fragment implements FragmentLifecycle {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       idTeach= getArguments().getInt("idTeach");
-       nameCourse=  getArguments().getString("namee");
+        databaseHelper= new DatabaseHelper(getActivity());
+        idTeach= getArguments().getInt("idTeach");
+        nameCourse=  getArguments().getString("namee");
+        setRetainInstance(true);
     }
     
     ListView listView;
@@ -37,13 +39,10 @@ public class ShowStudent extends Fragment implements FragmentLifecycle {
                              Bundle savedInstanceState) {
         
         View view = inflater.inflate(R.layout.fragment_show_student, container, false);
-        ArrayList<StudentItems> arrayList;
-        ArrayList   cursor = new DatabaseHelper(getActivity()).getAllData(idTeach, nameCourse);
-        arrayList = cursor;
+        ArrayList   cursor = databaseHelper.getAllData(idTeach, nameCourse);
 
         listView = (ListView) view.findViewById(R.id.listStudentShow);
-        Log.d("namecoursee", "      " + idTeach + "  " + nameCourse);
-        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(), arrayList);
+        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(), cursor);
         listView.setAdapter(adapter);
         return view;
     }
@@ -54,13 +53,12 @@ public class ShowStudent extends Fragment implements FragmentLifecycle {
 
     @Override
     public void onResumeFragment() {
-        ArrayList<StudentItems> arrayList;
-        ArrayList cursor = new DatabaseHelper(getActivity()).getAllData(idTeach, nameCourse);
-        arrayList = cursor;
+        ArrayList   cursor = databaseHelper.getAllData(idTeach, nameCourse);
 
-        Log.d("namecoursee", "      " + idTeach + "  " + nameCourse);
-        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(), arrayList);
+        listView = (ListView) getView().findViewById(R.id.listStudentShow);
+        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(), cursor);
         listView.setAdapter(adapter);
+
 
     }
 }

@@ -8,8 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Stack;
+import java.util.List;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -23,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_Student = "Student";
     private static final String TABLE_Add_Student = "Student_Add";
     private static final String TABLE_Quiz = "Quiz_table";
-    private static final String TABLE_Question="question";
+    private static final String TABLE_Question = "question";
 
     // Column of teacher
     private static final String id_teacher = "id_teacher";
@@ -61,16 +60,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_Add_Student + " (id_studentt INTEGER  ,id_Course INTEGER ,FOREIGN KEY (id_studentt) REFERENCES Student (id_Student)," +
                 "FOREIGN KEY (id_Course) REFERENCES Course (id_course),primary key (id_studentt,id_Course))");
 
-        db.execSQL("create table " + TABLE_Quiz + " (name_quiz TEXT , password_quiz  INTEGER , id_Course INTEGER  ,time_quiz INTEGER" +
-                " , FOREIGN KEY (id_Course) REFERENCES Course (id_Course) , primary key (name_quiz,id_Course))");
+        db.execSQL("create table " + TABLE_Quiz + " (name_quiz TEXT , password_quiz  INTEGER , nameCourse TEXT " +
+                " ,time_quiz INTEGER , idTeacher integer ,FOREIGN KEY (idTeacher) REFERENCES Teacher (id_teacher) " +
+                " , FOREIGN KEY (nameCourse) REFERENCES Course (name_Course) , primary key (name_quiz,nameCourse,idTeacher))");
 
-        db.execSQL("create table " + TABLE_Question + " (id_question INTEGER  ,statement TEXT , answer  TEXT , correct_answer TEXT ,name_quizz TEXT,time_ques INTEGER" +
-                " , FOREIGN KEY (name_quizz) REFERENCES Quiz_table (name_quiz) , primary key (id_question,name_quizz ))");
+        db.execSQL("create table " + TABLE_Question + " (id_question INTEGER  ,statement TEXT,nameCourse TEXT " +
+                ", answer  TEXT , correct_answer TEXT ,name_quiz TEXT,time_ques INTEGER" +
+                " , FOREIGN KEY (name_quiz) REFERENCES Quiz_table (name_quiz) , " +
+                "FOREIGN KEY (nameCourse) REFERENCES Course (name_Course) ,primary key (id_question , name_quiz))");
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_teacher);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_course);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Student);
@@ -138,13 +141,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertDataQuiz( String name_quiz_in,int password_quiz_in ,int id_teacher_in ,int time_quiz_in) {
+    public boolean insertDataQuiz(String name_quiz_in, int password_quiz_in, int id_teacher_in, int time_quiz_in, String course_in) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name_quiz", name_quiz_in);
         contentValues.put("password_quiz", password_quiz_in);
-        contentValues.put("id_teacher", id_teacher_in);
+        contentValues.put("idTeacher", id_teacher_in);
         contentValues.put("time_quiz", time_quiz_in);
+        contentValues.put("nameCourse", course_in);
+
 
         long result = db.insert(TABLE_Quiz, null, contentValues);
         if (result == -1)
@@ -153,19 +158,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public boolean insertDataQuestion(int id_ques_in,String name_quiz_in, String  statement, String answer , String correct , int time_ques_in) {
+    public boolean insertDataQuestion(int id_ques_in, String name_quiz_in, String statement, String answer, String correct,
+                                      int time_ques_in, String namee) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("id_question", id_ques_in);
-        contentValues.put("name_quizz", name_quiz_in);
+        contentValues.put("name_quiz", name_quiz_in);
         contentValues.put("statement", statement);
         contentValues.put("answer", answer);
         contentValues.put("correct_answer", correct);
         contentValues.put("time_ques", time_ques_in);
-
+        contentValues.put("nameCourse", namee);
         long result = db.insert(TABLE_Question, null, contentValues);
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean insertDataQuestion(int id_ques_in, String name_quiz_in, String statement, String answer, String correct, String namee) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("id_question", id_ques_in);
+        contentValues.put("name_quiz", name_quiz_in);
+        contentValues.put("statement", statement);
+        contentValues.put("answer", answer);
+        contentValues.put("correct_answer", correct);
+        contentValues.put("nameCourse", namee);
+        long result = db.insertOrThrow(TABLE_Question, null, contentValues);
         if (result == -1)
             return false;
         else
@@ -178,7 +202,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from " + TABLE_course + " where id_teacher_in=" + teacherId, null);
         if (cursor.moveToFirst()) {
             do {
-                String  nameCourse = cursor.getString (cursor.getColumnIndex("name_course"));
+                String nameCourse = cursor.getString(cursor.getColumnIndex("name_course"));
                 course.add(new Course_Items(nameCourse));
             } while (cursor.moveToNext());
         }
@@ -187,31 +211,105 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public ArrayList<String> getQuestion(String nameQuiz, String nameCoursee) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> course = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Question + " where (name_quiz= '" + nameQuiz
+                + "'" + "and nameCourse = '" + nameCoursee + "')", null);
+        if (cursor.moveToFirst()) {
+            do {
+                String name = cursor.getString(cursor.getColumnIndex("statement"));
+                course.add(name);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return course;
+    }
+
+    public ArrayList<String> getQuestionAnswer(String nameQuiz, String nameCourse) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> course = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Question + " where(name_quiz= '" +
+                nameQuiz + "'" + "and nameCourse = '" + nameCourse + "')", null);
+        if (cursor.moveToFirst()) {
+            do {
+                String name_Course1 = cursor.getString(cursor.getColumnIndex("answer"));
+                course.add(name_Course1);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return course;
+    }
+    public String getAnswerforQues(String nameQuiz, String nameCourse,int noQues) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String course = "";
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Question + " where(name_quiz= '" +
+                nameQuiz + "'" + "and nameCourse = '" + nameCourse + "' and id_question = "+noQues+")", null);
+        if (cursor.moveToFirst()) {
+            do {
+                String name_Course1 = cursor.getString(cursor.getColumnIndex("answer"));
+                course = name_Course1;
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return course;
+    }
 
 
+    public String getQuestionAnswerCorrect(int idQuestion,String nameQuiz, String nameCourse) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String course = "";
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Question + " where name_quiz= '" + nameQuiz +
+                "'" + "and nameCourse = '" + nameCourse + "'"+"and id_question ="+idQuestion, null);
+        if (cursor.moveToFirst()) {
+            do {
+                String name_Course1 = cursor.getString(cursor.getColumnIndex("correct_answer"));
+                course=(name_Course1);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return course;
+    }
 
-    public Cursor getAllDataAddStudent(int teacherId,String courseName) {
+    public Cursor getAllDataAddStudent(int teacherId, String courseName) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        int idCourse =getIdCourse(teacherId,courseName);
-        Cursor res = db.rawQuery("select * from "+TABLE_Add_Student +" where id_Course= "+idCourse , null);
+        int idCourse = getIdCourse(teacherId, courseName);
+        Cursor res = db.rawQuery("select * from " + TABLE_Add_Student + " where id_Course= " + idCourse, null);
         return res;
 
     }
 
-    public ArrayList getAllData(int teacherId,String courseName) {
+    public ArrayList getAllData(int teacherId, String courseName) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        int idCourse =getIdCourse(teacherId,courseName);
+        int idCourse = getIdCourse(teacherId, courseName);
         ArrayList<StudentItems> arrayList = new ArrayList<>();
-        Cursor res = db.rawQuery("select * from "+TABLE_Student + " inner join "+TABLE_Add_Student+" on id_studentt=id_Student "+
-                " where id_Course= "+idCourse , null);
+        Cursor res = db.rawQuery("select * from " + TABLE_Student + " inner join " + TABLE_Add_Student + " on id_studentt=id_Student " +
+                " where id_Course= " + idCourse, null);
 
         if (res.moveToFirst()) {
             do {
-                int  idStudentAdd = res.getInt (res.getColumnIndex("id_studentt"));
-                String  nameStudent = res.getString (res.getColumnIndex("name_Student"));
-                arrayList.add(new StudentItems(nameStudent,idStudentAdd));
+                int idStudentAdd = res.getInt(res.getColumnIndex("id_studentt"));
+                String nameStudent = res.getString(res.getColumnIndex("name_Student"));
+                arrayList.add(new StudentItems(nameStudent, idStudentAdd));
+            } while (res.moveToNext());
+        }
+        res.close();
+
+        return arrayList;
+    }
+    public List<String> getAllQuestion(String nameCourse, String nameQuiz) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        List<String> arrayList= new ArrayList() ;
+        Cursor res = db.rawQuery("select * from " + TABLE_Question +
+                " where (nameCourse= '" + nameCourse+"' and name_quiz = '"+nameQuiz+"')", null);
+
+        if (res.moveToFirst()) {
+            do {
+                String statement = res.getString(res.getColumnIndex("statement"));
+                arrayList.add(statement);
             } while (res.moveToNext());
         }
         res.close();
@@ -219,16 +317,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    public ArrayList<StudentItems> getAllStudent(int teacherId,String courseName) {
+    public ArrayList<StudentItems> getAllStudent(int teacherId, String courseName) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursorAddStudent=getAllDataAddStudent(teacherId,courseName);
+        Cursor cursorAddStudent = getAllDataAddStudent(teacherId, courseName);
         ArrayList<StudentItems> course = new ArrayList<>();
-        int  idStudentAdd = cursorAddStudent.getInt(cursorAddStudent.getColumnIndex("id_student"));
-        Cursor cursor = db.rawQuery("select * from " + TABLE_Student , null);
-        int  idStudent = cursor.getInt (cursor.getColumnIndex("id_Student"));
-        String  nameStudent = cursor.getString (cursor.getColumnIndex("name_Student"));
-
+        int idStudentAdd = cursorAddStudent.getInt(cursorAddStudent.getColumnIndex("id_student"));
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Student, null);
+        int idStudent = cursor.getInt(cursor.getColumnIndex("id_Student"));
+        String nameStudent = cursor.getString(cursor.getColumnIndex("name_Student"));
 
 
         return course;
@@ -252,7 +349,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean getcheckadd(int idStudentIn,int courseIdIn) {
+    public boolean getcheckadd(int idStudentIn, int courseIdIn) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_Add_Student, null);
         if (cursor.moveToFirst()) {
@@ -260,7 +357,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int idStudent = cursor.getInt(cursor.getColumnIndex("id_studentt"));
                 int idCourse = cursor.getInt(cursor.getColumnIndex("id_Course"));
 
-                if ((idStudent==idStudentIn)&&(idCourse==courseIdIn)) {
+                if ((idStudent == idStudentIn) && (idCourse == courseIdIn)) {
                     return true;
                 }
             } while (cursor.moveToNext());
@@ -270,17 +367,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-    public int getIdCourse(int teacherId,String courseName) {
+    public int getIdCourse(int teacherId, String courseName) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_course + " where id_teacher_in=" + teacherId, null);
         if (cursor.moveToFirst()) {
             do {
-                String  nameCourse = cursor.getString (cursor.getColumnIndex(name_course));
-                int idCourse = cursor.getInt (cursor.getColumnIndex(id_course));
+                String nameCourse = cursor.getString(cursor.getColumnIndex(name_course));
+                int idCourse = cursor.getInt(cursor.getColumnIndex(id_course));
 
-                if (courseName.equals(nameCourse)){
+                if (courseName.equals(nameCourse)) {
 
                     return idCourse;
                 }
@@ -290,6 +386,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return 0;
     }
+    public int  getItemsQuestion(String nameCourse,String nameQuiz) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Question+" where (name_quiz = '"+nameQuiz+"' and nameCourse" +
+                " = '"+nameCourse+"')", null);
+        int num=cursor.getCount();
+        cursor.close();
+        Log.d("nummmmm",num+"");
+        return num;
+    }
+
 
 
 
@@ -306,8 +414,60 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        Log.d("namee",name);
+        Log.d("namee", name);
         return name;
+    }
+
+    public boolean getNameQuiz(String nameQuiz,String nameCourse,int idTeacher) {
+        String name = "";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Quiz +
+                " where (nameCourse = '"+nameCourse+"' and idTeacher ="+idTeacher+")", null);
+        if (cursor.moveToFirst()) {
+            do {
+
+                String nameQ = cursor.getString(cursor.getColumnIndex("name_quiz"));
+                if (nameQuiz.equals(nameQ))
+                    return true;
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return false;
+    }
+
+    public ArrayList getAllNameQuiz(String nameCourse,int idTeacher) {
+        String name = "";
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String>arrayList1=new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Quiz +
+                " where (nameCourse = '"+nameCourse+"' and idTeacher ="+idTeacher+")", null);
+        if (cursor.moveToFirst()) {
+            do {
+
+                String nameQ = cursor.getString(cursor.getColumnIndex("name_quiz"));
+                arrayList1.add(nameQ);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return arrayList1;
+    }
+
+
+    public boolean checkTime(String nameQuiz,String nameCourse,int idTeacher) {
+        String name = "";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Quiz+" where (time_quiz <> 0 and nameCourse = '"+nameCourse
+                + "' and idTeacher = "+idTeacher+")", null);
+        if (cursor.moveToFirst()) {
+            do {
+
+                String nameQ = cursor.getString(cursor.getColumnIndex("name_quiz"));
+                if (nameQuiz.equals(nameQ))
+                    return true;
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return false;
     }
 
     public boolean loginTeacher(String idTeacherIn, String passwordTeacherIn) {
@@ -328,25 +488,76 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-
-
-
-
-  /*  public boolean updateData_check(String id) {
+    public Integer deleteData(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name_teach", id);
-
-        db.update(TABLE_Check, contentValues, "", null);
-        return true;
-    }*/
-
-    public Integer deleteData (String id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_Add_Student, "id_studentt = ?",new String[] {id});
+        return db.delete(TABLE_Add_Student, "id_studentt = ?", new String[]{id});
     }
 
 
-}
+    public Integer deleteQuiz(String id,String nameCourse,int idTeacher) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_Quiz, "name_quiz = ? and nameCourse = ? and idTeacher = ?",
+                new String[]{id,nameCourse,idTeacher+""});
+    }
+    public Integer deleteQues(String id,String nameCourse,String nameQuiz) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_Question, "statement = ? and nameCourse = ? and name_quiz = ?  ",
+                new String[]{id,nameCourse,nameQuiz+""});
+    }
 
+    public Integer updateAnswer(int noQues, String nameQuiz, String answer) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("answer", answer);
+
+
+        return db.update(TABLE_Question, contentValues, " (name_quiz= '" + nameQuiz + "'" +
+                "and id_question = '" + noQues + "')", null);
+    }
+    public Integer updateCorrectAnswer(int noQues, String nameQuiz, String correct) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("correct_answer", correct);
+
+        return db.update(TABLE_Question, contentValues, " (id_question= " + noQues + " and  name_quiz ='" +
+                nameQuiz + "')", null);
+
+    }
+    public Integer updateTimeQuiz(String nameCourse, String nameQuiz,int timeQuiz,int idTeacher) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("time_quiz", timeQuiz);
+
+
+        return db.update(TABLE_Quiz, contentValues, " (name_quiz= '" + nameQuiz + "'" +
+                "and nameCourse = '" + nameCourse + "' and idTeacher = "+idTeacher+")", null);
+    }
+    public Integer updatePasswordQuiz(String nameCourse, String nameQuiz,int password, int idTeacher) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("password_quiz", password);
+
+
+        return db.update(TABLE_Quiz, contentValues, " (name_quiz= '" + nameQuiz + "'" +
+                "and nameCourse = '" + nameCourse + "' and idTeacher = "+idTeacher+")", null);
+    }
+    public Integer updateTimeQuestion(int noQues, String nameQuiz, int time) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("time_ques", time);
+
+
+        return db.update(TABLE_Question, contentValues, " (name_quiz= '" + nameQuiz + "'" +
+                "and id_question = '" + noQues + "')", null);
+    }
+    public Integer updateStatementQuestion(int noQues, String nameQuiz, String statement) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("statement", statement);
+
+
+        return db.update(TABLE_Question, contentValues, " (name_quiz= '" + nameQuiz + "'" +
+                "and id_question = '" + noQues + "')", null);
+    }
+
+}

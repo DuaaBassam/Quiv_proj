@@ -26,7 +26,7 @@ import java.util.HashMap;
     Fragment con;
     int tea=0;
     Fragment fragment = new StudentInTeacher();
-     Fragment frag = new Quiz();
+    Fragment frag = new Quiz();
 
 
     ListViewCourse(Fragment con, int teacherId) {
@@ -82,6 +82,7 @@ import java.util.HashMap;
         viewHolder.Studuent.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+
                 Bundle args = new Bundle();
                 args.putString("namee", viewHolder.name.getText().toString());
                 args.putInt("idTeach",tea);
@@ -91,6 +92,7 @@ import java.util.HashMap;
                 fragmentTransaction.replace(R.id.teacherFrag, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+
             }
         });
         viewHolder.quiz.setOnClickListener(new View.OnClickListener() {

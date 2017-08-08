@@ -1,42 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:fillViewport="true"
+    android:orientation="vertical"
+    >
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/buttonText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
-
-        <TextView
-            android:text="                 "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4"
-            android:layout_weight="0.14"
-            android:textColor="@android:color/background_light"
-            android:textSize="22sp" />
+        android:fillViewport="true"
+        android:orientation="horizontal"
+        >
 
         <Spinner
+            android:id="@+id/quizName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner2"
-            android:layout_weight="0.38"
-            android:layout_margin="9dp" />
+            android:textSize="18sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:hint="name quiz"
+            android:layout_weight="0.99"
+            android:layout_margin="10dp" />
 
-        <Button
-            android:text="Button"
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/editQuiz"
+            android:background="@drawable/edit"
             android:layout_height="wrap_content"
-            android:id="@+id/button2"
-            android:layout_weight="0.14" />
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            />
+
+        <ImageButton
+            android:id="@+id/addQues"
+            android:background="@drawable/add"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            />
+        <ImageButton
+            android:id="@+id/deleteQuiz"
+            android:background="@drawable/deleteedit"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            />
+
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+
         android:layout_width="match_parent"
-        android:layout_height="73dp"></LinearLayout>
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:orientation="horizontal"
+        >
+
+        <Spinner
+            android:id="@+id/quesName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:hint="name quiz"
+            android:layout_weight="1.07"
+            android:layout_margin="10dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deleteQuestion"
+            android:background="@drawable/deleteedit"
+            android:layout_marginTop="10dp" />
+
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editQuestion"
+            android:background="@drawable/edit"
+            android:layout_margin="15dp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/activity_expandable_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+    >
+
+    <ExpandableListView
+        android:id="@+id/exListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal|vertical"
+        style="@android:style/Widget.DeviceDefault.Light.ActionButton.Overflow" android:indicatorLeft="250dp"
+        android:indicatorRight="300dp"
+        android:background="?android:attr/colorForegroundInverse"
+        >
+    </ExpandableListView>
+
+    </ScrollView>
 </LinearLayout>

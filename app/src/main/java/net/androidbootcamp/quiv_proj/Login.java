@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ public class Login extends Fragment{
     @Override
     //
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        
+
         final View view = inflater.inflate(R.layout.login, container, false);
         final EditText idTeacher = (EditText) view.findViewById(R.id.number_person);
         final EditText password = (EditText) view.findViewById(R.id.password);

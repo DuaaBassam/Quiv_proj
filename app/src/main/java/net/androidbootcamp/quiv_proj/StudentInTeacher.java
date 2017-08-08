@@ -44,7 +44,8 @@ public  class StudentInTeacher extends Fragment {
         arg.putString("namee", ff);
         addStud.setArguments(arg);
         showStud.setArguments(arg);
-//       Log.d("name",ff);
+        setRetainInstance(true);
+
     }
 
 
@@ -72,6 +73,7 @@ public  class StudentInTeacher extends Fragment {
 
             FragmentLifecycle fragmentToHide = (FragmentLifecycle) adapterViewPager.getItem(currentPosition);
             Log.d("current",currentPosition+"");
+
             fragmentToHide.onPauseFragment();
 
             FragmentLifecycle fragmentToShow = (FragmentLifecycle) adapterViewPager.getItem(newPosition);

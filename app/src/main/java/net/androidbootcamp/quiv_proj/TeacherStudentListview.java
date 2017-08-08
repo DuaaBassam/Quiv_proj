@@ -1,6 +1,8 @@
 package net.androidbootcamp.quiv_proj;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,15 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
-
+import java.util.List;
 
 public class TeacherStudentListview extends BaseAdapter {
-   ArrayList<StudentItems> arrayList;
-    Activity con;
-    DatabaseHelper db;
+     ArrayList<StudentItems> arrayList;
+     Activity con;
+     DatabaseHelper db;
 
-    ///
     TeacherStudentListview(Activity con,ArrayList<StudentItems>arrayList1) {
         this.con = con;
         arrayList=arrayList1;
@@ -52,7 +52,7 @@ public class TeacherStudentListview extends BaseAdapter {
     }
 
     @Override
-    public View getView( int i ,View view, ViewGroup viewGroup) {
+    public View getView(final int i , View view, ViewGroup viewGroup) {
         View row;
         final ViewHolder viewHolder;
         if (view == null) {
@@ -64,11 +64,27 @@ public class TeacherStudentListview extends BaseAdapter {
             viewHolder.delete = (Button)row.findViewById(R.id.delStud);
             viewHolder.delete.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    //Log.d("idddddd",viewHolder.id.getText().toString());
-                    db.deleteData(viewHolder.id.getText().toString());
-                    Toast.makeText(con, "delete Student ", Toast.LENGTH_SHORT).show();
 
-                                       }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(con);
+                    builder.setMessage("Do you want to remove?");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    db.deleteData(viewHolder.id.getText().toString());
+                                    arrayList.remove(i);
+                                    notifyDataSetChanged();
+                                }
+                            });
+                    builder.setNegativeButton("No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
             });
 
             row.setTag(viewHolder);

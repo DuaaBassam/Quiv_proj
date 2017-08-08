@@ -22,6 +22,7 @@ public class Teacher extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         teacherId = getArguments().getInt("id");
+
         setRetainInstance(true);
     }
 
@@ -29,7 +30,6 @@ public class Teacher extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.teacher, container, false);
-
 
 
         DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
