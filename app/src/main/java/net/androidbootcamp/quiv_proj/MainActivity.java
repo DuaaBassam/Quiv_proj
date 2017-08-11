@@ -1,17 +1,7 @@
 package net.androidbootcamp.quiv_proj;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.*;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-
-import java.util.ArrayList;
+import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseHelper database;
@@ -34,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         boolean b5 = database.insertDataCourse("5", "HTML", "1");
 
 
-        boolean c1 = database.insertDataCourse("6", "php", "2");
+        boolean c1 = database.insertDataCourse("6", "C++", "2");
         boolean c2 = database.insertDataCourse("7", "CSS", "2");
         boolean c3 = database.insertDataCourse("8", "JavaScript", "2");
         boolean c4 = database.insertDataCourse("9", "Software", "2");
