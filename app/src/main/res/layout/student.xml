@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Teacher"
+    android:orientation="vertical"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="@android:color/darker_gray">
+
+        <Button
+            android:text="Home"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/Home"
+            android:layout_alignParentBottom="true"
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/Home"
+            android:layout_toEndOf="@+id/Home"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="13dp"
+            android:id="@+id/idStud"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/idStud"
+            android:layout_toRightOf="@+id/idStud"
+            android:layout_toEndOf="@+id/idStud"
+            android:layout_marginLeft="41dp"
+            android:layout_marginStart="41dp"
+            android:id="@+id/namePerson"
+            android:textSize="18sp"
+            android:textColor="@android:color/background_dark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Student"
+            android:textStyle="normal|bold"
+            android:textSize="24sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/background_dark"
+            android:text="Student"
+            android:paddingLeft="50dp" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/studentFrag"
+        >
+
+
+    </FrameLayout>
+
+
+</LinearLayout>
