@@ -25,6 +25,8 @@ import static android.R.layout.simple_spinner_item;
 
 public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.OnItemSelectedListener {
     TextView noQues;
+    RadioButton radioButton1;
+    RadioButton radioButton2;
     DatabaseHelper db;
     private String nameCourse;
     private int idTeach;
@@ -41,21 +43,30 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
     HashMap<Integer, String> time_ques = new HashMap();
     HashMap<Integer, String> answer_ques = new HashMap();
     HashMap<Integer, String> correct_ques = new HashMap();
+    String number ="";
+    boolean state ;
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+           setRetainInstance(true);
+        if (savedInstanceState!=null ){
+
+            number = savedInstanceState.getString("numberQuestion");
+            noQues.setText(number);
+            state=savedInstanceState.getBoolean("state");
+            radioButton1.setEnabled(state);
+            radioButton2.setEnabled(state);
+
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState!=null && savedInstanceState.getString("duaa") != null ){
-//            noQues = (TextView) getView().findViewById(R.id.quesNo);
-noQues.setText(savedInstanceState.getString("duaa"));
 
-            Log.d("fff",savedInstanceState.getString("duaa"));
-
-
-        }else {
-        }
         nameCourse = getArguments().getString("namee");
         idTeach = getArguments().getInt("idTeach");
     }
@@ -71,11 +82,11 @@ noQues.setText(savedInstanceState.getString("duaa"));
         final Button addAnswer = (Button) view.findViewById(R.id.addAnswer);
         final EditText nameQuiz = (EditText) view.findViewById(R.id.nameQuiz);
         final EditText password = (EditText) view.findViewById(R.id.password);
-        noQues = (TextView) view.findViewById(R.id.quesNo);
         final EditText question = (EditText) view.findViewById(R.id.question);
         final EditText answer = (EditText) view.findViewById(R.id.answer);
-        final RadioButton radioButton1 = (RadioButton) view.findViewById(R.id.radioButton1);
-        final RadioButton radioButton2 = (RadioButton) view.findViewById(R.id.radioButton2);
+        noQues =(TextView) view.findViewById(R.id.quesNo);
+        radioButton1 = (RadioButton) view.findViewById(R.id.radioButton1);
+        radioButton2 = (RadioButton) view.findViewById(R.id.radioButton2);
         final CheckBox correct = (CheckBox) view.findViewById(R.id.checkBox2);
         db = new DatabaseHelper(getActivity());
 
@@ -309,18 +320,25 @@ noQues.setText(savedInstanceState.getString("duaa"));
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
         noQues = (TextView) getView().findViewById(R.id.quesNo);
-        savedInstanceState.putString("duaa",noQues.getText().toString());
+        savedInstanceState.putString("numberQuestion",noQues.getText().toString());
+        if (radioButton1.isEnabled()==true)
+            savedInstanceState.putBoolean("state",true);
+        else
+            savedInstanceState.putBoolean("state",false);
+
+
+
+
         super.onSaveInstanceState(savedInstanceState);
+
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
 
         super.onViewStateRestored(savedInstanceState);
-       // noQues = (TextView) getView().findViewById(R.id.quesNo);
+
+
     }
-
-
-
 
 }

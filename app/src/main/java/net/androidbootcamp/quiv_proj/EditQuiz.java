@@ -41,11 +41,13 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
     HashMap correctAnswer = new HashMap();
     int indexAns = 0;
     int indexCorrect = 0;
-     String name;
-     int idTeach;
+    String name;
+    int idTeach;
+    ExpandableListView listView;
 
 
-        @Override
+
+    @Override
         public void onCreate (@Nullable Bundle savedInstanceState){
 
                 super.onCreate(savedInstanceState);
@@ -53,23 +55,22 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
                 idTeach = getArguments().getInt("idTeach");
                 setRetainInstance(true);
 
-
     }
-    ExpandableListView listView;
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
         final View view = inflater.inflate(R.layout.edit_quiz, container, false);
         listView = (ExpandableListView) view.findViewById(R.id.exListView);
 
 
+
         spinner = (Spinner) view.findViewById(R.id.quesName);
         spinnerNameQuiz = (Spinner) view.findViewById(R.id.quizName);
+
         List<String> allNameQuiz = new DatabaseHelper(getActivity()).getAllNameQuiz(name,idTeach);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, allNameQuiz);
-
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         spinnerNameQuiz.setAdapter(dataAdapter);
 
         spinnerNameQuiz.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -82,7 +83,7 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
                 List<String> categories = databaseHelper.getAllQuestion(name,select);
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categories);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(dataAdapter);;
+                spinner.setAdapter(dataAdapter);
 
                 ArrayList<String> listAnswer = databaseHelper.getQuestionAnswer(select, name);
                 ArrayList<ArrayList<String>> groups = new ArrayList<ArrayList<String>>();
@@ -224,6 +225,7 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
                                                                     spinner.setAdapter(dataAdapter);
                                                                     ss();
                                                                     dd();
+                                                                    setSpinner ();
 
                                                                 }});
 
@@ -484,6 +486,7 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
                                                                                             }
                                                                                             dialog.cancel();
                                                                                            ss();
+                                                                                            setSpinner ();
                                                                                         }
                                                                                     });
                                                                                     dialog.show();
@@ -548,6 +551,7 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
 
                                                                                                                       dialog.cancel();
                                                                                                                      ss();
+                                                                                                                      setSpinner ();
 
 
 
@@ -616,19 +620,20 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
 
                                                                   answerStr += (answerQuestion.get(i) + "~");
 
-
                                                               }
 
                                                               answerCorr = correctAnswer.get(0) + "~";
                                                               for (int i = 1; i < indexCorrect; i++) {
                                                                   answerCorr += (correctAnswer.get(i) + "~");
                                                                   Log.d("answerCorr",answerCorr);
+
                                                               }
                                                              boolean aa = databaseHelper.insertDataQuestion(databaseHelper.getItemsQuestion(name,spinnerNameQuiz.getSelectedItem().toString())+1
                                                                       , spinnerNameQuiz.getSelectedItem().toString(), statement.getText().toString(), answerStr, answerCorr,0, name);
 
                                                               Log.d("duaa",aa+"");
                                                               ss();
+                                                              setSpinner();
                                                               indexAns = 0;
                                                               indexCorrect = 0;
                                                               dialog.cancel();
@@ -703,6 +708,7 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
 
                                     Log.d("duaa", aa + "");
                                     ss();
+                                        setSpinner();
                                     indexAns = 0;
                                     indexCorrect = 0;
                                     dialog.cancel();
@@ -721,7 +727,19 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
         );
         return view;
     }
+    public void setSpinner (){
+
+        List<String> categories = new DatabaseHelper(getActivity()).getAllQuestion(name, spinnerNameQuiz.getSelectedItem().toString());
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+
+    }
+
+
     public void dd (){
+
+
         List<String> allNameQuiz = new DatabaseHelper(getActivity()).getAllNameQuiz(name,idTeach);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, allNameQuiz);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -4,13 +4,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,14 +31,17 @@ public class ExpandableListDataPump extends BaseExpandableListAdapter {
     private String nameCourse;
     private int idTeach;
 
+
     public  ExpandableListDataPump (Fragment context, ArrayList<ArrayList<String>> groups,ArrayList<String> arrayList1,
                                    String nameQu,String nameCo,int id1){
+
         mContext = context;
         mGroups = groups;
         arrayList=arrayList1;
         nameQuiz=nameQu;
         nameCourse=nameCo;
         idTeach = id1;
+
     }
 
 
@@ -107,12 +113,14 @@ public class ExpandableListDataPump extends BaseExpandableListAdapter {
         final TextView textChild = (TextView) convertView.findViewById(R.id.nameQuizE);
         textChild.setText(mGroups.get(groupPosition).get(childPosition));
 
+
+
         ImageButton button = (ImageButton) convertView.findViewById(R.id.deleteQuizEdit);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext.getActivity());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(mContext.getActivity());
                 builder.setMessage("Do you want to remove answer?");
                 builder.setCancelable(false);
                 builder.setPositiveButton("Yes",
@@ -123,7 +131,6 @@ public class ExpandableListDataPump extends BaseExpandableListAdapter {
                                 String s= databaseHelper.getQuestionAnswerCorrect(groupPosition+1,nameQuiz,nameCourse);
                                 String [] a = s.split("~");
 
-
                                 String  answerStr = "";
                                 for (int i = 0; i <child.size(); i++) {
                                      if (i==childPosition){
@@ -132,6 +139,8 @@ public class ExpandableListDataPump extends BaseExpandableListAdapter {
                                     answerStr += (child.get(i) + "~");
                                 }
                                 String  answerCorr = "";
+                                final Spinner spinner = (Spinner) mContext.getActivity().findViewById(R.id.quesName);
+                                final Spinner spinnerNameQuiz = (Spinner) mContext.getActivity().findViewById(R.id.quizName);
                                 if (answerStr.equals("")){
 
                                     databaseHelper.deleteQues(arrayList.get(groupPosition),nameCourse,nameQuiz);
@@ -139,6 +148,12 @@ public class ExpandableListDataPump extends BaseExpandableListAdapter {
                                     notifyDataSetChanged();
                                     arrayList.remove(groupPosition);
                                     notifyDataSetChanged();
+
+                                    List<String> categories = new DatabaseHelper(mContext.getActivity()).getAllQuestion(nameCourse, nameQuiz);
+                                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext.getActivity(), android.R.layout.simple_spinner_item, categories);
+                                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    spinner.setAdapter(dataAdapter);
+
                                     if(mGroups.size()== 0){
                                         AlertDialog.Builder builder = new AlertDialog.Builder(mContext.getActivity());
                                         builder.setMessage("Do you want to remove Quiz?");
@@ -146,7 +161,20 @@ public class ExpandableListDataPump extends BaseExpandableListAdapter {
                                         builder.setPositiveButton("Yes",
                                                 new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int id) {
-                                       databaseHelper.deleteQuiz(nameQuiz,nameCourse,idTeach);
+
+
+                                                        databaseHelper.deleteQuiz(nameQuiz,nameCourse,idTeach);
+
+                                                        List<String> allNameQuiz = new DatabaseHelper(mContext.getActivity()).getAllNameQuiz(nameCourse,idTeach);
+                                                        ArrayAdapter<String> ddd = new ArrayAdapter<String>(mContext.getActivity(), android.R.layout.simple_spinner_item, allNameQuiz);
+                                                        ddd.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                        spinnerNameQuiz.setAdapter(ddd);
+
+                                                        List<String> categories = new DatabaseHelper(mContext.getActivity()).getAllQuestion(nameCourse, nameQuiz);
+                                                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext.getActivity(), android.R.layout.simple_spinner_item, categories);
+                                                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                        spinner.setAdapter(dataAdapter);
+
                                                     }
                                                 });
                                         builder.setNegativeButton("No",
@@ -194,5 +222,4 @@ public class ExpandableListDataPump extends BaseExpandableListAdapter {
         return true;
 
     }
-
 }
