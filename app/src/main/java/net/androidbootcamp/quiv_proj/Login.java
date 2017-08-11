@@ -1,11 +1,9 @@
 package net.androidbootcamp.quiv_proj;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,16 +42,38 @@ public class Login extends Fragment{
                             arg.putInt("id",Integer.parseInt(idTeacher.getText()+""));
                             listCourse.setArguments(arg);
 
+                            idTeacher.setText("");
+                            password.setText("");
 
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.replace(R.id.frag, fragment);
                             fragmentTransaction.replace(R.id.teacherFrag, listCourse);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
+                            idTeacher.setText("");
+                            password.setText("");
 
                         }
-            }
-        });
+
+                           else if (databaseHelper.loginStudent(idTeacher.getText().toString(),password.getText().toString())){
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                Fragment fragment = new Student();
+                                Fragment listCourse = new ListCourseStud();
+                                Bundle args = new Bundle();
+                                args.putInt("idStudent",Integer.parseInt(idTeacher.getText()+""));
+                                fragment.setArguments(args);
+                                listCourse.setArguments(args);
+
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.frag, fragment);
+                                fragmentTransaction.replace(R.id.studentFrag, listCourse);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                            idTeacher.setText("");
+                            password.setText("");
+
+                            }
+        }});
 getFragmentManager().popBackStack();
 
         return view;
