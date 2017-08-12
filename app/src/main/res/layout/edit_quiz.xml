@@ -31,7 +31,7 @@
 
         <ImageButton
             android:id="@+id/editQuiz"
-            android:background="@drawable/edit"
+             android:background="@drawable/edit"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginTop="15dp"
@@ -39,7 +39,7 @@
 
         <ImageButton
             android:id="@+id/addQues"
-            android:background="@drawable/add"
+android:background="@drawable/add"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginTop="5dp"
@@ -87,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/editQuestion"
-            android:background="@drawable/edit"
+android:background="@drawable/edit"
             android:layout_margin="15dp" />
 
     </LinearLayout>

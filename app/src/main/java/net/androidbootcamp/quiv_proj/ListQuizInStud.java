@@ -1,7 +1,9 @@
 package net.androidbootcamp.quiv_proj;
 
 import android.app.Dialog;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ public class ListQuizInStud extends BaseAdapter {
     Fragment con;
     String  courseName="";
 ListCourse fragment = new ListCourse();
+    QuizStudent quizStudent = new QuizStudent();
 DatabaseHelper db;
 
     ListQuizInStud(Fragment con, String name) {
@@ -93,7 +96,16 @@ DatabaseHelper db;
                     public void onClick(View view) {
                         boolean b = db.checkPasswordQuiz(viewHolder.name.getText().toString(),pass.getText().toString());
                       if(b) {
-                          Toast.makeText(con.getActivity(), "Check", Toast.LENGTH_SHORT).show();
+                         // Toast.makeText(con.getActivity(), "Check", Toast.LENGTH_SHORT).show();
+                          Bundle args = new Bundle();
+                args.putString("nameQuiz", viewHolder.name.getText().toString());
+                          args.putString("nameCourse",courseName);
+                          quizStudent.setArguments(args);
+                FragmentTransaction fragmentTransaction =  con.getFragmentManager().beginTransaction();
+                fragmentTransaction.remove(con);
+                fragmentTransaction.replace(R.id.studentFrag, quizStudent);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                           dialog.cancel();
                       }
                         else
@@ -104,14 +116,6 @@ DatabaseHelper db;
                 });
                 dialog.show();
 
-//                Bundle args = new Bundle();
-//                args.putString("nameCourse", viewHolder.name.getText().toString());
-//                fragment.setArguments(args);
-//                FragmentTransaction fragmentTransaction =  con.getFragmentManager().beginTransaction();
-//                fragmentTransaction.remove(con);
-//                fragmentTransaction.replace(R.id.studentFrag, fragment);
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
 
             }
         });

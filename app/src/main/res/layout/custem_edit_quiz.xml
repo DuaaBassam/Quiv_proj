@@ -34,7 +34,7 @@
               >
             <ImageButton
                   android:id="@+id/deleteQuizEdit"
-                  android:background="@drawable/deleteedit"
+
                   android:layout_marginRight="30dp"
                   android:layout_marginEnd="30dp"
                   android:layout_height="wrap_content"

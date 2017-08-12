@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 
 public class Login extends Fragment{
@@ -20,13 +21,19 @@ public class Login extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.login, container, false);
+
         final EditText idTeacher = (EditText) view.findViewById(R.id.number_person);
         final EditText password = (EditText) view.findViewById(R.id.password);
         Button btn_ok = (Button)view.findViewById(R.id.button);
         databaseHelper = new DatabaseHelper(getActivity());
+        final LinearLayout ll = (LinearLayout)view.findViewById(R.id.lay);
 
-
-
+        /*
+        Context c=getActivity();
+        TextView tvv=new TextView(c);
+        tvv.setText("textview");
+        ll.addView(tvv);
+         */
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,7 +63,7 @@ public class Login extends Fragment{
                         }
 
                            else if (databaseHelper.loginStudent(idTeacher.getText().toString(),password.getText().toString())){
-                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                                 Fragment fragment = new Student();
                                 Fragment listCourse = new ListCourseStud();
                                 Bundle args = new Bundle();

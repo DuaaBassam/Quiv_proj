@@ -386,6 +386,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return 0;
     }
+
+
+    public int getTotalTime(String courseName,String nameQuiz) {
+int totalTime = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Quiz+ " where nameCourse = '" + courseName +"' and name_quiz = '"+nameQuiz+"'", null);
+        if (cursor.moveToFirst()) {
+            do {
+                 totalTime = cursor.getInt(cursor.getColumnIndex("time_quiz"));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return totalTime;
+    }
+
+
     public int  getItemsQuestion(String nameCourse,String nameQuiz) {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -461,6 +478,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
 
+                String nameQ = cursor.getString(cursor.getColumnIndex("name_quiz"));
+                if (nameQuiz.equals(nameQ))
+                    return true;
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return false;
+    }
+
+    public boolean checkTime(String nameQuiz,String nameCourse) {
+        String name = "";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Quiz+" where (time_quiz <> 0 and nameCourse = '"+nameCourse +"')", null);
+        if (cursor.moveToFirst()) {
+            do {
                 String nameQ = cursor.getString(cursor.getColumnIndex("name_quiz"));
                 if (nameQuiz.equals(nameQ))
                     return true;
