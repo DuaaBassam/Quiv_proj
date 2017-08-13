@@ -47,7 +47,7 @@ android:layout_marginTop="20dp"
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:orientation="horizontal"
+       android:orientation="vertical"
        >
     <TextView
         android:layout_width="wrap_content"
@@ -60,13 +60,17 @@ android:layout_marginTop="20dp"
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_gravity="center"
-           android:id="@+id/questimer"
-           android:textSize="18sp"
            android:textStyle="bold"
-           android:background="@drawable/ic_brightness_1_black_24dp"
+           android:textColor="#FFFFFF"
+           android:id="@+id/questtime"
            android:visibility="invisible"
+           android:layout_gravity="center"
+           android:textSize="20sp"
+
            />
+
+
+
 
    </LinearLayout>
     <LinearLayout

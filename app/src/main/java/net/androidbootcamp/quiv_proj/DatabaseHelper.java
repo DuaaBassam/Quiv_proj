@@ -402,6 +402,20 @@ int totalTime = 0;
         return totalTime;
     }
 
+    public int getQuesTime(int idQuestion,String courseName,String nameQuiz) {
+        int totalTime = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_Question+ " where nameCourse = '" + courseName +"' " +
+                "and name_quiz = '"+nameQuiz+"' and id_question = "+ idQuestion, null);
+        if (cursor.moveToFirst()) {
+            do {
+                totalTime = cursor.getInt(cursor.getColumnIndex("time_ques"));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return totalTime;
+    }
 
     public int  getItemsQuestion(String nameCourse,String nameQuiz) {
 
