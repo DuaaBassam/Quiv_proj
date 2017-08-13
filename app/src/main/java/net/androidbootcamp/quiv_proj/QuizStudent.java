@@ -124,6 +124,7 @@ public class QuizStudent extends Fragment {
                 radioButton.setText(a[i]);
                 radioButton.setTextSize(20);
             } else {
+                ///
 
                 checkBox[i] = new CheckBox(c);
                 checkBox[i].setText(a[i]);
