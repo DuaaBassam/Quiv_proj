@@ -117,11 +117,7 @@ public  class StudentInTeacher extends Fragment {
                 return "ADD/DELETE";
             }return "SHOW";
         }
-
-
     }
-
-
 }
 
 

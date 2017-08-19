@@ -3,6 +3,7 @@ package net.androidbootcamp.quiv_proj;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static android.R.layout.simple_spinner_item;
 
@@ -85,6 +87,10 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
         final EditText question = (EditText) view.findViewById(R.id.question);
         final EditText answer = (EditText) view.findViewById(R.id.answer);
         noQues =(TextView) view.findViewById(R.id.quesNo);
+
+
+
+
         radioButton1 = (RadioButton) view.findViewById(R.id.radioButton1);
         radioButton2 = (RadioButton) view.findViewById(R.id.radioButton2);
         final CheckBox correct = (CheckBox) view.findViewById(R.id.checkBox2);
@@ -100,9 +106,11 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
             @Override
             public void onClick(View view) {
                 String answerQues = answer.getText().toString();
+
+          //      if (!(nameQuiz.getText().toString()).isEmpty()&&!(password.getText().toString()).isEmpty() )
                 if (!(question.getText().toString()).isEmpty()) {
                     if (!(answerQues.isEmpty())) {
-                        Log.d("answerQues",answerQues);
+                        Log.d("answerQues",answerQues+"   "+indexAns);
                         answerQuestion.put(indexAns, answerQues);
                         indexAns++;
                         answer.setText("");
@@ -120,8 +128,9 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
 
             }
         });
-        final Dialog dialog = new Dialog(getActivity());
 
+
+        final Dialog dialog = new Dialog(getActivity());
 
         Add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +139,8 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                 answerStr = answerQuestion.get(0) + "~";
                 for (int i = 1; i < indexAns; i++) {
                     answerStr += (answerQuestion.get(i) + "~");
+                    Log.d("answerQuestion",answerStr);
+
 
                 }
 
@@ -139,13 +150,17 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                     Log.d("answerCorr",answerCorr);
                 }
 
+
                 if(radioButton1.isChecked()||radioButton2.isChecked()){
                     if (!(nameQuiz.getText().toString()).isEmpty() && !(password.getText().toString()).isEmpty()
                              &&
                             !(question.getText().toString()).isEmpty()) {
-                        if (!correctAnswer.isEmpty()){
+                        if (!answerCorr.isEmpty()){
                         if (answerQuestion.size()>1){
-
+                            answerQuestion.clear();
+                            correctAnswer.clear();
+                            indexAns=0;
+                            indexCorrect=0;
                         radioButton1.setEnabled(false);
                         radioButton2.setEnabled(false);
 
@@ -162,10 +177,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                         correct_ques.put(indexQues, answerCorr);
                         answer_ques.put(indexQues, answerStr);
                         indexQues++;
-                        indexAns++;
                         noQues.setText((aa + 1) + "");
-                        answerQuestion = new HashMap();
-                        correctAnswer = new HashMap();
 
                     }
                         else{
@@ -225,11 +237,17 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                                     noQues.setText("1");
                                     indexQues = 0;
                                     indexAns = 0;
+                                    no_ques.clear();
+                                    ques_quiz.clear();
+                                    time_ques.clear();
+                                    answer_ques.clear();
+                                    correct_ques.clear();
                                     indexCorrect = 0;
                                     radioButton1.setEnabled(true);
                                     radioButton2.setEnabled(true);
                                 }
                             });
+
                             dialog.show();
                         } else if (radioButton2.isChecked()) {
                             dialog.setContentView(R.layout.dialog);
@@ -267,6 +285,8 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                                         indexCorrect = 0;
                                         radioButton1.setEnabled(true);
                                         radioButton2.setEnabled(true);
+
+
 
                                     } else
                                         Toast.makeText(getActivity(), "Add total time  ", Toast.LENGTH_SHORT).show();
@@ -316,18 +336,17 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
         noQues = (TextView) getView().findViewById(R.id.quesNo);
         savedInstanceState.putString("numberQuestion",noQues.getText().toString());
+
         if (radioButton1.isEnabled()==true)
             savedInstanceState.putBoolean("state",true);
         else
             savedInstanceState.putBoolean("state",false);
-
-
-
 
         super.onSaveInstanceState(savedInstanceState);
 

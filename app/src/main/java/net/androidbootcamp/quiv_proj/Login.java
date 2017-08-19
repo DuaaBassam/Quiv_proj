@@ -76,16 +76,46 @@ public class Login extends Fragment{
                                 fragmentTransaction.replace(R.id.studentFrag, listCourse);
                                 fragmentTransaction.addToBackStack(null);
                                 fragmentTransaction.commit();
-                            idTeacher.setText("");
-                            password.setText("");
+                                idTeacher.setText("");
+                                password.setText("");
 
                             }
         }});
-getFragmentManager().popBackStack();
+        password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               if (databaseHelper.loginTeacher(idTeacher.getText().toString(),password.getText().toString())){
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    Fragment fragment = new Teacher();
+                    Fragment listCourse = new ListCourse();
+                    Bundle args = new Bundle();
+                    args.putInt("id",Integer.parseInt(idTeacher.getText()+""));
+                    fragment.setArguments(args);
+                    Bundle arg = new Bundle();
+                    arg.putInt("id",Integer.parseInt(idTeacher.getText()+""));
+                    listCourse.setArguments(arg);
+
+                    idTeacher.setText("");
+                    password.setText("");
+
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frag, fragment);
+                    fragmentTransaction.replace(R.id.teacherFrag, listCourse);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    idTeacher.setText("");
+                    password.setText("");
+
+               }
+            }
+        });
+
+//getFragmentManager().popBackStack();
 
         return view;
 
     }
+
 
 
 }

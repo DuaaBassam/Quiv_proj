@@ -61,6 +61,11 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
 
         final DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
         final View view = inflater.inflate(R.layout.edit_quiz, container, false);
+
+
+
+
+
         listView = (ExpandableListView) view.findViewById(R.id.exListView);
 
 
@@ -94,10 +99,9 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
                     ArrayList<String> children = new ArrayList<String>();
 
                     for (int h = 0; h < a.length; h++) {
-                        if ((a[h] + "").equals("null")) {
-                        } else {
+
                             children.add(a[h]);
-                        }
+
                     }
                     groups.add(children);
                 }
@@ -261,10 +265,8 @@ public class EditQuiz extends Fragment implements FragmentLifecycle, ActionBar.O
                                             ArrayList<String> children = new ArrayList<String>();
 
                                             for (int h = 0; h < a.length; h++) {
-                                                if ((a[h] + "").equals("null")) {
-                                                } else {
                                                     children.add(a[h]);
-                                                }
+
                                             }
 
                                             groups.add(children);
@@ -757,10 +759,10 @@ public void ss (){
         ArrayList<String> children = new ArrayList<String>();
 
         for (int h = 0; h < a.length; h++) {
-            if ((a[h] + "").equals("null")) {
-            } else {
+
+
                 children.add(a[h]);
-            }
+
         }
         groups.add(children);
     }

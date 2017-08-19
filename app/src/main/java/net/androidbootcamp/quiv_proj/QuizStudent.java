@@ -1,20 +1,32 @@
 package net.androidbootcamp.quiv_proj;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.util.SparseArray;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -23,12 +35,12 @@ import java.util.concurrent.TimeUnit;
 public class QuizStudent extends Fragment {
     int index = 0;
     private static final String FORMAT = "%02d:%02d:%02d";
-    RadioButton radioButton;
-    CheckBox[] checkBox;
-    RadioGroup radioGroup;
     DatabaseHelper db;
-    HashMap hashMap=new HashMap();
+    HashMap<Integer,String> hashMap = new HashMap();
+    HashMap<Integer,String> hashMap1 = new HashMap();
+
     CountDownTimer timer1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setRetainInstance(true);
@@ -38,21 +50,22 @@ public class QuizStudent extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_quiz_student, container, false);
+        final View view = inflater.inflate(R.layout.fragment_quiz_student, container, false);
         db = new DatabaseHelper(getActivity());
         final int count = db.getItemsQuestion(getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
         TextView no = (TextView) view.findViewById(R.id.noques);
         TextView time = (TextView) view.findViewById(R.id.totaltime);
-        final Button back =(Button)view.findViewById(R.id.back);
-        final TextView questimee = (TextView)view.findViewById(R.id.questtime);
+        final Button back = (Button) view.findViewById(R.id.back);
+        final TextView questimee = (TextView) view.findViewById(R.id.questtime);
+        final ListView listAnswer = (ListView) view.findViewById(R.id.listAnswer);
+
         final TextView timer = (TextView) view.findViewById(R.id.timer);
         final int totalTime = db.getTotalTime(getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
         no.append(count + "");
         final boolean check = db.checkTime(getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
         final Context c = getActivity();
-        final LinearLayout ll = (LinearLayout) view.findViewById(R.id.answer);
 
         final ArrayList<String> question = db.getQuestion(getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
         final TextView ques = (TextView) view.findViewById(R.id.question);
@@ -60,9 +73,6 @@ public class QuizStudent extends Fragment {
         String correctans = db.getQuestionAnswerCorrect(1, getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
 
         final String[] corr = correctans.split("~");
-        final String[] a = (answer.get(0)).split("~");
-        radioGroup = (RadioGroup) view.findViewById(R.id.group);
-        radioGroup.setVisibility(View.GONE);
         back.setVisibility(View.INVISIBLE);
         ques.setText(index + 1 + ". " + question.get(index));
         if (check) {
@@ -86,11 +96,11 @@ public class QuizStudent extends Fragment {
 
                 }
             }.start();
-        }else{
+        } else {
             questimee.setVisibility(View.VISIBLE);
-            int quesTime = db.getQuesTime(1,getArguments().getString("nameCourse"),getArguments().getString("nameQuiz"));
+            int quesTime = db.getQuesTime(1, getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
 
-            ques.append("                      Time Question : "+quesTime);
+            ques.append("                      Time Question : " + quesTime);
             questimee.setText("");
 
             timer1 = new CountDownTimer(quesTime * 60000, 1000) { // adjust the milli seconds here
@@ -112,189 +122,195 @@ public class QuizStudent extends Fragment {
 
         }
 
+        final String[] a = (answer.get(0)).split("~");
 
-        checkBox= new CheckBox[a.length];
+        if (corr.length == 1) {
+            listAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice, a);
+            listAnswer.setAdapter(adapter);
 
-        for (int i = 0; i < a.length; i++) {
-
-            if (corr.length == 1) {
-                radioGroup.setVisibility(View.VISIBLE);
-                radioButton = new RadioButton(c);
-                radioGroup.addView(radioButton);
-                radioButton.setText(a[i]);
-                radioButton.setTextSize(20);
-            } else {
-                ///
-
-                checkBox[i] = new CheckBox(c);
-                checkBox[i].setText(a[i]);
-                checkBox[i].setTextSize(20);
-                ll.addView(checkBox[i]);
-
-            }
+        } else {
+            listAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_multichoice, a);
+            listAnswer.setAdapter(adapter);
         }
 
-        Button next = (Button) view.findViewById(R.id.next);
+        final Button next = (Button) view.findViewById(R.id.next);
+       // listAnswer.setSelection(2);
         next.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                if (radioGroup.getVisibility()== View.VISIBLE){
-
-                    int ii = radioGroup.getCheckedRadioButtonId();
-                    View radio = radioGroup.findViewById(ii);
-                    int m = radioGroup.indexOfChild(radio);
-
-                    if (m>=0){
-                        RadioButton r = (RadioButton)radioGroup.getChildAt(m);
-                        hashMap.put(index,r.getText().toString());
-                    }
-                }
-                else{
-//                    if(check) {
-//                        String[] cc = (answer.get(index)).split("~");
-//                        String answerCheckBox = "";
-//                        for (int i = 0; i < cc.length; i++) {
-//                            if (checkBox[i].isChecked()) {
-//                                answerCheckBox += checkBox[i].getText().toString() + "~";
-//                            }
-//                        }
-//                        hashMap.put(index, answerCheckBox);
-//                        Toast.makeText(getActivity(), answerCheckBox, Toast.LENGTH_SHORT).show();
-                    }
 
 
+                if (index < count) {
+                    Resources r = getResources();
+                    Drawable d = r.getDrawable(R.drawable.ic_redo_black_24dp);
+                    next.setBackground(d);
+                    if (listAnswer.getChoiceMode() == ListView.CHOICE_MODE_SINGLE) {
+                        String choice = (String) listAnswer.getItemAtPosition(listAnswer.getCheckedItemPosition());
+                        hashMap.put(index, choice);
+                        hashMap1.put(index, listAnswer.getCheckedItemPosition() + "");
 
 
+                    } else {
+                        String answerrr = "";
+                        String postion = "";
 
-
-
-                ll.removeAllViews();
-                radioGroup.removeAllViews();
-                index++;
-                radioGroup.setVisibility(View.INVISIBLE);
-
-                if (count > index) {
-
-                    String correctAnswer = db.getQuestionAnswerCorrect(index + 1, getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
-
-                    final String[] correct = (correctAnswer.split("~"));
-                    String mmm = "";
-                    for(int x = 0;x<correct.length;x++){
-                        mmm +=correct[x];
-                    }
-                    System.out.println(mmm);
-                    final String[] corr1 = mmm.split(" ");
-                   // System.out.println(Arrays.toString(correct));
-                    for (int i = 0; i < corr1.length ; i++){
-                        System.out.println(corr1[i]+" "+corr1.length);
-
-                    }
-                    ques.setText(index + 1 + ". " + question.get(index));
-                    if(!check){
-                        questimee.setVisibility(View.VISIBLE);
-                        int quesT = db.getQuesTime(index+1,getArguments().getString("nameCourse"),getArguments().getString("nameQuiz"));
-                        ques.append("                      Time Question : "+quesT);
-                        timer1.cancel();
-
-                        timer1=    new CountDownTimer(quesT * 60000, 1000) {
-
-                            // adjust the milli second
-                            public void onTick(long millisUntilFinished) {
-                                questimee.setText("");
-
-
-                                questimee.setText("" + String.format(FORMAT,
-                                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-                                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                        SparseBooleanArray array = listAnswer.getCheckedItemPositions();
+                        for (int i = 0; i < listAnswer.getCount(); i++) {
+                            boolean choice = array.get(i);
+                            if (choice == true) {
+                                answerrr += listAnswer.getItemAtPosition(i) + "~";
+                                postion += i + "~";
                             }
-
-                            public void onFinish() {
-                                questimee.setText("done!");
-
-                            }
-                        }.start();
-
+                        }
+                        hashMap.put(index, answerrr);
+                        hashMap1.put(index, postion);
+                        answerrr = "";
+                    }
+                    if (index==count-2){
+                        next.setBackgroundColor(Color.GREEN);
                     }
 
-                    final String[] aa = (answer.get(index)).split("~");
-                    checkBox= new CheckBox[aa.length];
+                        index++;
+                        String correctans = db.getQuestionAnswerCorrect(index + 1, getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
 
-                    for (int i = 0; i < aa.length; i++) {
-                        if ((aa[i] + "").equals(null + "")) {
+                        final String[] corr = correctans.split("~");
+
+                        ques.setText(index + 1 + ". " + question.get(index));
+
+                        if (!check) {
+                            questimee.setVisibility(View.VISIBLE);
+                            int quesT = db.getQuesTime(index + 1, getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
+                            ques.append("                      Time Question : " + quesT);
+                            timer1.cancel();
+                            timer1 = new CountDownTimer(quesT * 60000, 1000) {
+                                // adjust the milli second
+                                public void onTick(long millisUntilFinished) {
+                                    questimee.setText("");
+
+
+                                    questimee.setText("" + String.format(FORMAT,
+                                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                                }
+
+                                public void onFinish() {
+                                    questimee.setText("done!");
+
+                                }
+                            }.start();
+
                         } else {
+                            back.setVisibility(View.VISIBLE);
+                        }
 
-                            if (correct.length == 1) {
+                        final String[] a = (answer.get(index)).split("~");
 
-                                radioGroup.setVisibility(View.VISIBLE);
-                                radioButton = new RadioButton(c);
-                                radioGroup.addView(radioButton);
-                                radioButton.setText(aa[i]);
-                                radioButton.setTextSize(20);
-
-                            } else {
-                                checkBox[i]= new CheckBox(c);
-                                checkBox[i].setText(aa[i]);
-                                checkBox[i].setTextSize(20);
-                                ll.addView(checkBox[i]);
+                        if (corr.length == 1) {
+                            listAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice, a);
+                            listAnswer.setAdapter(adapter);
+                            if(!((hashMap1.get(index)+"").equals("null"))) {
+                                String check1 = hashMap1.get(index);
+                                listAnswer.setItemChecked(Integer.parseInt(check1), true);
                             }
-                        }}
+                        } else {
+                            listAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_multichoice, a);
+                            listAnswer.setAdapter(adapter);
+                            if(!((hashMap1.get(index)+"").equals("null"))) {
+                                String check1 = hashMap1.get(index);
+                                String[] annn = (check1.split("~"));
+                                if (annn[0]!=""){
+                                    for (int i = 0;i<annn.length;i++) {
+                                        listAnswer.setItemChecked(Integer.parseInt(annn[i]), true);
+                                    }
+                                }
+                            }
+                            }}else{
 
-                    ll.addView(radioGroup);
 
-                }
+                              }
 
-                else {
 
-                    Toast.makeText(getActivity(), "submit", Toast.LENGTH_SHORT).show();
-                }
             }
-        });
-
+                             });
 
         back.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
 
-                ll.removeAllViews();
-                radioGroup.removeAllViews();
-                index--;
 
-                String corectAnswer = db.getQuestionAnswerCorrect(index + 1, getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
-                final String[] correct = corectAnswer.split("~");
+                Resources r = getResources();
+                Drawable d = r.getDrawable(R.drawable.ic_redo_black_24dp);
+                next.setBackground(d);
+                if (listAnswer.getChoiceMode() == ListView.CHOICE_MODE_SINGLE) {
+                    String choice = (String) listAnswer.getItemAtPosition(listAnswer.getCheckedItemPosition());
+                    hashMap.put(index, choice);
+                    hashMap1.put(index, listAnswer.getCheckedItemPosition()+"");
 
-                ques.setText(index+1  + ". " + question.get(index));
 
-                final String[] aa = (answer.get(index)).split("~");
-                for (int i = 0; i < aa.length; i++) {
-                    if ((aa[i] + "").equals(null + "")) {
-                    } else {
-                        if (correct.length == 1) {
+                }
+                else {
+                    String answerrr="";
+                    String postion="";
 
-                            radioGroup.setVisibility(View.VISIBLE);
-                            radioButton = new RadioButton(c);
-                            radioGroup.addView(radioButton);
-                            radioButton.setText(aa[i]);
-                            radioButton.setTextSize(20);
-
-                        } else {
-
-                            checkBox[i] = new CheckBox(c);
-                            checkBox[i].setText(aa[i]);
-                            checkBox[i].setTextSize(20);
-                            ll.addView(checkBox[i]);
+                    SparseBooleanArray array =listAnswer.getCheckedItemPositions();
+                    for (int i = 0; i<listAnswer.getCount() ; i++){
+                        boolean choice = array.get(i);
+                        if (choice==true){
+                            answerrr+=listAnswer.getItemAtPosition(i)+"~";
+                            postion+=i+"~";
+                            Log.d("postion",i+"~");
                         }
                     }
+
+                    hashMap.put(index,answerrr);
+                    hashMap1.put(index,postion);
+
                 }
-                ll.addView(radioGroup);
+
+                index--;
+
+                String correctans = db.getQuestionAnswerCorrect(index+1, getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
+
+                final String[] corr = correctans.split("~");
+                  String checkAns = hashMap.get(index);
+                  String check = hashMap1.get(index);
+                Log.d("check",check+" "+checkAns);
+
+                ques.setText(index+1 + ". " + question.get(index));
+
+                final String[] a = (answer.get(index)).split("~");
+
+                if (corr.length == 1) {
+                    listAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice, a);
+                    listAnswer.setAdapter(adapter);
+                    listAnswer.setItemChecked(Integer.parseInt(check),true);
+
+                } else {
+
+                    listAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_multichoice, a);
+                    listAnswer.setAdapter(adapter);
+                     String[] annn = (check.split("~"));
+                if (annn[0]!=""){
+                    for (int i = 0;i<annn.length;i++) {
+                        listAnswer.setItemChecked(Integer.parseInt(annn[i]), true);
+                    }
+                    }
+                }
 
                 if (index==0){
                     back.setVisibility(View.INVISIBLE);
                 }
-
-
             }
         });
 
@@ -303,10 +319,7 @@ public class QuizStudent extends Fragment {
 
     }
 
-
-
 }
-
 
 
 

@@ -70,7 +70,6 @@ import java.util.ArrayList;
         }
 
         final Course_Items item = arrayList.get(i);
-
         viewHolder.name.setText(item.name);
 
         viewHolder.Studuent.setOnClickListener(new View.OnClickListener() {

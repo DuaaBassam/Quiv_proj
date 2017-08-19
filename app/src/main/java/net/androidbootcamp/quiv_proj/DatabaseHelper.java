@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -26,7 +27,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Column of teacher
     private static final String id_teacher = "id_teacher";
     private static final String name_teacher = "name_teacher";
-
     // Column of course
     private static final String id_course = "id_coursee";
     private static final String name_course = "name_course";
@@ -207,6 +207,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        db.close();
         return course;
     }
 

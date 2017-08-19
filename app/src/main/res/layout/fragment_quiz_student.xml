@@ -73,21 +73,22 @@ android:layout_marginTop="20dp"
 
 
    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/answer">
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/group"
-            android:visibility="gone"
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listAnswer"
+
             >
 
 
-        </RadioGroup>
-    </LinearLayout>
+        </ListView>
+        </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,13 +102,13 @@ android:visibility="invisible"
 android:id="@+id/back"
             android:background="@drawable/ic_undo_black_24dp"
             />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_redo_black_24dp"
             android:id="@+id/next"
             />
-
 
 
     </LinearLayout>
