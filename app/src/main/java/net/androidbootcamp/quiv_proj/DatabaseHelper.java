@@ -23,6 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_Add_Student = "Student_Add";
     private static final String TABLE_Quiz = "Quiz_table";
     private static final String TABLE_Question = "question";
+    private static final String TABLE_AnswerStudent = "AnswerStudent";
+
 
     // Column of teacher
     private static final String id_teacher = "id_teacher";
@@ -69,6 +71,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " , FOREIGN KEY (name_quiz) REFERENCES Quiz_table (name_quiz) , " +
                 "FOREIGN KEY (nameCourse) REFERENCES Course (name_Course) ,primary key (id_question , name_quiz))");
 
+        db.execSQL("create table " + TABLE_AnswerStudent + " (nameQuiz TEXT , nameCourse TEXT " +
+                "  ,idStudent integer , answers Text ,indexAnswer Text,FOREIGN KEY (idStudent) REFERENCES Student (id_Student) " +
+                ",FOREIGN KEY (nameQuiz) REFERENCES  Quiz_table (name_quiz)  , FOREIGN KEY (nameCourse) REFERENCES Course (name_Course)" +
+                " , primary key (nameQuiz,nameCourse,idStudent))");
+
+
+
     }
 
     @Override
@@ -80,6 +89,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Add_Student);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Quiz);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Question);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_AnswerStudent);
+
 
         onCreate(db);
     }
@@ -195,6 +206,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else
             return true;
     }
+
+
+    public boolean insertStudentAnswer(String nameCourse, String nameQuiz,int  idStudent,String answers,String index ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("nameQuiz", nameQuiz);
+        contentValues.put("idStudent", idStudent);
+        contentValues.put("nameCourse", nameCourse);
+        contentValues.put("answers", answers);
+        contentValues.put("indexAnswer", index);
+        long result = db.insert(TABLE_AnswerStudent, null, contentValues);
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
+
+
 
     public ArrayList<Course_Items> getAllDataCourse(int teacherId) {
         SQLiteDatabase db = this.getWritableDatabase();

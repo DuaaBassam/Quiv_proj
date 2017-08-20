@@ -44,7 +44,6 @@ public class ExpandableListDataPump extends BaseExpandableListAdapter {
 
     }
 
-
     @Override
     public int getGroupCount() {
         return mGroups.size();
@@ -104,16 +103,20 @@ public class ExpandableListDataPump extends BaseExpandableListAdapter {
         databaseHelper=new DatabaseHelper(mContext.getActivity());
 
         if (convertView == null) {
-
             LayoutInflater inflater = (LayoutInflater) (mContext.getActivity()).getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.custem_edit_quiz, null);
-
         }
 
         final TextView textChild = (TextView) convertView.findViewById(R.id.nameQuizE);
         textChild.setText(mGroups.get(groupPosition).get(childPosition));
 
-
+        String s= databaseHelper.getQuestionAnswerCorrect(groupPosition+1,nameQuiz,nameCourse);
+        String[] a =s.split("~");
+        for (int i = 0 ; i< a.length ; i++){
+            if (mGroups.get(groupPosition).get(childPosition).equals(a[i])){
+                textChild.setTextColor(Color.GREEN);
+            }
+        }
 
         ImageButton button = (ImageButton) convertView.findViewById(R.id.deleteQuizEdit);
         button.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +164,6 @@ public class ExpandableListDataPump extends BaseExpandableListAdapter {
                                         builder.setPositiveButton("Yes",
                                                 new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int id) {
-
 
                                                         databaseHelper.deleteQuiz(nameQuiz,nameCourse,idTeach);
 
@@ -220,6 +222,5 @@ public class ExpandableListDataPump extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
-
     }
 }

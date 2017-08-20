@@ -24,14 +24,16 @@ public class ListQuizInStud extends BaseAdapter {
     Fragment con;
     String  courseName="";
 ListCourse fragment = new ListCourse();
+    int idStudent = 0;
     QuizStudent quizStudent = new QuizStudent();
 DatabaseHelper db;
 
-    ListQuizInStud(Fragment con, String name) {
+    ListQuizInStud(Fragment con, String name,int idstud) {
         this.con = con;
         arrayList = new ArrayList<>();
         ArrayList cursor = new DatabaseHelper(con.getActivity()).getListQuiz(name);
         arrayList = cursor;
+        idStudent = idstud;
         courseName = name;
     }
 
@@ -100,6 +102,7 @@ DatabaseHelper db;
                           Bundle args = new Bundle();
                 args.putString("nameQuiz", viewHolder.name.getText().toString());
                           args.putString("nameCourse",courseName);
+                          args.putInt("idStudent",idStudent);
                           quizStudent.setArguments(args);
                 FragmentTransaction fragmentTransaction =  con.getFragmentManager().beginTransaction();
                 fragmentTransaction.remove(con);

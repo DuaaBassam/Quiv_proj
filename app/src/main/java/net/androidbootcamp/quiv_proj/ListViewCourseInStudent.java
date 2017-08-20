@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class ListViewCourseInStudent extends BaseAdapter {
     ArrayList<Course_Items> arrayList;
     Fragment con;
-    int stud=0;
+    int stud;
     ListQuiz fragment = new ListQuiz();
 
 
@@ -27,9 +27,10 @@ public class ListViewCourseInStudent extends BaseAdapter {
         this.con = con;
         arrayList = new ArrayList<>();
         ArrayList cursor = new DatabaseHelper(con.getActivity()).getListCourse(StudentId);
-        Log.d("size",cursor.size()+"nnn");
         arrayList = cursor;
         stud=StudentId;
+        Log.d("size",stud+"jh");
+
     }
 
 
@@ -76,7 +77,10 @@ public class ListViewCourseInStudent extends BaseAdapter {
 
                 Bundle args = new Bundle();
                 args.putString("nameCourse", viewHolder.name.getText().toString());
+                args.putInt("idStudent",stud);
                 fragment.setArguments(args);
+                Log.d("gggg",fragment.getArguments().getInt("idStudent")+"");
+
                 FragmentTransaction fragmentTransaction =  con.getFragmentManager().beginTransaction();
                 fragmentTransaction.remove(con);
                 fragmentTransaction.replace(R.id.studentFrag, fragment);

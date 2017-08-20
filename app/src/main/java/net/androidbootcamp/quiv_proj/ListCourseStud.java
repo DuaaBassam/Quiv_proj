@@ -19,7 +19,7 @@ public class ListCourseStud extends Fragment {
         final View view = inflater.inflate(R.layout.listcourse, container, false);
 
         ListView listView = (ListView) view.findViewById(R.id.ListCourseTec);
-        Log.d("idStudent",getArguments().getInt("idStudent")+"");
+        Log.d("idStudenttt",getArguments().getInt("idStudent")+"");
         final ListViewCourseInStudent adapter = new ListViewCourseInStudent(this, getArguments().getInt("idStudent"));
         listView.setAdapter(adapter);
         return view;

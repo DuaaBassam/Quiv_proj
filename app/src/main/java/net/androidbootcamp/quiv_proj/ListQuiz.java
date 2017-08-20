@@ -20,7 +20,7 @@ public class ListQuiz extends Fragment {
 
         ListView listView = (ListView) view.findViewById(R.id.ListCourseTec);
         Log.d("idStudent",getArguments().getInt("idStudent")+"");
-             final ListQuizInStud adapter = new ListQuizInStud(this, getArguments().getString("nameCourse"));
+             final ListQuizInStud adapter = new ListQuizInStud(this, getArguments().getString("nameCourse"),getArguments().getInt("idStudent"));
 
         listView.setAdapter(adapter);
         return view;

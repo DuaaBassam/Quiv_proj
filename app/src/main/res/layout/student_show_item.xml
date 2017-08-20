@@ -23,7 +23,7 @@
             android:weightSum="1"
             android:layout_height="wrap_content"
             android:layout_weight="0.95"
-            android:id="@+id/hori"
+            android:id="@+id/horiii"
             android:layout_margin="10dp"
             >
         <TextView
