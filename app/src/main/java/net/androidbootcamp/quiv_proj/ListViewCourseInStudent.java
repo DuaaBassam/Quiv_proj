@@ -79,8 +79,6 @@ public class ListViewCourseInStudent extends BaseAdapter {
                 args.putString("nameCourse", viewHolder.name.getText().toString());
                 args.putInt("idStudent",stud);
                 fragment.setArguments(args);
-                Log.d("gggg",fragment.getArguments().getInt("idStudent")+"");
-
                 FragmentTransaction fragmentTransaction =  con.getFragmentManager().beginTransaction();
                 fragmentTransaction.remove(con);
                 fragmentTransaction.replace(R.id.studentFrag, fragment);

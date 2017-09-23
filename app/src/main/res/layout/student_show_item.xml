@@ -2,58 +2,57 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="right"
-    android:weightSum="1">
+  >
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/black"
-        android:weightSum="1"
         android:id="@+id/hori"
 
-        android:layout_weight="0.02">
+        >
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:background="@android:color/black"
-            android:weightSum="1"
             android:layout_height="wrap_content"
             android:layout_weight="0.95"
             android:id="@+id/horiii"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             >
         <TextView
             android:id="@+id/id_student"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:layout_weight="0.3"
+            android:layout_margin="10dp"
+            android:layout_weight="0.2"
             />
 
         <TextView
             android:id="@+id/name_student"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:layout_weight="0.7"
+            android:layout_margin="10dp"
+            android:layout_weight="0.8"
             />
 </LinearLayout>
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="0.9"
             android:id="@+id/delStud"
-            android:background="@drawable/ic_cancel_black_24dp"
-            android:layout_margin="15dp" />
+            android:background="@drawable/ic_clear_black_24dp"
+            android:layout_margin="12dp" />
 
     </LinearLayout>
 

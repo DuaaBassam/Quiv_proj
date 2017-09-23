@@ -35,7 +35,7 @@ public class ShowStudent extends Fragment implements FragmentLifecycle {
         ArrayList   cursor = databaseHelper.getAllData(idTeach, nameCourse);
 
         listView = (ListView) view.findViewById(R.id.listStudentShow);
-        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(), cursor);
+        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(), cursor,nameCourse,idTeach);
         listView.setAdapter(adapter);
         return view;
     }
@@ -49,7 +49,7 @@ public class ShowStudent extends Fragment implements FragmentLifecycle {
         ArrayList   cursor = databaseHelper.getAllData(idTeach, nameCourse);
 
         listView = (ListView) getView().findViewById(R.id.listStudentShow);
-        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(), cursor);
+        final TeacherStudentListview adapter = new TeacherStudentListview(getActivity(), cursor,nameCourse,idTeach);
         listView.setAdapter(adapter);
 
 

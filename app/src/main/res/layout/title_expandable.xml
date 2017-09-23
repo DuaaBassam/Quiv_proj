@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/hori"
-        android:background="@color/colorAccent">
+        android:background="#FF00">
 
 
         <TextView
@@ -25,6 +25,27 @@
             android:textColor="@android:color/white"
             android:layout_weight="0.9"
             android:layout_marginBottom="10dp" />
+
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:id="@+id/editQuestionn"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:paddingLeft="20dp"
+            android:background="@drawable/edit"
+             />
+
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:id="@+id/deleteQuestionn"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="20dp"
+            android:background="@drawable/deleteedit"
+            android:layout_marginBottom="10dp" />
+
 
     </LinearLayout>
 </LinearLayout>

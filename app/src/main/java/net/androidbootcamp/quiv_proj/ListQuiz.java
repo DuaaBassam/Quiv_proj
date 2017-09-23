@@ -16,7 +16,7 @@ public class ListQuiz extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.listcourse, container, false);
+        final View view = inflater.inflate(R.layout.list_course_in_student, container, false);
 
         ListView listView = (ListView) view.findViewById(R.id.ListCourseTec);
         Log.d("idStudent",getArguments().getInt("idStudent")+"");

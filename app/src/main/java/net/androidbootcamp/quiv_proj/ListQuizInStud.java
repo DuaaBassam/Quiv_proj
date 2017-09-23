@@ -22,19 +22,21 @@ import java.util.ArrayList;
 public class ListQuizInStud extends BaseAdapter {
     ArrayList<Course_Items> arrayList;
     Fragment con;
-    String  courseName="";
-ListCourse fragment = new ListCourse();
+    String courseName = "";
+    ListCourse fragment = new ListCourse();
     int idStudent = 0;
     QuizStudent quizStudent = new QuizStudent();
-DatabaseHelper db;
+    DatabaseHelper db;
 
-    ListQuizInStud(Fragment con, String name,int idstud) {
+    ListQuizInStud(Fragment con, String name, int idstud) {
+
         this.con = con;
         arrayList = new ArrayList<>();
         ArrayList cursor = new DatabaseHelper(con.getActivity()).getListQuiz(name);
         arrayList = cursor;
         idStudent = idstud;
         courseName = name;
+
     }
 
 
@@ -75,60 +77,81 @@ DatabaseHelper db;
         final Course_Items item = arrayList.get(i);
 
         viewHolder.name.setText(item.name);
-        final Dialog dialog = new Dialog(con.getActivity());
         db = new DatabaseHelper(con.getActivity());
         viewHolder.name.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                dialog.setContentView(R.layout.checkdialog);
-                dialog.setTitle("Question");
-                Button btn_dialog = (Button) dialog.findViewById(R.id.cancel);
-                final EditText pass = (EditText)dialog.findViewById(R.id.password);
-                btn_dialog.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.cancel();
-                    }
-                });
-                Button btn_ok = (Button) dialog.findViewById(R.id.ok);
 
-                btn_ok.setOnClickListener(new View.OnClickListener() {
-                    @Override
+                String nameQuiz =viewHolder.name.getText().toString();
 
-                    public void onClick(View view) {
-                        boolean b = db.checkPasswordQuiz(viewHolder.name.getText().toString(),pass.getText().toString());
-                      if(b) {
-                         // Toast.makeText(con.getActivity(), "Check", Toast.LENGTH_SHORT).show();
-                          Bundle args = new Bundle();
-                args.putString("nameQuiz", viewHolder.name.getText().toString());
-                          args.putString("nameCourse",courseName);
-                          args.putInt("idStudent",idStudent);
-                          quizStudent.setArguments(args);
-                FragmentTransaction fragmentTransaction =  con.getFragmentManager().beginTransaction();
-                fragmentTransaction.remove(con);
-                fragmentTransaction.replace(R.id.studentFrag, quizStudent);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-                          dialog.cancel();
-                      }
-                        else
-                          Toast.makeText(con.getActivity(), "Password is wrong ", Toast.LENGTH_SHORT).show();
+                if (db.checkStudentSolveQuiz(idStudent,courseName,nameQuiz)) {
 
+                    Fragment gradeStudent = new GradeStudent();
+                    int grade = db.getGradeStudent(idStudent,courseName,nameQuiz);
+                    int count = db.getItemsQuestion(courseName,nameQuiz);
+                    Bundle args = new Bundle();
+                    args.putInt("grade",grade);
+                    args.putInt("count",count);
+                    args.putString("nameQuiz", viewHolder.name.getText().toString());
+                    args.putString("nameCourse", courseName);
+                    args.putInt("idStudent", idStudent);
+                    gradeStudent.setArguments(args);
+                    FragmentTransaction fragmentTransaction = con.getFragmentManager().beginTransaction();
+                    fragmentTransaction.remove(con);
+                    fragmentTransaction.replace(R.id.studentFrag, gradeStudent);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
 
-                    }
-                });
-                dialog.show();
+                }  else {
+                    final Dialog dialog = new Dialog(con.getActivity());
+                    dialog.setContentView(R.layout.checkdialog);
+                    dialog.setTitle("Question");
+                    Button btn_dialog = (Button) dialog.findViewById(R.id.cancel);
+                    final EditText pass = (EditText) dialog.findViewById(R.id.password);
+                    btn_dialog.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.cancel();
+                        }
+                    });
 
+                    Button btn_ok = (Button) dialog.findViewById(R.id.ok);
 
-            }
-        });
+                    btn_ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+
+                        public void onClick(View view) {
 
 
-        return row;
-    }
+                            boolean b = db.checkPasswordQuiz(viewHolder.name.getText().toString(), pass.getText().toString());
+                            if (b) {
 
-    public class ViewHolder {
-        TextView name;
+                                Bundle args = new Bundle();
+                                args.putString("nameQuiz", viewHolder.name.getText().toString());
+                                args.putString("nameCourse", courseName);
+                                args.putInt("idStudent", idStudent);
+                                quizStudent.setArguments(args);
+                                FragmentTransaction fragmentTransaction = con.getFragmentManager().beginTransaction();
+                                fragmentTransaction.remove(con);
+                                fragmentTransaction.replace(R.id.studentFrag, quizStudent);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                                dialog.cancel();
+
+
+                            } else
+                                Toast.makeText(con.getActivity(), "Password is wrong ", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    dialog.show();
+
+                } }});
+
+                 return row;}
+
+               public class ViewHolder {
+               TextView name;
     }
 
 }

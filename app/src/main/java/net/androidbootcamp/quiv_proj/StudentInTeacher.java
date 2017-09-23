@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,8 @@ public  class StudentInTeacher extends Fragment {
     ShowStudent showStud = new ShowStudent();
     int dd;
     String ff;
+    TextView nameCourseTitle ;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public  class StudentInTeacher extends Fragment {
         showStud.setArguments(arg);
         setRetainInstance(true);
 
+
     }
 
 
@@ -49,10 +53,9 @@ public  class StudentInTeacher extends Fragment {
         View view = inflater.inflate(R.layout.student_in_teacher, container, false);
 
 
-        adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
+                adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
         ViewPager pager = (ViewPager) view.findViewById(R.id.vpPager);
         PagerTabStrip pageHeader = (PagerTabStrip) view.findViewById(R.id.pager_header);
-        pageHeader.setBackgroundColor(Color.parseColor("#707070"));
         pageHeader.setTabIndicatorColor(Color.parseColor("#ffff0000"));
         pager.setAdapter(adapterViewPager);
         pager.setOnPageChangeListener(pageChangeListener);

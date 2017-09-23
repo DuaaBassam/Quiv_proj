@@ -39,14 +39,31 @@
 
 
     </LinearLayout>
-    <EditText
-        android:hint="Change Time"
+
+     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:textSize="18sp"
-         android:id="@+id/time"
-        android:layout_marginTop="15dp"/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:hint="Change Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textSize="18sp"
+            android:layout_weight="0.9"
+            android:id="@+id/time"
+            android:layout_marginTop="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   (m)"
+            android:textSize="18sp"
+            android:textColor="#FFF"
+            android:layout_marginTop="15dp"
+            />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"

@@ -1,8 +1,11 @@
 package net.androidbootcamp.quiv_proj;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,4 +27,25 @@ public class ListCourse extends Fragment {
         final ListViewCourse adapter = new ListViewCourse(this, getArguments().getInt("id"));
         listView.setAdapter(adapter);
         return view;
-}}
+}
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_UP && i == KeyEvent.KEYCODE_BACK) {
+                    getActivity().finish();
+                    System.exit(0);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+    }
+}

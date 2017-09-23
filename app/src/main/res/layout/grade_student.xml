@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="15dp"
+    tools:context="net.androidbootcamp.quiv_proj.GradeStudent">
+
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:layout_margin="10dp"
+    >
+
+<ProgressBar
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/seek"
+    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+    android:max="100"
+    android:progressTint="@color/colorFailed"
+    android:progress="20"
+    android:background="#000"
+    android:scaleY="20"
+       />
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFF"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:id="@+id/grade"
+
+        />
+</FrameLayout>
+
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="19sp"
+        android:layout_gravity="center"
+        android:id="@+id/rate"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="19dp"
+    android:background="#FF202320"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:text="
+  Your answer
+    "
+    />
+ <ListView
+     android:layout_margin="10dp"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:id="@+id/list"
+     android:dividerHeight="4dp"
+
+     >
+
+ </ListView>
+    </LinearLayout>
+
+
+</LinearLayout>

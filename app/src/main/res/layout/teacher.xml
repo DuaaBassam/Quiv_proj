@@ -6,65 +6,52 @@
     android:orientation="vertical"
    >
 
-    <!-- TODO: Update blank fragment layout -->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:background="@android:color/darker_gray">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
 
-        <Button
+            >
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:id="@+id/Home"
-            android:layout_alignParentBottom="true"
-            android:textAllCaps="false"
-            android:textSize="18sp"
-            android:background="@drawable/home"
-            android:layout_toStartOf="@+id/Teacher"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/ic_home_black_24dp"
 
             />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/Home"
-            android:layout_toEndOf="@+id/Home"
-            android:layout_marginLeft="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginBottom="13dp"
-            android:id="@+id/idStud"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <TextView
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/idStud"
-            android:layout_toRightOf="@+id/idStud"
-            android:layout_toEndOf="@+id/idStud"
-            android:layout_marginLeft="41dp"
-            android:layout_marginStart="41dp"
-            android:id="@+id/namePerson"
-            android:textSize="18sp"
-            android:textColor="@android:color/background_dark" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Teacher"
+        android:textStyle="normal|bold"
+        android:textColor="@android:color/white"
+        android:text="Teacher"
+        android:layout_gravity="center_horizontal"
+        android:textSize="18sp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:id="@+id/namePerson"
+        android:textSize="15sp"
+        android:textColor="@android:color/white" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Teacher"
-            android:textStyle="normal|bold"
-            android:textSize="21dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@android:color/background_dark"
-            android:text="Teacher"
-            android:paddingLeft="50dp" />
+</LinearLayout>
 
-    </RelativeLayout>
+</LinearLayout>
+
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -72,8 +59,6 @@
         android:id="@+id/teacherFrag"
         >
 
-
     </FrameLayout>
-
 
 </LinearLayout>

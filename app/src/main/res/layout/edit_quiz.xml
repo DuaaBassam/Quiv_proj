@@ -15,8 +15,8 @@
         android:layout_height="wrap_content"
         android:fillViewport="true"
         android:orientation="horizontal"
+        android:layout_marginTop="15dp"
         >
-
 
         <Spinner
             android:id="@+id/quizName"
@@ -64,31 +64,31 @@ android:background="@drawable/add"
         android:orientation="horizontal"
         >
 
-        <Spinner
-            android:id="@+id/quesName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:hint="name quiz"
-            android:layout_weight="1.07"
-            android:layout_margin="10dp" />
+        <!--<Spinner-->
+            <!--android:id="@+id/quesName"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="18sp"-->
+            <!--android:paddingTop="10dp"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:hint="name quiz"-->
+            <!--android:layout_weight="1.07"-->
+            <!--android:layout_margin="10dp" />-->
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/deleteQuestion"
-            android:background="@drawable/deleteedit"
-            android:layout_marginTop="10dp" />
+        <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/deleteQuestion"-->
+            <!--android:background="@drawable/deleteedit"-->
+            <!--android:layout_marginTop="10dp" />-->
 
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editQuestion"
-android:background="@drawable/edit"
-            android:layout_margin="15dp" />
+        <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/editQuestion"-->
+<!--android:background="@drawable/edit"-->
+            <!--android:layout_margin="15dp" />-->
 
     </LinearLayout>
 
@@ -100,14 +100,17 @@ android:background="@drawable/edit"
     >
 
     <ExpandableListView
+
+        android:paddingTop="2dp"
         android:id="@+id/exListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/colorFailed"
+        android:dividerHeight="2dp"
         android:scrollbars="horizontal|vertical"
-        style="@android:style/Widget.DeviceDefault.Light.ActionButton.Overflow" android:indicatorLeft="250dp"
-        android:indicatorRight="300dp"
-        android:background="?android:attr/colorForegroundInverse"
-        >
+        style="@android:style/Widget.DeviceDefault.Light.ActionButton.Overflow">
+
+
     </ExpandableListView>
 
     </ScrollView>

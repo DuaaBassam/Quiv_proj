@@ -1,28 +1,38 @@
 package net.androidbootcamp.quiv_proj;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -36,393 +46,190 @@ import java.util.concurrent.TimeUnit;
 
 
 public class QuizStudent extends Fragment {
-    int index = 0;
-    private static final String FORMAT = "%02d:%02d:%02d";
+
     DatabaseHelper db;
-    HashMap<Integer,String> hashMap = new HashMap();
-    HashMap<Integer,String> hashMap1 = new HashMap();
-    TextView questimee;
+
+    private static final String FORMAT = "%02d:%02d";
     CountDownTimer timer1;
-    CountDownTimer timer2;
+    long millisUntilFinishedSave;
+    long transferValue;
+
+    HashMap<Integer, String> hashMap = new HashMap();
+    HashMap<Integer, String> hashMap1 = new HashMap();
+
+    TextView numberQuestion;
     ListView listAnswer;
-    TextView ques;
-    ArrayList<String> question;
+    TextView questionStatement;
+    TextView textTimer;
+    Button next;
+    Button back;
+    ProgressBar progressTime;
+
+    ArrayList<String> questionArray;
+    ArrayList<String> answer;
+
+    int numberQues;
+    int grade;
+    String nameCourse;
+    String nameQuiz;
+    int idStudent;
+    int index;
+    int totalTime;
+    String correctans;
+    boolean checkIfTotalTime;
+    String check;
+
+    Context context;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setRetainInstance(true);
+
         super.onCreate(savedInstanceState);
 
-    }
 
+        if (savedInstanceState != null) {
+
+            transferValue = savedInstanceState.getLong("millis");
+            Log.d("tra", transferValue + "");
+            Log.d("haa", index + "");
+                timer1.cancel();
+                Log.d("timer1", "tttt");
+
+
+        }
+
+        nameCourse = getArguments().getString("nameCourse");
+        nameQuiz = getArguments().getString("nameQuiz");
+        idStudent = getArguments().getInt("idStudent");
+
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         final View view = inflater.inflate(R.layout.fragment_quiz_student, container, false);
-        db = new DatabaseHelper(getActivity());
-        final int count = db.getItemsQuestion(getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
-        TextView no = (TextView) view.findViewById(R.id.noques);
-        TextView time = (TextView) view.findViewById(R.id.totaltime);
-        final Button back = (Button) view.findViewById(R.id.back);
-        questimee = (TextView) view.findViewById(R.id.questtime);
+
+        context = getActivity();
+        db = new DatabaseHelper(context);
+
+        back = (Button) view.findViewById(R.id.back);
+        numberQuestion = (TextView) view.findViewById(R.id.numberQuestion);
         listAnswer = (ListView) view.findViewById(R.id.listAnswer);
+        textTimer = (TextView) view.findViewById(R.id.timer);
+        progressTime = (ProgressBar) view.findViewById(R.id.progressTime);
+        questionStatement = (TextView) view.findViewById(R.id.question);
 
-        final TextView timer = (TextView) view.findViewById(R.id.timer);
-        final int totalTime = db.getTotalTime(getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
-        no.append(count + "");
-        final boolean check = db.checkTime(getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
-        final Context c = getActivity();
-/*
+        totalTime = db.getTotalTime(nameCourse, nameQuiz);
+        numberQues = db.getItemsQuestion(nameCourse, nameQuiz);
+        answer = db.getQuestionAnswer(nameQuiz, nameCourse);
 
+        checkIfTotalTime = db.checkTime(nameQuiz, nameCourse);
+        correctans = db.getQuestionAnswerCorrect(1, nameQuiz, nameCourse);
+        final String[] correctArray = correctans.split("~");
 
- */
-        question = db.getQuestion(getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
-         ques = (TextView) view.findViewById(R.id.question);
-        final ArrayList<String> answer = db.getQuestionAnswer(getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
-        String correctans = db.getQuestionAnswerCorrect(1, getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
-
-        final String[] corr = correctans.split("~");
         back.setVisibility(View.INVISIBLE);
-        ques.setText(index + 1 + ". " + question.get(index));
-        if (check) {
-            time.setVisibility(View.VISIBLE);
-            timer.setVisibility(View.VISIBLE);
-            time.append(totalTime + "");
-            new CountDownTimer(totalTime * 60000, 1000) { // adjust the milli seconds here
+        questionArray = db.getQuestion(getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
+        questionStatement.setText(questionArray.get(index) + "  ?");
+        numberQuestion.setText(1 + "/" + numberQues);
 
-                public void onTick(long millisUntilFinished) {
+        if (checkIfTotalTime) {
 
-                    timer.setText("" + String.format(FORMAT,
-                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-                }
-
-                public void onFinish() {
-                    String answerrr = "";
-                    String postion = "";
-
-                    SparseBooleanArray array = listAnswer.getCheckedItemPositions();
-                    for (int i = 0; i < listAnswer.getCount(); i++) {
-                        boolean choice = array.get(i);
-                        if (choice == true) {
-                            answerrr += listAnswer.getItemAtPosition(i) + "~";
-                            postion += i + "~";
-                        }
-                    }
-                    hashMap.put(index, answerrr);
-                    hashMap1.put(index, postion);
-
-                    answerrr = "";
-
-                    String answers="";
-                    String indexAnswer="";
-
-                    for (int i = 0 ; i < hashMap.size();i++){
-                        answers+=hashMap.get(i)+"ّ";
-                        indexAnswer+=hashMap1.get(i)+"ّ";
-
-                    }
-
-                    db.insertStudentAnswer( getArguments().getString("nameCourse"),
-                            getArguments().getString("nameQuiz"),
-                            getArguments().getInt("idStudent"),answers,indexAnswer);
-
-                    Log.d("Student",getArguments().getString("nameCourse")+"   "+
-                            getArguments().getString("nameQuiz")+"     "+
-                            getArguments().getInt("idStudent")+"       "+answers+indexAnswer);
-
-                }
-            }.start();
-        } else {
-            questimee.setVisibility(View.VISIBLE);
-            int quesTime = db.getQuesTime(1, getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
-            ques.append("                      Time Question : " + quesTime);
-            questimee.setText("");
-           timeeee();
-        }
-
-        final String[] a = (answer.get(0)).split("~");
-
-        if (corr.length == 1) {
-            listAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice, a);
-            listAnswer.setAdapter(adapter);
+            timerForAllQuestion();
 
         } else {
-            listAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_multichoice, a);
-            listAnswer.setAdapter(adapter);
+
+            timerForOneQuestion();
         }
 
-        final Button next = (Button) view.findViewById(R.id.next);
-       // listAnswer.setSelection(2);
+        getAnswerForQuestion();
+
+        next = (Button) view.findViewById(R.id.next);
+
         next.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
 
+                if (index < numberQues - 1) {
 
-                if (index < count-1) {
                     Resources r = getResources();
-                    Drawable d = r.getDrawable(R.drawable.ic_redo_black_24dp);
+                    Drawable d = r.getDrawable(R.drawable.next);
                     next.setBackground(d);
-                    if (listAnswer.getChoiceMode() == ListView.CHOICE_MODE_SINGLE) {
-                        String choice = (String) listAnswer.getItemAtPosition(listAnswer.getCheckedItemPosition());
-                        hashMap.put(index, choice);
-                        hashMap1.put(index, listAnswer.getCheckedItemPosition() + "");
-
-
-                    } else {
-                        String answerrr = "";
-                        String postion = "";
-
-                        SparseBooleanArray array = listAnswer.getCheckedItemPositions();
-                        for (int i = 0; i < listAnswer.getCount(); i++) {
-                            boolean choice = array.get(i);
-                            if (choice == true) {
-                                answerrr += listAnswer.getItemAtPosition(i) + "~";
-                                postion += i + "~";
-                            }
-                        }
-                        hashMap.put(index, answerrr);
-                        hashMap1.put(index, postion);
-                        answerrr = "";
-                    }
-                    if (index==count-2){
+                    putInHashMap();
+                    if (index == (numberQues - 2)) {
                         next.setBackgroundColor(Color.GREEN);
                     }
+                    index++;
+                    getAnswerForQuestion();
 
-                        index++;
-                        String correctans = db.getQuestionAnswerCorrect(index + 1, getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
-
-                        final String[] corr = correctans.split("~");
-
-                        ques.setText(index + 1 + ". " + question.get(index));
-
-                        if (!check) {
-                            questimee.setVisibility(View.VISIBLE);
-                            int quesT = db.getQuesTime(index + 1, getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
-                            ques.append("                      Time Question : " + quesT);
-                            timer1.cancel();
-                            timer1 = new CountDownTimer(quesT * 60000, 1000) {
-                                // adjust the milli second
-                                public void onTick(long millisUntilFinished) {
-                                    questimee.setText("");
-
-
-                                    questimee.setText("" + String.format(FORMAT,
-                                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                                                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-                                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-                                }
-
-                                public void onFinish() {
-                                    questimee.setText("done!");
-
-                                }
-                            }.start();
-
-                        } else {
-                            back.setVisibility(View.VISIBLE);
-                        }
-
-                        final String[] a = (answer.get(index)).split("~");
-
-                        if (corr.length == 1) {
-                            listAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice, a);
-                            listAnswer.setAdapter(adapter);
-                            if(!((hashMap1.get(index)+"").equals("null"))) {
-                                String check1 = hashMap1.get(index);
-                                listAnswer.setItemChecked(Integer.parseInt(check1), true);
-                            }
-                        } else {
-                            listAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_multichoice, a);
-                            listAnswer.setAdapter(adapter);
-                            if(!((hashMap1.get(index)+"").equals("null"))) {
-                                String check1 = hashMap1.get(index);
-                                String[] annn = (check1.split("~"));
-                                if (annn[0]!=""){
-                                    for (int i = 0;i<annn.length;i++) {
-                                        listAnswer.setItemChecked(Integer.parseInt(annn[i]), true);
-                                    }
-                                }
-                            }
-                            }}else{
-
-                    if (listAnswer.getChoiceMode() == ListView.CHOICE_MODE_SINGLE) {
-                        String choice = (String) listAnswer.getItemAtPosition(listAnswer.getCheckedItemPosition());
-                        hashMap.put(index, choice);
-                        hashMap1.put(index, listAnswer.getCheckedItemPosition() + "");
-
+                    if (checkIfTotalTime) {
+                        back.setVisibility(View.VISIBLE);
 
                     } else {
-                        String answerrr = "";
-                        String postion = "";
-
-                        SparseBooleanArray array = listAnswer.getCheckedItemPositions();
-                        for (int i = 0; i < listAnswer.getCount(); i++) {
-                            boolean choice = array.get(i);
-                            if (choice == true) {
-                                answerrr += listAnswer.getItemAtPosition(i) + "~";
-                                postion += i + "~";
-                            }
-                        }
-                        hashMap.put(index, answerrr);
-                        hashMap1.put(index, postion);
-                        answerrr = "";
+                        timerForOneQuestion();
                     }
-
-                    if (check){
-                        int sub=0;
-                              for (int i = 0 ; i < hashMap.size();i++){
-                                  if ((hashMap1.get(i)+"").equals("null")){
-                                     sub=1;
-                                  }
-                                  }
-                            if (sub==1){
-                                Toast.makeText(getActivity(),"you don't solve all Question",Toast.LENGTH_SHORT).show();
-
-                            }else{
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                builder.setMessage("Do you want to submit Quiz?");
-                                builder.setCancelable(false);
-                                builder.setPositiveButton("Yes",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-
-                                                String answers="";
-                                                String indexAnswer="";
-
-                                                for (int i = 0 ; i < hashMap.size();i++){
-                                                    answers+=hashMap.get(i)+"ّ";
-                                                    indexAnswer+=hashMap1.get(i)+"ّ";
-
-                                                    }
-
-                                              db.insertStudentAnswer( getArguments().getString("nameCourse"),
-                                                      getArguments().getString("nameQuiz"),
-                                                      getArguments().getInt("idStudent"),answers,indexAnswer);
-
-                                                      Log.d("Student",getArguments().getString("nameCourse")+"   "+
-                                                        getArguments().getString("nameQuiz")+"     "+
-                                                        getArguments().getInt("idStudent")+"       "+answers+indexAnswer);
-                                            }});
-
-                                builder.setNegativeButton("No",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
-                                            }
-                                        }
-                                );
-
-                                AlertDialog alertDialog = builder.create();
-                                alertDialog.show();
-
-                            }
-                            }
-                              }}
-
-                             });
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onClick(View view) {
-
-
-                Resources r = getResources();
-                Drawable d = r.getDrawable(R.drawable.ic_redo_black_24dp);
-                next.setBackground(d);
-                if (listAnswer.getChoiceMode() == ListView.CHOICE_MODE_SINGLE) {
-                    String choice = (String) listAnswer.getItemAtPosition(listAnswer.getCheckedItemPosition());
-                    hashMap.put(index, choice);
-                    hashMap1.put(index, listAnswer.getCheckedItemPosition()+"");
-
-
-                }
-                else {
-                    String answerrr="";
-                    String postion="";
-
-                    SparseBooleanArray array =listAnswer.getCheckedItemPositions();
-                    for (int i = 0; i<listAnswer.getCount() ; i++){
-                        boolean choice = array.get(i);
-                        if (choice==true){
-                            answerrr+=listAnswer.getItemAtPosition(i)+"~";
-                            postion+=i+"~";
-                            Log.d("postion",i+"~");
-                        }
-                    }
-
-                    hashMap.put(index,answerrr);
-                    hashMap1.put(index,postion);
-
-                }
-
-                index--;
-
-                String correctans = db.getQuestionAnswerCorrect(index+1, getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
-
-                final String[] corr = correctans.split("~");
-                  String checkAns = hashMap.get(index);
-                  String check = hashMap1.get(index);
-                Log.d("check",check+" "+checkAns);
-
-                ques.setText(index+1 + ". " + question.get(index));
-
-                final String[] a = (answer.get(index)).split("~");
-
-                if (corr.length == 1) {
-                    listAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice, a);
-                    listAnswer.setAdapter(adapter);
-                    listAnswer.setItemChecked(Integer.parseInt(check),true);
 
                 } else {
 
-                    listAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_multichoice, a);
-                    listAnswer.setAdapter(adapter);
-                     String[] annn = (check.split("~"));
-                if (annn[0]!=""){
-                    for (int i = 0;i<annn.length;i++) {
-                        listAnswer.setItemChecked(Integer.parseInt(annn[i]), true);
-                    }
-                    }
-                }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Do you want to submit Quiz?");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    timer1.cancel();
+                                    submit();
+                                    dialog.cancel();
+                                }
+                            });
 
-                if (index==0){
-                    back.setVisibility(View.INVISIBLE);
+                    builder.setNegativeButton("No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
                 }
             }
         });
 
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                putInHashMap();
+                index--;
+                getAnswerForQuestion();
+                if (index == 0) {
+                    back.setVisibility(View.INVISIBLE);
+                }
+                Resources r = getResources();
+                Drawable d = r.getDrawable(R.drawable.next);
+                next.setBackground(d);
+            }
+        });
+
         return view;
-
-
     }
-    public  void timeeee(){
 
-        String correctans = db.getQuestionAnswerCorrect(1, getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
-        final String[] corr = correctans.split("~");
-        int quesTime = db.getQuesTime(index+1, getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
+    public void timerForAllQuestion() {
 
-        timer1 = new CountDownTimer(quesTime * 60000, 1000) { // adjust the milli seconds here
+
+        long different = totalTime - transferValue;
+
+        timer1 = new CountDownTimer(different * 60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-
-                questimee.setText("" + String.format(FORMAT,
-                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                millisUntilFinishedSave = millisUntilFinished;
+                progressTime.setProgress((int)( TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                textTimer.setText("" + String.format(FORMAT,
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
                                 TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
@@ -430,75 +237,317 @@ public class QuizStudent extends Fragment {
             }
 
             public void onFinish() {
-                 ArrayList<String> question = db.getQuestion(getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
 
-                if (listAnswer.getChoiceMode() == ListView.CHOICE_MODE_SINGLE) {
-                    String choice = (String) listAnswer.getItemAtPosition(listAnswer.getCheckedItemPosition());
-                    hashMap.put(index, choice);
-                    hashMap1.put(index, listAnswer.getCheckedItemPosition() + "");
+                submit();
 
-
-                } else {
-                    String answerrr = "";
-                    String postion = "";
-
-                    SparseBooleanArray array = listAnswer.getCheckedItemPositions();
-                    for (int i = 0; i < listAnswer.getCount(); i++) {
-                        boolean choice = array.get(i);
-                        if (choice == true) {
-                            answerrr += listAnswer.getItemAtPosition(i) + "~";
-                            postion += i + "~";
-                        }
-                    }
-                    hashMap.put(index, answerrr);
-                    hashMap1.put(index, postion);
-                    answerrr = "";
-
-                }
-                String answers="";
-                String indexAnswer="";
-                answers+=hashMap.get(index)+"ّ";
-                indexAnswer+=hashMap1.get(index)+"ّ";
-                db.insertStudentAnswer( getArguments().getString("nameCourse"),
-                        getArguments().getString("nameQuiz"),
-                        getArguments().getInt("idStudent"),answers,indexAnswer);
-
-                Log.d("Student",getArguments().getString("nameCourse")+"   "+
-                        getArguments().getString("nameQuiz")+"     "+
-                        getArguments().getInt("idStudent")+"       "+answers+indexAnswer);
-
-                index++;
-                questimee.setVisibility(View.VISIBLE);
-                int quesTime = db.getQuesTime(index+1, getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
-
-                //  questimee.setText("");
-
-                ques.setText(index + 1 + ". " + question.get(index));
-                ques.append("                      Time Question : " + quesTime);
-                ArrayList<String> answer = db.getQuestionAnswer(getArguments().getString("nameQuiz"), getArguments().getString("nameCourse"));
-
-                final String[] a = (answer.get(index)).split("~");
-
-                if (corr.length == 1) {
-                    listAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice, a);
-                    listAnswer.setAdapter(adapter);
-
-                } else {
-                    listAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_multichoice, a);
-                    listAnswer.setAdapter(adapter);
-
-                }
-                timeeee();
             }
         }.start();
 
     }
 
 
+    public void timerForOneQuestion() {
+
+         if(textTimer.getText().toString().isEmpty()){
+
+         }else{
+
+             timer1.cancel();
+             }
+        try {
+            timer1.cancel();
+            int questionTime = db.getQuesTime(index + 1, getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
+            long different = questionTime - transferValue;
+
+            timer1 = new CountDownTimer(different * 60000, 1000) {
+
+                public void onTick(long millisUntilFinished) {
+
+                    millisUntilFinishedSave = millisUntilFinished;
+                    progressTime.setProgress((int)( TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                    textTimer.setText("" + String.format(FORMAT,
+
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+
+                }
+
+                public void onFinish() {
+
+                    if (index < numberQues -1) {
+
+                        Resources r = getResources();
+                        Drawable d = r.getDrawable(R.drawable.next);
+                        next.setBackground(d);
+                        putInHashMap();
+                        if (index == (numberQues - 2)) {
+                            next.setBackgroundColor(Color.GREEN);
+                        }
+                        index++;
+                        getAnswerForQuestion();
+                        timerForOneQuestion();
+
+                    } else {
+                        submit();
+
+                    }
+                }
+            }.start();
+        }catch (Exception e) {
+
+
+            int questionTime = db.getQuesTime(index + 1, getArguments().getString("nameCourse"), getArguments().getString("nameQuiz"));
+            long different = questionTime - transferValue;
+
+            timer1 = new CountDownTimer(different * 60000, 1000) {
+
+                public void onTick(long millisUntilFinished) {
+
+                    millisUntilFinishedSave = millisUntilFinished;
+                    progressTime.setProgress((int) (TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                    textTimer.setText("" + String.format(FORMAT,
+
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+
+                }
+
+                public void onFinish() {
+
+                    if (index < numberQues - 1) {
+
+                        Resources r = getResources();
+                        Drawable d = r.getDrawable(R.drawable.next);
+                        next.setBackground(d);
+                        putInHashMap();
+                        if (index == (numberQues - 2)) {
+                            next.setBackgroundColor(Color.GREEN);
+                        }
+                        index++;
+                        getAnswerForQuestion();
+                        timerForOneQuestion();
+
+                    } else {
+                        submit();
+
+                    }
+                }
+            }.start();
+        }    }
+
+
+    public void getAnswerForQuestion() {
+
+        String correctans = db.getQuestionAnswerCorrect(index + 1, nameQuiz, nameCourse);
+        final String[] corr = correctans.split("~");
+        questionStatement.setText("" + questionArray.get(index));
+        numberQuestion.setText(index + 1 + "/" + numberQues);
+
+        final String[] answerOneQuestion = (answer.get(index)).split("~");
+
+        check = hashMap1.get(index);
+        if (corr.length == 1) {
+
+            listAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_singlechoice, answerOneQuestion);
+            listAnswer.setAdapter(adapter);
+            if ((hashMap.get(index) + "").equals("null")) {
+
+            } else {
+                listAnswer.setItemChecked(Integer.parseInt(check), true);
+            }
+
+        } else {
+            listAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_multichoice, answerOneQuestion);
+            listAnswer.setAdapter(adapter);
+
+            if ((hashMap.get(index) + "").equals("null")) {
+
+            } else {
+                String[] answerSolved = (check.split("~"));
+                if (answerSolved[0] != "") {
+                    for (int i = 0; i < answerSolved.length; i++) {
+                        listAnswer.setItemChecked(Integer.parseInt(answerSolved[i]), true);
+                    }
+                }
+            }}}
+
+
+    public void putInHashMap() {
+
+        if (listAnswer.getChoiceMode() == ListView.CHOICE_MODE_SINGLE) {
+
+            String choice = (String) listAnswer.getItemAtPosition(listAnswer.getCheckedItemPosition());
+            hashMap.put(index, choice + "");
+            hashMap1.put(index, listAnswer.getCheckedItemPosition() + "");
+
+        } else {
+            String answerrr = "";
+            String postion = "";
+
+            SparseBooleanArray array = listAnswer.getCheckedItemPositions();
+            for (int i = 0; i < listAnswer.getCount(); i++) {
+                boolean choice = array.get(i);
+
+                if (choice == true) {
+                    if (array.size() == 1) {
+                        answerrr = listAnswer.getItemAtPosition(i) + "";
+                        postion = i + "";
+                    } else {
+                        answerrr += listAnswer.getItemAtPosition(i) + "~";
+                        postion += i + "~";
+                        Log.d("postion", i + "~");
+                    }
+                }
+            }
+
+            hashMap.put(index, answerrr);
+            hashMap1.put(index, postion);
+            answerrr = "";
+            postion = "";
+
+        }
+    }
+
+    public void gradeStudentFragment() {
+
+
+        db.insertGradeStudent(nameCourse, nameQuiz, idStudent, grade);
+        Fragment gradeStudent = new GradeStudent();
+        Bundle args = new Bundle();
+        args.putInt("grade", grade);
+        args.putInt("count", numberQues);
+        args.putInt("idStudent", idStudent);
+        args.putString("nameCourse", nameCourse);
+        args.putString("nameQuiz", nameQuiz);
+
+        gradeStudent.setArguments(args);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.studentFrag, gradeStudent);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+    }
+
+
+    public void submit() {
+
+        timer1.cancel();
+        putInHashMap();
+        String answers = "";
+        String indexAnswer = "";
+
+        for (int i = 0; i < numberQues; i++) {
+
+            if ((hashMap.get(i) + "").equals("null")) {
+                answers += " " + "ّ";
+                indexAnswer += " " + "ّ";
+
+            } else {
+                answers += hashMap.get(i) + "ّ";
+                indexAnswer += hashMap1.get(i) + "ّ";
+            }
+
+        }
+
+        db.insertStudentAnswer(nameCourse, nameQuiz, idStudent, answers, indexAnswer);
+
+        for (int i = 0; i < numberQues; i++) {
+            String correctAnswer = db.getQuestionAnswerCorrect(i + 1, nameQuiz, nameCourse);
+            Log.d("correct Answer  ", correctAnswer);
+            String studentAns = "";
+            if ((hashMap.get(i) + "").equals("null")) {
+                answers += " " + "ّ";
+                indexAnswer += " " + "ّ";
+            } else {
+                studentAns = hashMap.get(i) + "";
+                Log.d("StudentAns", studentAns);
+            }
+            if (studentAns.equals(correctAnswer)) {
+                grade++;
+            }
+        }
+        Log.d("grade", grade + "");
+        gradeStudentFragment();
+
+    }
+
+
+    public void showNotification(String title, String message ,int time) {
+        NotificationCompat.Builder b = new NotificationCompat.Builder(this.getActivity());
+
+        b.setAutoCancel(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.ic_done_black_24dp)
+                .setTicker("QuizSystem ")
+                .setContentTitle(title)
+                .setContentText(message)
+                .setContentInfo("INFO");
+
+        NotificationManager nm = (NotificationManager) this.getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        nm.notify(1, b.build());
+       // nm.cancel(1);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putLong("millis", millisUntilFinishedSave);
+        savedInstanceState.putString("check", check);
+        getFragmentManager().putFragment(savedInstanceState, "fragment", this);
+
+        super.onSaveInstanceState(savedInstanceState);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+
+        setRetainInstance(true);
+        if (savedInstanceState != null) {
+            timer1.cancel();
+        }
+        if (checkIfTotalTime) {
+            if (index > 0) {
+                back.setVisibility(View.VISIBLE);
+            }
+
+            if (index == numberQues + 1) {
+                timer1.cancel();
+            }
+        }
+
+        if (index == (numberQues - 1)) {
+            next.setBackgroundColor(Color.GREEN);
+        }
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+                if (keyEvent.getAction() == KeyEvent.ACTION_UP && i == KeyEvent.KEYCODE_BACK) {
+                    getActivity().getSupportFragmentManager().popBackStack("git", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    return true;
+                }
+
+                return false;
+            }
+        });
+    }
+
 }
-
-
-
-

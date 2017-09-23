@@ -6,7 +6,7 @@
     android:layout_margin="30dp">
 
     <TextView
-        android:text="Enter PassWord of Quiz ..."
+        android:text="Enter Password of Quiz ..."
         android:layout_width="match_parent"
         android:id="@+id/textView"
         android:layout_height="60dp"

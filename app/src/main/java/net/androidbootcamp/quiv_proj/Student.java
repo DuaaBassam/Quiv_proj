@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,26 +35,20 @@ public class Student extends Fragment {
         String s = databaseHelper.getNameStudent(idStudent);
         TextView nameTec = (TextView) view.findViewById(R.id.namePerson);
         nameTec.setText("Name : " + s);
-        TextView idTec = (TextView) view.findViewById(R.id.idStud);
-        idTec.setText("ID : " + idStudent);
 
 
         view.findViewById(R.id.Home).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int x = getFragmentManager().getBackStackEntryCount();
+
+                int x = getFragmentManager().getBackStackEntryCount()-1;
                 for(int i = 0;i<x;i++) {
                     getFragmentManager().popBackStack();
                 }
-
-                Fragment fragment = new Login();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frag, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
             }
         });
+
         return view;
     }
-}
+
+    }

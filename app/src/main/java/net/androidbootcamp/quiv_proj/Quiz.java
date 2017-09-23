@@ -1,15 +1,19 @@
 package net.androidbootcamp.quiv_proj;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +26,7 @@ public  class Quiz extends Fragment {
     EditQuiz editQuiz = new EditQuiz();
     int dd;
     String ff;
+    TextView nameCourseTitle;
 
 
     @Override
@@ -34,6 +39,7 @@ public  class Quiz extends Fragment {
         arg = new Bundle();
         arg.putInt("idTeach", dd);
         ff = getArguments().getString("namee");
+        Log.d("dd",ff+"");
         arg.putString("namee", ff);
         addQuiz.setArguments(arg);
         editQuiz.setArguments(arg);
@@ -48,9 +54,12 @@ public  class Quiz extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.quiz_teacher, container, false);
+
         adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
         ViewPager pager = (ViewPager) view.findViewById(R.id.vpPager1);
         pager.setAdapter(adapterViewPager);
+        PagerTabStrip pageHeader = (PagerTabStrip) view.findViewById(R.id.pager_header1);
+        pageHeader.setTabIndicatorColor(Color.parseColor("#ffff0000"));
 
         pager.setOnPageChangeListener(pageChangeListener);
         return view;
@@ -103,12 +112,11 @@ public  class Quiz extends Fragment {
         }
         @Override
         public CharSequence getPageTitle(int position){
+
             if (position==0){
                 return "ADD";
             }
             return "EDIT/DELETE";
-        }
-    }
 
-}
+        }}}
 

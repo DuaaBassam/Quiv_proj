@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "net.androidbootcamp.quiv_proj"
-        minSdkVersion 11
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"

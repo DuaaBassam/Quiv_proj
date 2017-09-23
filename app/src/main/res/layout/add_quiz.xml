@@ -33,10 +33,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp">
 
                 <RadioButton
@@ -46,9 +42,7 @@
                     android:id="@+id/radioButton1"
                     android:layout_weight="1"
                     android:textSize="14sp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                />
 
                 <RadioButton
                     android:text="Time for Quiz"
@@ -57,9 +51,7 @@
                     android:id="@+id/radioButton2"
                     android:layout_weight="1"
                     android:textSize="14sp"
-                    android:layout_below="@+id/radioButton1"
-                    android:layout_alignLeft="@+id/radioGroup2"
-                    android:layout_alignStart="@+id/radioGroup2" />
+                    />
             </RadioGroup>
 
             <LinearLayout
@@ -75,7 +67,7 @@
                     android:id="@+id/nameQuiz"
                     android:hint="nameQuiz"
                     android:layout_weight="1"
-                    android:layout_marginStart="30dp" />
+                    android:layout_marginLeft="30dp" />
 
             </LinearLayout>
 
@@ -92,7 +84,7 @@
                     android:id="@+id/password"
                     android:hint="Password"
                     android:layout_weight="1"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
                     android:inputType="number" />
             </LinearLayout>
         </LinearLayout>
@@ -101,9 +93,6 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_height="wrap_content">
 
         <TextView
@@ -124,8 +113,7 @@
             android:textSize="18sp"
             android:textColor="@android:color/background_light"
             android:typeface="sans"
-            android:layout_alignLeft="@+id/textView1"
-            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_width="match_parent"
             android:hint="Question" />
 
@@ -135,12 +123,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp">
+        android:layout_marginLeft="10dp">
 
         <EditText
             android:layout_height="wrap_content"
@@ -150,7 +134,7 @@
             android:layout_width="wrap_content"
             android:layout_weight="0.9"
             android:hint="answer"
-            android:layout_marginStart="30dp" />
+            android:layout_marginLeft="30dp" />
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -165,8 +149,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/addAnswer"
             android:background="@drawable/ic_add_black_24dp"
-            android:textStyle="normal|bold"
-            android:textColor="@color/colorPrimary"
             android:layout_margin="10dp" />
 
 
@@ -177,11 +159,7 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="10dp">
+            android:layout_margin="10dp">
 
             <TextView
                 android:text="Time : "
@@ -192,41 +170,38 @@
                 android:textColor="@android:color/background_light"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_below="@+id/linearLayout2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_marginStart="30dp" />
+                android:layout_marginLeft="30dp" />
 
             <Spinner
-                       android:id="@+id/spinner"
-                       android:layout_width="200dp"
-                       android:layout_height="wrap_content"
-                        android:layout_weight="5.13">
+                android:id="@+id/spinner"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
 
+                >
             </Spinner>
+
+           <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  (m)"
+                    android:textSize="16sp"
+                    android:textStyle="normal|bold"
+               />
 
         </LinearLayout>
 
-        <LinearLayout
+ <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginStart="10dp">
+        android:layout_margin="10dp">
 
         <Button
             android:text="Add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/addquiz"
-            android:layout_alignParentBottom="true"
             android:textSize="16sp" />
 
         <Button
@@ -234,10 +209,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/submit"
-            android:layout_alignBaseline="@+id/addquiz"
-            android:layout_alignBottom="@+id/addquiz"
-            android:layout_toRightOf="@+id/quizNo"
-            android:layout_toEndOf="@+id/quizNo"
             android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

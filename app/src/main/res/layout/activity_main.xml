@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="net.androidbootcamp.quiv_proj.MainActivity"
-    android:background="@android:color/black"
     android:weightSum="1"
     android:backgroundTint="@color/colorPrimary">
 

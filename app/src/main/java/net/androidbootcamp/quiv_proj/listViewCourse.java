@@ -16,19 +16,21 @@ import java.util.ArrayList;
 
 
  public  class ListViewCourse extends BaseAdapter {
+
     ArrayList<Course_Items> arrayList;
     Fragment con;
     int tea=0;
     Fragment fragment = new StudentInTeacher();
     Fragment frag = new Quiz();
 
-
     ListViewCourse(Fragment con, int teacherId) {
+
         this.con = con;
         arrayList = new ArrayList<>();
         ArrayList cursor = new DatabaseHelper(con.getActivity()).getAllDataCourse(teacherId);
         arrayList = cursor;
         tea=teacherId;
+
     }
 
 
@@ -86,6 +88,7 @@ import java.util.ArrayList;
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
+
             }
         });
         viewHolder.quiz.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +103,7 @@ import java.util.ArrayList;
                 fragmentTransaction.replace(R.id.teacherFrag, frag);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                Log.d("exp","excep");
+
             }
         });
 
@@ -112,6 +115,7 @@ import java.util.ArrayList;
         LinearLayout linearLayout;
         ImageButton quiz;
         ImageButton Studuent;
+
     }
 
 }

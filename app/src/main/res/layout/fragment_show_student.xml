@@ -8,7 +8,12 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listStudentShow" />
+        android:layout_height="wrap_content"
+        android:id="@+id/listStudentShow"
+        style="@style/Widget.AppCompat.ListView"
+        android:divider="@color/colorFailed"
+        android:dividerHeight="3dp"
+        android:background="@color/colorFailed"
+        />
 
 </FrameLayout>

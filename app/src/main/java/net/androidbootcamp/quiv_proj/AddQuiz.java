@@ -32,7 +32,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
     DatabaseHelper db;
     private String nameCourse;
     private int idTeach;
-    private String answer;
+
     int indexAns = 0;
     int indexCorrect = 0;
     private String answerStr;
@@ -51,7 +51,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
-           setRetainInstance(true);
+        setRetainInstance(true);
         if (savedInstanceState!=null ){
 
             number = savedInstanceState.getString("numberQuestion");
@@ -59,7 +59,6 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
             state=savedInstanceState.getBoolean("state");
             radioButton1.setEnabled(state);
             radioButton2.setEnabled(state);
-
         }
     }
 
@@ -107,7 +106,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
             public void onClick(View view) {
                 String answerQues = answer.getText().toString();
 
-          //      if (!(nameQuiz.getText().toString()).isEmpty()&&!(password.getText().toString()).isEmpty() )
+                //      if (!(nameQuiz.getText().toString()).isEmpty()&&!(password.getText().toString()).isEmpty() )
                 if (!(question.getText().toString()).isEmpty()) {
                     if (!(answerQues.isEmpty())) {
                         Log.d("answerQues",answerQues+"   "+indexAns);
@@ -115,6 +114,9 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                         indexAns++;
                         answer.setText("");
                         if (correct.isChecked()) {
+                            if ((answerQues+"").equals("null"))
+                            answerQues="null ";
+
                             correctAnswer.put(indexCorrect, answerQues);
                             indexCorrect++;
                             correct.setChecked(false);
@@ -136,53 +138,60 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
             @Override
             public void onClick(View view) {
 
-                answerStr = answerQuestion.get(0) + "~";
-                for (int i = 1; i < indexAns; i++) {
-                    answerStr += (answerQuestion.get(i) + "~");
-                    Log.d("answerQuestion",answerStr);
+                answerStr = "";
+                answerCorr="";
+                for (int i = 0; i < indexAns; i++) {
+                    if (indexAns==1){
+                        answerStr = answerQuestion.get(0).toString();
+                    }else {
+                        answerStr += (answerQuestion.get(i) + "~");
+                        Log.d("answerQuestion", answerStr);
 
-
+                    }
                 }
 
-                answerCorr = correctAnswer.get(0) + "~";
-                for (int i = 1; i < indexCorrect; i++) {
-                    answerCorr += (correctAnswer.get(i) + "~");
-                    Log.d("answerCorr",answerCorr);
+                for (int i = 0; i < indexCorrect; i++) {
+                    if (indexCorrect==1){
+                        answerCorr = correctAnswer.get(0).toString();
+                    }else{
+                        answerCorr += (correctAnswer.get(i) + "~");
+                        Log.d("answerCorr",answerCorr);
+                    }
                 }
-
 
                 if(radioButton1.isChecked()||radioButton2.isChecked()){
                     if (!(nameQuiz.getText().toString()).isEmpty() && !(password.getText().toString()).isEmpty()
-                             &&
+                            &&
                             !(question.getText().toString()).isEmpty()) {
                         if (!answerCorr.isEmpty()){
-                        if (answerQuestion.size()>1){
-                            answerQuestion.clear();
-                            correctAnswer.clear();
-                            indexAns=0;
-                            indexCorrect=0;
-                        radioButton1.setEnabled(false);
-                        radioButton2.setEnabled(false);
+                            if (answerQuestion.size()>1){
+                                answerQuestion.clear();
+                                correctAnswer.clear();
+                                indexAns=0;
+                                indexCorrect=0;
+                                radioButton1.setEnabled(false);
+                                radioButton2.setEnabled(false);
 
-                        int aa = (Integer.parseInt(noQues.getText().toString()));
-                        Log.d("aa ", aa + "");
-                        String ques = question.getText().toString();
-                        Log.d("ques",ques);
-                        int time = Integer.parseInt(spinner.getSelectedItem().toString());
-                        question.setText("");
-                        answer.setText("");
-                        no_ques.put(indexQues, aa + "");
-                        ques_quiz.put(indexQues, ques);
-                        time_ques.put(indexQues, time + "");
-                        correct_ques.put(indexQues, answerCorr);
-                        answer_ques.put(indexQues, answerStr);
-                        indexQues++;
-                        noQues.setText((aa + 1) + "");
+                                int aa = (Integer.parseInt(noQues.getText().toString()));
+                                Log.d("aa ", aa + "");
+                                String ques = question.getText().toString();
+                                Log.d("ques",ques);
+                                int time = Integer.parseInt(spinner.getSelectedItem().toString());
+                                question.setText("");
+                                answer.setText("");
+                                no_ques.put(indexQues, aa + "");
+                                ques_quiz.put(indexQues, ques);
+                                time_ques.put(indexQues, time + "");
 
-                    }
-                        else{
-                            Toast.makeText(getActivity(), "you are write one answer write anther", Toast.LENGTH_SHORT).show();
-                        }}else
+                                correct_ques.put(indexQues, answerCorr);
+                                answer_ques.put(indexQues, answerStr);
+                                indexQues++;
+                                noQues.setText((aa + 1) + "");
+
+                            }
+                            else{
+                                Toast.makeText(getActivity(), "you are write one answer write anther", Toast.LENGTH_SHORT).show();
+                            }}else
                             Toast.makeText(getActivity(), "Check one correct answer at least", Toast.LENGTH_SHORT).show();
                     }
                     else
@@ -201,7 +210,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
             @Override
             public void onClick(View view) {
                 if ((!(nameQuiz.getText().toString()).isEmpty()) && (!(password.getText().toString()).isEmpty())
-                         && !no_ques.isEmpty()
+                        && !no_ques.isEmpty()
                         && !ques_quiz.isEmpty() && !(noQues.getText().toString().equals("1") )) {
                     if (!(db.getNameQuiz(nameQuiz.getText().toString(), nameCourse, idTeach))) {
                         if (radioButton1.isChecked()) {
@@ -294,7 +303,7 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                             });
                             dialog.show();
                         }}
-                else {
+                    else {
 
                         Toast.makeText(getActivity(), "Name Quiz is existed", Toast.LENGTH_SHORT).show();
                         nameQuiz.setText("");
@@ -307,9 +316,9 @@ public class AddQuiz extends Fragment implements FragmentLifecycle, AdapterView.
                         radioButton2.setEnabled(true);
                     }
                 }
-                     else
-                        Toast.makeText(getActivity(), "Fill all fields :(", Toast.LENGTH_SHORT).show();
-                     }
+                else
+                    Toast.makeText(getActivity(), "Fill all fields :(", Toast.LENGTH_SHORT).show();
+            }
         });
 
 
